@@ -1,0 +1,14 @@
+SmalltalkCISpec {
+  #loading : [
+    SCIMetacelloLoadSpec {
+      #baseline : 'SpecToplo',
+      #directory : 'src',
+      #platforms : [ #pharo ]
+    }
+  ],
+  #testing: {
+    #include : {
+      #packages : [ 'Spec-Toplo.*' ]
+    }
+  }
+}
