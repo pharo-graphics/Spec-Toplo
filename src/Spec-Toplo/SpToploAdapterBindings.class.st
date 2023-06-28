@@ -3,3 +3,9 @@ Class {
 	#superclass : #SpAdapterBindings,
 	#category : #'Spec-Toplo-Base'
 }
+
+{ #category : #accessing }
+SpToploAdapterBindings >> abstractAdapterClass [
+	
+	^ SpToploAdapter
+]
