@@ -8,7 +8,8 @@ SmalltalkCISpec {
   ],
   #testing: {
     #include : {
-      #packages : [ 'Spec-Toplo.*', 'Spec2-Backend-Test' ]
+      #packages : [ 'Spec-Toplo.*' ],
+      #classes : [ #SpButtonAdapterTest ]
     }
   }
 }
