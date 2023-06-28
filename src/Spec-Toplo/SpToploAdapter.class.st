@@ -11,6 +11,13 @@ SpToploAdapter class >> adaptingName [
 	^ (self name withoutPrefix: 'SpToplo') asSymbol
 ]
 
+{ #category : #accessing }
+SpToploAdapter class >> allAdapters [
+	"The abstract adapters should be able to return all the adapters for a framework"
+	
+	^ self allSubclasses
+]
+
 { #category : #initialization }
 SpToploAdapter >> adapt: aPresenter [
 
