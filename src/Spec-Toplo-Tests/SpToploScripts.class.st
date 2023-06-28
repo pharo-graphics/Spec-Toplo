@@ -4,6 +4,12 @@ Class {
 	#category : #'Spec-Toplo-Tests'
 }
 
+{ #category : #'class initialization' }
+SpToploScripts class >> initialize [
+
+	self overrideAdapterTestToUseToploBackendAsOnlyOption
+]
+
 { #category : #'as yet unclassified' }
 SpToploScripts class >> overrideAdapterTestToUseToploBackendAsOnlyOption [
 	"For the moment, this is the nasty way to run Spec adapter tests, e.g. SpButtonAdapterTest.
