@@ -9,7 +9,7 @@ SmalltalkCISpec {
   #testing: {
     #include : {
       #packages : [ 'Spec-Toplo.*' ],
-      #classes : [ #SpButtonAdapterTest ]
+      #classes : [ #SpButtonAdapterTest, #SpLabelAdapterTest ]
     }
   }
 }
