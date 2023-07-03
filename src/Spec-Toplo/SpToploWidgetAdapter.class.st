@@ -17,6 +17,12 @@ SpToploWidgetAdapter >> enabled [
 ]
 
 { #category : #accessing }
+SpToploWidgetAdapter >> enabled: aBoolean [ 
+	
+	widget enabled: aBoolean
+]
+
+{ #category : #accessing }
 SpToploWidgetAdapter >> helpText [
 	
 	^ widget tooltipContent
