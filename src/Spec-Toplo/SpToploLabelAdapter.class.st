@@ -16,7 +16,7 @@ SpToploLabelAdapter >> buildWidget [
 { #category : #accessing }
 SpToploLabelAdapter >> label [
 	
-	^ widget text asString
+	^ widget labelString
 ]
 
 { #category : #initialization }
@@ -37,5 +37,5 @@ SpToploLabelAdapter >> updateAll [
 { #category : #updating }
 SpToploLabelAdapter >> updateLabel [
 
-	widget text: model label
+	widget labelString: model label
 ]
