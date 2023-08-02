@@ -19,7 +19,7 @@ SpToploWindowAdapter >> addPresenterIn: anOBlSpace withSpecLayout: aSpExecutable
 { #category : #factory }
 SpToploWindowAdapter >> buildWidget [
 
-	^ OBlSpace new
+	^ BlSpace new
 ]
 
 { #category : #'deferred message' }
