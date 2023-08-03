@@ -7,7 +7,7 @@ Class {
 { #category : #emulating }
 SpToploWidgetAdapter >> clicked [
 	
-	OBlSpace simulateClickOn: widget
+	BlSpace simulateClickOn: widget
 ]
 
 { #category : #accessing }
@@ -37,7 +37,7 @@ SpToploWidgetAdapter >> isVisible [
 { #category : #emulating }
 SpToploWidgetAdapter >> sendRightClickEvent [
 
-	OBlSpace simulateSecondaryClickOn: widget
+	BlSpace simulateSecondaryClickOn: widget
 ]
 
 { #category : #initialization }

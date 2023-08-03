@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #adding }
-SpToploWindowAdapter >> addPresenterIn: anOBlSpace withSpecLayout: aSpExecutableLayout [ 
+SpToploWindowAdapter >> addPresenterIn: aBlSpace withSpecLayout: aSpExecutableLayout [ 
 
 	self presenter initialExtent 
 		ifNotNil: [ :extent | widget extent: extent ].
