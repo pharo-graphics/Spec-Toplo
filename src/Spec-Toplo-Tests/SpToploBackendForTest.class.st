@@ -1,23 +1,22 @@
 Class {
-	#name : #SpToploBackendForTest,
-	#superclass : #SpAbstractBackendForTest,
+	#name : 'SpToploBackendForTest',
+	#superclass : 'SpAbstractBackendForTest',
 	#traits : 'TAssertable',
 	#classTraits : 'TAssertable classTrait',
 	#instVars : [
 		'app'
 	],
-	#category : #'Spec-Toplo-Tests'
+	#category : 'Spec-Toplo-Tests',
+	#package : 'Spec-Toplo-Tests'
 }
 
-{ #category : #asserting }
+{ #category : 'asserting' }
 SpToploBackendForTest >> assertIcon: anElement equals: aForm [
 
-	self flag: #todo. "We shouldn't know about this accessors"
-
-	self assert: anElement background image equals: aForm
+	self assert: anElement equals: aForm
 ]
 
-{ #category : #opening }
+{ #category : 'opening' }
 SpToploBackendForTest >> openInstanceOf: aTest [
 
 	aTest window ifNil: [ 
@@ -27,7 +26,7 @@ SpToploBackendForTest >> openInstanceOf: aTest [
 	self waitUntilUIRedrawed
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 SpToploBackendForTest >> runTest: aBlock [
 
 	app := SpApplication new.
@@ -35,28 +34,14 @@ SpToploBackendForTest >> runTest: aBlock [
 	aBlock value
 ]
 
-{ #category : #utilities }
+{ #category : 'testing' }
 SpToploBackendForTest >> waitUntilUIRedrawed [
-	"Wait BlSpace doesn't have available tasks to execute. 
+	"Wait BlSpace is opened and doesn't have available tasks to execute. 
 	This is important since the SpToplo* adapters are usually not synchronous: they defer tasks.
 	
 	Inspired on BlDevScripterWaitStep>>#forEmptySpaceTaskQueueTimeout:"
 
-	| deadlineTime space hasTimedOut hasEmptyTaskQueue |
-	space := app windows anyOne adapter widget.
-	deadlineTime := space time now + 500 milliSeconds.
-	space pulse.
-
-	space time
-		every: 50 milliSeconds
-		while: [
-			hasTimedOut := space time now < deadlineTime.
-			hasEmptyTaskQueue := space taskQueue isEmpty not.
-			hasTimedOut and: [ hasEmptyTaskQueue ] ]
-		do: [ 
-			#waitUI traceCr.
-			space root inUIProcessDo: [ space pulse ].
-		].
-
-	^ hasTimedOut
+	| aSpace |
+	aSpace := app windows anyOne adapter widget.
+	BlSpace pulseUntilEmptyTaskQueue: aSpace timeout: 200 milliSeconds.
 ]

@@ -1,6 +1,6 @@
-Extension { #name : #SpAbstractAdapterTest }
+Extension { #name : 'SpAbstractAdapterTest' }
 
-{ #category : #'*Spec-Toplo-Tests' }
+{ #category : '*Spec-Toplo-Tests' }
 SpAbstractAdapterTest class >> testParameters [ 
 
 	^ ParametrizedTestMatrix new

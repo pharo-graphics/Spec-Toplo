@@ -1,22 +1,24 @@
 Class {
-	#name : #SpToploBackend,
-	#superclass : #SpApplicationBackend,
-	#category : #'Spec-Toplo-Base'
+	#name : 'SpToploBackend',
+	#superclass : 'SpApplicationBackend',
+	#category : 'Spec-Toplo-Base',
+	#package : 'Spec-Toplo',
+	#tag : 'Base'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpToploBackend class >> backendName [
 
 	^ #Toplo
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 SpToploBackend >> adapterBindingsClass [
 	
 	^ SpToploAdapterBindings
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpToploBackend >> defaultConfigurationFor: aSpApplication [
 
 	^ aSpApplication defaultConfigurationForToplo
