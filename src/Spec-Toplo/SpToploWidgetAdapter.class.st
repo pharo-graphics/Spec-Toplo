@@ -1,48 +1,46 @@
 Class {
-	#name : 'SpToploWidgetAdapter',
-	#superclass : 'SpToploAdapter',
-	#category : 'Spec-Toplo-Adapters',
-	#package : 'Spec-Toplo',
-	#tag : 'Adapters'
+	#name : #SpToploWidgetAdapter,
+	#superclass : #SpToploAdapter,
+	#category : 'Spec-Toplo-Adapters'
 }
 
-{ #category : 'emulating' }
+{ #category : #emulating }
 SpToploWidgetAdapter >> clicked [
 	
 	BlSpace simulateClickOn: widget
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SpToploWidgetAdapter >> enabled [
 
 	^ widget isEnabled
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SpToploWidgetAdapter >> enabled: aBoolean [ 
 	
 	widget enabled: aBoolean
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SpToploWidgetAdapter >> helpText [
 
 	^ widget userData at: #specHelpText ifAbsent: [ nil ]
 ]
 
-{ #category : 'visibility' }
+{ #category : #visibility }
 SpToploWidgetAdapter >> isVisible [
 	
 	^ widget isVisible
 ]
 
-{ #category : 'emulating' }
+{ #category : #emulating }
 SpToploWidgetAdapter >> sendRightClickEvent [
 
 	BlSpace simulateSecondaryClickOn: widget
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 SpToploWidgetAdapter >> subscribeToPresenter [
 
 	super subscribeToPresenter.
@@ -52,7 +50,7 @@ SpToploWidgetAdapter >> subscribeToPresenter [
 		whenHelpChangedDo: [ self updateHelp ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 SpToploWidgetAdapter >> updateAll [
 
 	super updateAll.
@@ -62,20 +60,20 @@ SpToploWidgetAdapter >> updateAll [
 		updateHelp.
 ]
 
-{ #category : 'updating' }
+{ #category : #updating }
 SpToploWidgetAdapter >> updateEnabled [
 
 	widget enabled: model isEnabled
 ]
 
-{ #category : 'updating' }
+{ #category : #updating }
 SpToploWidgetAdapter >> updateHelp [
 
 	widget userData at: #specHelpText put: model help.
 	widget tooltipString: model help
 ]
 
-{ #category : 'updating' }
+{ #category : #updating }
 SpToploWidgetAdapter >> updateVisible [
 
 	widget visibility:

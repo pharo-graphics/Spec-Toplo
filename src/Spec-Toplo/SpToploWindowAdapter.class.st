@@ -2,14 +2,12 @@
 I'm a Spec adapter for `SpWindowPresenter`.
 "
 Class {
-	#name : 'SpToploWindowAdapter',
-	#superclass : 'SpToploAdapter',
-	#category : 'Spec-Toplo-Adapters',
-	#package : 'Spec-Toplo',
-	#tag : 'Adapters'
+	#name : #SpToploWindowAdapter,
+	#superclass : #SpToploAdapter,
+	#category : 'Spec-Toplo-Adapters'
 }
 
-{ #category : 'adding' }
+{ #category : #adding }
 SpToploWindowAdapter >> addPresenterIn: aBlSpace withSpecLayout: aSpExecutableLayout [ 
 
 	self presenter initialExtent 
@@ -18,13 +16,13 @@ SpToploWindowAdapter >> addPresenterIn: aBlSpace withSpecLayout: aSpExecutableLa
 	self updateContentWithSpecLayout: aSpExecutableLayout
 ]
 
-{ #category : 'factory' }
+{ #category : #factory }
 SpToploWindowAdapter >> buildWidget [
 
 	^ BlSpace new
 ]
 
-{ #category : 'deferred message' }
+{ #category : #'deferred message' }
 SpToploWindowAdapter >> defer: aBlockClosure [
 	"Enqueue aBlockClosure in the space, which will be valued in next #pulse."
 
@@ -33,7 +31,7 @@ SpToploWindowAdapter >> defer: aBlockClosure [
 		 yourself)
 ]
 
-{ #category : 'submorphs - add/remove' }
+{ #category : #'submorphs - add/remove' }
 SpToploWindowAdapter >> delete [
 	
 	self widgetDo: [ :w |
@@ -41,7 +39,7 @@ SpToploWindowAdapter >> delete [
 		model application windowClosed: self ]
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 SpToploWindowAdapter >> open [
 	"Enqueue opening the window after next universe pulse. 
 	See #onSpaceShown for posterior initialization."
@@ -49,20 +47,20 @@ SpToploWindowAdapter >> open [
 	widget show
 ]
 
-{ #category : 'protocol' }
+{ #category : #protocol }
 SpToploWindowAdapter >> openWithDeferredAction: aBlockClosure [ 
 
 	self open.
 	self defer: aBlockClosure
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SpToploWindowAdapter >> title: aString [
 
 	widget title: aString
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 SpToploWindowAdapter >> updateContentWithSpecLayout: aSpExecutableLayout [
 	"Build the presenter of the window, and establish the Toplo widget as content of the window."
 
