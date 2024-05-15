@@ -23,5 +23,5 @@ BaselineOfSpecToplo >> baseline: spec [
 BaselineOfSpecToplo >> declareToploOn: spec [
 	spec
 		baseline: 'Toplo'
-		with: [ spec repository: 'github://plantec/Toplo:master/src' ]
+		with: [ spec repository: 'github://pharo-graphics/Toplo:dev/src' ]
 ]
