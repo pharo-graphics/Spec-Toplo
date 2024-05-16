@@ -1,10 +1,12 @@
 Class {
-	#name : #SpToploAdapterBindings,
-	#superclass : #SpAdapterBindings,
-	#category : 'Spec-Toplo-Base'
+	#name : 'SpToploAdapterBindings',
+	#superclass : 'SpAdapterBindings',
+	#category : 'Spec-Toplo-Base',
+	#package : 'Spec-Toplo',
+	#tag : 'Base'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpToploAdapterBindings >> abstractAdapterClass [
 	
 	^ SpToploAdapter

@@ -1,6 +1,6 @@
-Extension { #name : #SpApplication }
+Extension { #name : 'SpApplication' }
 
-{ #category : #'*Spec-Toplo' }
+{ #category : '*Spec-Toplo' }
 SpApplication >> defaultConfigurationForToplo [
 	
 	^ SpToploApplicationConfiguration new 
