@@ -10,7 +10,8 @@ Class {
 SpToploCheckBoxAdapter >> buildWidget [
 
 	^ ToCheckbox new
-		whenClickedDo: [ model state: widget checked ];
+		addEventHandlerOn: ToCheckableCheckEvent
+			do: [ :event | model state: widget checked ];
 		yourself
 ]
 
