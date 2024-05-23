@@ -49,6 +49,22 @@ SpToploWindowAdapter >> open [
 	widget show
 ]
 
+{ #category : 'instance creation' }
+SpToploWindowAdapter >> openSync [
+	"Open a space. When this method returns, the space is opened (or an error ocurred)."
+
+	| aSemaphore |
+	aSemaphore := Semaphore new.
+	widget
+		when: BlSpaceShownEvent
+		doOnce: [ :event | aSemaphore signal ].
+
+	widget show.
+
+	"Wait until the space in actually opened by the host universe process."
+	aSemaphore wait: 1 second
+]
+
 { #category : 'protocol' }
 SpToploWindowAdapter >> openWithDeferredAction: aBlockClosure [ 
 
