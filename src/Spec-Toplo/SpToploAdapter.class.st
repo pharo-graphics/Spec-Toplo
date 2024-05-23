@@ -1,24 +1,26 @@
 Class {
-	#name : #SpToploAdapter,
-	#superclass : #SpAbstractAdapter,
-	#category : 'Spec-Toplo-Adapters'
+	#name : 'SpToploAdapter',
+	#superclass : 'SpAbstractAdapter',
+	#category : 'Spec-Toplo-Adapters',
+	#package : 'Spec-Toplo',
+	#tag : 'Adapters'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpToploAdapter class >> adaptingName [
 	"Override me if adapter will not follow the common pattern"
 
 	^ (self name withoutPrefix: 'SpToplo') asSymbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SpToploAdapter class >> allAdapters [
 	"The abstract adapters should be able to return all the adapters for a framework"
 	
 	^ self allSubclasses
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SpToploAdapter >> adapt: aPresenter [
 
 	super adapt: aPresenter.
@@ -30,13 +32,13 @@ SpToploAdapter >> adapt: aPresenter [
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SpToploAdapter >> subscribeToPresenter [
 	"Subscribe to the presenter so the widget updates on every change announcement."
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SpToploAdapter >> subscribeToWidget [
 	"Subscribe to certain widget events that require to trigger actions in the presenter (model).
 
@@ -44,7 +46,7 @@ SpToploAdapter >> subscribeToWidget [
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SpToploAdapter >> updateAll [
 	"Apply all the presenter specifications to the backend widget.
 	
