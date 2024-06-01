@@ -1,22 +1,21 @@
 Class {
-	#name : 'SpToploBackendForTest',
-	#superclass : 'SpAbstractBackendForTest',
+	#name : #SpToploBackendForTest,
+	#superclass : #SpAbstractBackendForTest,
 	#traits : 'TAssertable',
 	#classTraits : 'TAssertable classTrait',
 	#instVars : [
 		'app'
 	],
-	#category : 'Spec-Toplo-Tests',
-	#package : 'Spec-Toplo-Tests'
+	#category : #'Spec-Toplo-Tests'
 }
 
-{ #category : 'asserting' }
+{ #category : #asserting }
 SpToploBackendForTest >> assertIcon: anElement equals: aForm [
 
 	self assert: anElement equals: aForm
 ]
 
-{ #category : 'opening' }
+{ #category : #opening }
 SpToploBackendForTest >> openInstanceOf: aTest [
 
 	aTest window ifNil: [ 
@@ -26,7 +25,7 @@ SpToploBackendForTest >> openInstanceOf: aTest [
 	self waitUntilUIRedrawed
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 SpToploBackendForTest >> runTest: aBlock [
 
 	app := SpApplication new.
@@ -34,7 +33,7 @@ SpToploBackendForTest >> runTest: aBlock [
 	aBlock value
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 SpToploBackendForTest >> waitUntilUIRedrawed [
 	"Wait BlSpace is opened and doesn't have available tasks to execute. 
 	This is important since the SpToplo* adapters are usually not synchronous: they defer tasks.

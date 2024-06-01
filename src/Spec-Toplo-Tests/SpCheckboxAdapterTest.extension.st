@@ -1,7 +1,7 @@
-Extension { #name : #SpRadioButtonAdapterTest }
+Extension { #name : #SpCheckboxAdapterTest }
 
 { #category : #'*Spec-Toplo-Tests' }
-SpRadioButtonAdapterTest >> testChangingLabelAffectTheWidget [
+SpCheckboxAdapterTest >> testChangingLabelAffectTheWidget [
 	
 	presenter label: 'ALabel'.
 	self assert: self adapter label equals: 'ALabel'

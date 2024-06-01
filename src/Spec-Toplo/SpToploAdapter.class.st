@@ -1,44 +1,55 @@
 Class {
-	#name : 'SpToploAdapter',
-	#superclass : 'SpAbstractAdapter',
-	#category : 'Spec-Toplo-Adapters',
-	#package : 'Spec-Toplo',
-	#tag : 'Adapters'
+	#name : #SpToploAdapter,
+	#superclass : #SpAbstractAdapter,
+	#category : #'Spec-Toplo-Adapters'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SpToploAdapter class >> adaptingName [
 	"Override me if adapter will not follow the common pattern"
 
 	^ (self name withoutPrefix: 'SpToplo') asSymbol
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SpToploAdapter class >> allAdapters [
 	"The abstract adapters should be able to return all the adapters for a framework"
 	
 	^ self allSubclasses
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 SpToploAdapter >> adapt: aPresenter [
 
 	super adapt: aPresenter.
 
+	self adaptToploWidget
+]
+
+{ #category : #initialization }
+SpToploAdapter >> adaptToploWidget [
+	"Initialize and bind the widget to the model"
+
 	self
 		updateAll;
 		subscribeToPresenter;
-		subscribeToWidget.
-
+		subscribeToWidget
 ]
 
-{ #category : 'initialization' }
+{ #category : #visibility }
+SpToploAdapter >> isVisible [
+	
+	^ widget isVisible
+]
+
+{ #category : #initialization }
 SpToploAdapter >> subscribeToPresenter [
 	"Subscribe to the presenter so the widget updates on every change announcement."
 
+	model whenVisibleChangedDo: [ self updateVisible ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 SpToploAdapter >> subscribeToWidget [
 	"Subscribe to certain widget events that require to trigger actions in the presenter (model).
 
@@ -46,10 +57,20 @@ SpToploAdapter >> subscribeToWidget [
 
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 SpToploAdapter >> updateAll [
 	"Apply all the presenter specifications to the backend widget.
 	
 	Expected to be sent during widget creation."
 
+	self updateVisible
+]
+
+{ #category : #updating }
+SpToploAdapter >> updateVisible [
+
+	widget visibility:
+		(model isVisible
+			ifTrue: [ BlVisibility visible ]
+			ifFalse: [ BlVisibility hidden ])
 ]

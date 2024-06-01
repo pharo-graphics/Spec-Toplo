@@ -1,12 +1,10 @@
 Class {
-	#name : 'SpToploCheckBoxAdapter',
-	#superclass : 'SpToploWidgetAdapter',
-	#category : 'Spec-Toplo-Adapters',
-	#package : 'Spec-Toplo',
-	#tag : 'Adapters'
+	#name : #SpToploCheckBoxAdapter,
+	#superclass : #SpToploWidgetAdapter,
+	#category : #'Spec-Toplo-Adapters'
 }
 
-{ #category : 'factory' }
+{ #category : #factory }
 SpToploCheckBoxAdapter >> buildWidget [
 
 	^ ToCheckbox new
@@ -15,19 +13,19 @@ SpToploCheckBoxAdapter >> buildWidget [
 		yourself
 ]
 
-{ #category : 'accessing - structure variables' }
+{ #category : #'accessing - structure variables' }
 SpToploCheckBoxAdapter >> label [
 	
 	^ widget labelText
 ]
 
-{ #category : 'accessing - structure variables' }
+{ #category : #'accessing - structure variables' }
 SpToploCheckBoxAdapter >> state [
 
 	^ widget checked
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 SpToploCheckBoxAdapter >> subscribeToPresenter [
 
 	super subscribeToPresenter.
@@ -37,7 +35,7 @@ SpToploCheckBoxAdapter >> subscribeToPresenter [
 		whenChangedDo: [ self updateState ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 SpToploCheckBoxAdapter >> updateAll [
 
 	super updateAll.
@@ -46,13 +44,13 @@ SpToploCheckBoxAdapter >> updateAll [
 		updateState
 ]
 
-{ #category : 'updating' }
+{ #category : #updating }
 SpToploCheckBoxAdapter >> updateLabel [
 
 	widget labelText: model label
 ]
 
-{ #category : 'updating' }
+{ #category : #updating }
 SpToploCheckBoxAdapter >> updateState [
 
 	widget checked: model state

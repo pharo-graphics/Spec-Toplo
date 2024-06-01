@@ -1,30 +1,28 @@
 Class {
-	#name : 'SpToploRadioButtonAdapter',
-	#superclass : 'SpToploWidgetAdapter',
-	#category : 'Spec-Toplo-Adapters',
-	#package : 'Spec-Toplo',
-	#tag : 'Adapters'
+	#name : #SpToploRadioButtonAdapter,
+	#superclass : #SpToploWidgetAdapter,
+	#category : #'Spec-Toplo-Adapters'
 }
 
-{ #category : 'factory' }
+{ #category : #factory }
 SpToploRadioButtonAdapter >> buildWidget [
 
 	^ ToRadioButton new
 ]
 
-{ #category : 'accessing - structure variables' }
+{ #category : #'accessing - structure variables' }
 SpToploRadioButtonAdapter >> label [
 	
 	^ widget labelText
 ]
 
-{ #category : 'accessing - structure variables' }
+{ #category : #'accessing - structure variables' }
 SpToploRadioButtonAdapter >> state [
 
 	^ widget checked
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 SpToploRadioButtonAdapter >> subscribeToPresenter [
 
 	super subscribeToPresenter.
@@ -34,7 +32,7 @@ SpToploRadioButtonAdapter >> subscribeToPresenter [
 		whenChangedDo: [ self updateState ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 SpToploRadioButtonAdapter >> updateAll [
 
 	super updateAll.
@@ -43,13 +41,13 @@ SpToploRadioButtonAdapter >> updateAll [
 		updateState
 ]
 
-{ #category : 'updating' }
+{ #category : #updating }
 SpToploRadioButtonAdapter >> updateLabel [
 
 	widget labelText: model label
 ]
 
-{ #category : 'updating' }
+{ #category : #updating }
 SpToploRadioButtonAdapter >> updateState [
 
 	widget checked: model state

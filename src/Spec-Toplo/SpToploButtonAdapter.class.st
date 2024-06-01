@@ -2,14 +2,12 @@
 I'm a Spec adapter for `SpButtonPresenter`.
 "
 Class {
-	#name : 'SpToploButtonAdapter',
-	#superclass : 'SpToploWidgetAdapter',
-	#category : 'Spec-Toplo-Adapters',
-	#package : 'Spec-Toplo',
-	#tag : 'Adapters'
+	#name : #SpToploButtonAdapter,
+	#superclass : #SpToploWidgetAdapter,
+	#category : #'Spec-Toplo-Adapters'
 }
 
-{ #category : 'factory' }
+{ #category : #factory }
 SpToploButtonAdapter >> buildWidget [
 
 	^ ToButton new
@@ -19,25 +17,25 @@ SpToploButtonAdapter >> buildWidget [
 		yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SpToploButtonAdapter >> icon [
 	
 	^ widget userData at: #specIcon ifAbsent: [ nil ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 SpToploButtonAdapter >> label [
 
 	^ widget labelText
 ]
 
-{ #category : 'factory' }
+{ #category : #factory }
 SpToploButtonAdapter >> newContextMenu [
 
 	^ model contextMenu ifNotNil: #build
 ]
 
-{ #category : 'factory' }
+{ #category : #factory }
 SpToploButtonAdapter >> subscribeToPresenter [
 
 	super subscribeToPresenter.
@@ -48,12 +46,12 @@ SpToploButtonAdapter >> subscribeToPresenter [
 		whenActionChangedDo: [ self updateAction ]
 ]
 
-{ #category : 'factory' }
+{ #category : #factory }
 SpToploButtonAdapter >> updateAction [
 	"Nothing to do as widget was built already with its definitive event handler."
 ]
 
-{ #category : 'factory' }
+{ #category : #factory }
 SpToploButtonAdapter >> updateAll [
 
 	super updateAll.
@@ -63,20 +61,20 @@ SpToploButtonAdapter >> updateAll [
 		updateAction
 ]
 
-{ #category : 'factory' }
+{ #category : #factory }
 SpToploButtonAdapter >> updateIcon [
 
 	widget userData at: #specIcon put: model icon.
 	widget iconImage: model icon
 ]
 
-{ #category : 'factory' }
+{ #category : #factory }
 SpToploButtonAdapter >> updateLabel [
 
 	widget labelText: model label
 ]
 
-{ #category : 'updating' }
+{ #category : #updating }
 SpToploButtonAdapter >> updateMenu [
 	"No need to act; if the menu is opened, it will use the current one."
 ]
