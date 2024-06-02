@@ -142,8 +142,3 @@ SpToploBoxAdapter >> updateChildPadding: aBlElement with: aSpBoxConstraints [
 
 	aBlElement padding: insets
 ]
-
-{ #category : #'instance creation' }
-SpToploBoxAdapter >> updateWidgetFromLayout [
-
-]
