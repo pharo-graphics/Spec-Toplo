@@ -11,7 +11,6 @@ Class {
 SpToploButtonAdapter >> buildWidget [
 
 	^ ToButton new
-		whenClickedDo: [ model performAction ];
 		contextMenu: [ :win :request |
 			self inform: win asString ];
 		yourself
@@ -44,6 +43,14 @@ SpToploButtonAdapter >> subscribeToPresenter [
 		whenLabelChangedDo: [ self updateLabel ];
 		whenIconChangedDo: [ self updateIcon ];
 		whenActionChangedDo: [ self updateAction ]
+]
+
+{ #category : #initialization }
+SpToploButtonAdapter >> subscribeToWidget [
+
+	super subscribeToWidget.
+	
+	widget whenClickedDo: [ model performAction ]
 ]
 
 { #category : #factory }

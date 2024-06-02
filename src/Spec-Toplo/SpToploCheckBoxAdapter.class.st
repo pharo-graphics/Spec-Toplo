@@ -36,6 +36,16 @@ SpToploCheckBoxAdapter >> subscribeToPresenter [
 ]
 
 { #category : #initialization }
+SpToploCheckBoxAdapter >> subscribeToWidget [
+
+	super subscribeToWidget.
+
+	widget
+		addEventHandlerOn: ToCheckableCheckEvent
+		do: [ :event | model state: widget checked ]
+]
+
+{ #category : #initialization }
 SpToploCheckBoxAdapter >> updateAll [
 
 	super updateAll.
