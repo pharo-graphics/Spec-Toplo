@@ -95,6 +95,24 @@ SpToploBoxAdapter >> newVertical [
 		  yourself
 ]
 
+{ #category : #adding }
+SpToploBoxAdapter >> remove: aPresenter [
+
+	| aBlElement adapter |
+	adapter := aPresenter adapter.
+	adapter ifNil: [ ^ self ].
+	
+	adapter unsubscribe.
+	aBlElement := adapter widget.
+	
+	aBlElement parent = startPane ifTrue: [
+		startPane removeChild: aBlElement ].
+	aBlElement parent = endPane ifTrue: [
+		endPane removeChild: aBlElement ].
+	
+"	self verifyBoxExtent"
+]
+
 { #category : #accessing }
 SpToploBoxAdapter >> replace: aPresenter with: otherPresenter withConstraints: constraints [
 

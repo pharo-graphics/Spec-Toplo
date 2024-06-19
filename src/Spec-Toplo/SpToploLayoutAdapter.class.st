@@ -99,6 +99,12 @@ SpToploLayoutAdapter >> newToploWidget [
 	^ self subclassResponsibility
 ]
 
+{ #category : #adding }
+SpToploLayoutAdapter >> remove: aPresenter [
+
+	self subclassResponsibility
+]
+
 { #category : #initialization }
 SpToploLayoutAdapter >> subscribeToPresenter [
 
