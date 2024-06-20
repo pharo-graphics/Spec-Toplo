@@ -1,5 +1,5 @@
 "
-I'm a Spec adapter for `SpButtonPresenter`.
+I'm a Spec adapter for widgets, in general in the hierarchy of `SpAbstractWidgetPresenter`.
 "
 Class {
 	#name : #SpToploButtonAdapter,
