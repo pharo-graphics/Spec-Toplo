@@ -106,6 +106,13 @@ SpToploBoxAdapter >> remove: aPresenter [
 "	self verifyBoxExtent"
 ]
 
+{ #category : #protocol }
+SpToploBoxAdapter >> removeSubWidgets [
+	
+	startPane removeChildren.
+	endPane removeChildren
+]
+
 { #category : #accessing }
 SpToploBoxAdapter >> replace: aPresenter with: otherPresenter withConstraints: constraints [
 
