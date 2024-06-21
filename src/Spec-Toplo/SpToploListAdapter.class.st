@@ -13,6 +13,19 @@ SpToploListAdapter >> buildWidget [
 	^ ToListElement new
 ]
 
+{ #category : #accessing }
+SpToploListAdapter >> elementAt: anInteger [ 
+	
+	^ widget dataAccessor at: anInteger
+]
+
+{ #category : #testing }
+SpToploListAdapter >> isNonEditableRow: aRow column: aColumn [
+
+	self flag: #todo.
+	^ true
+]
+
 { #category : #factory }
 SpToploListAdapter >> refreshWidgetSelection [
 
@@ -38,7 +51,7 @@ SpToploListAdapter >> subscribeToPresenter [
 
 	model
 		whenModelChangedDo: [ self updateItems ];
-		whenSelectionChangedDo: [ self updateSelection ].
+		whenSelectionChangedDo: [ self updateSelection ]
 
 	"model selection whenChangedDo: [ self refreshWidgetSelection ]."
 	"model whenSearchEnabledChangedDo: [ self updateSearch ].
@@ -61,14 +74,17 @@ SpToploListAdapter >> updateAll [
 
 	super updateAll.
 
-	self updateItems.
-	self updateSelection.
+	self
+		updateItems;
+		updateSelection
 ]
 
 { #category : #initialization }
 SpToploListAdapter >> updateItems [
 
-	widget dataAccessor removeAll; addAll: model items
+	widget dataAccessor
+		removeAll;
+		addAll: model items
 ]
 
 { #category : #initialization }
