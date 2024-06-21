@@ -8,9 +8,6 @@ Class {
 SpToploCheckBoxAdapter >> buildWidget [
 
 	^ ToCheckbox new
-		addEventHandlerOn: ToCheckableCheckEvent
-			do: [ :event | model state: widget checked ];
-		yourself
 ]
 
 { #category : #'accessing - structure variables' }
