@@ -74,13 +74,6 @@ SpToploBoxAdapter >> newHorizontal [
 ]
 
 { #category : #'instance creation' }
-SpToploBoxAdapter >> newToploWidget [
-	"Answer the new Toplo widget."
-
-	^ layout direction newWidgetOn: self
-]
-
-{ #category : #'instance creation' }
 SpToploBoxAdapter >> newVertical [
 	"Configure as vertical. See #newToploWidget."
 
