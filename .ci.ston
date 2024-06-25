@@ -8,6 +8,6 @@ SmalltalkCISpec {
   ],
   #testing: {
     #include : {
-      #packages : [ 'Spec-Toplo.*', 'Spec2-Backend.*' ] }
+      #packages : [ 'Spec-Toplo.*', 'Spec2.*-Backend-Tests' ] }
   }
 }
