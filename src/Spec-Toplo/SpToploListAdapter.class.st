@@ -26,13 +26,13 @@ SpToploListAdapter >> isNonEditableRow: aRow column: aColumn [
 	^ true
 ]
 
-{ #category : #factory }
+{ #category : #accessing }
 SpToploListAdapter >> refreshWidgetSelection [
 
 	self updateSelection
 ]
 
-{ #category : #api }
+{ #category : #accessing }
 SpToploListAdapter >> selectIndex: anInteger [ 
 	
 	widget selecter selectOnlyIndex: anInteger
@@ -69,7 +69,7 @@ SpToploListAdapter >> subscribeToWidget [
 			model selection selectIndexes: widget selecter selectedIndexes ]
 ]
 
-{ #category : #initialization }
+{ #category : #'updating widget' }
 SpToploListAdapter >> updateAll [
 
 	super updateAll.
@@ -79,7 +79,7 @@ SpToploListAdapter >> updateAll [
 		updateSelection
 ]
 
-{ #category : #initialization }
+{ #category : #'updating widget' }
 SpToploListAdapter >> updateItems [
 
 	widget dataAccessor
@@ -87,7 +87,7 @@ SpToploListAdapter >> updateItems [
 		addAll: model items
 ]
 
-{ #category : #initialization }
+{ #category : #'updating widget' }
 SpToploListAdapter >> updateSelection [
 
 	widget selecter selectIndexes: model selection selectedIndexes

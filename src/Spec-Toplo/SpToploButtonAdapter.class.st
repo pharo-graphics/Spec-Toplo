@@ -34,7 +34,7 @@ SpToploButtonAdapter >> newContextMenu [
 	^ model contextMenu ifNotNil: #build
 ]
 
-{ #category : #factory }
+{ #category : #initialization }
 SpToploButtonAdapter >> subscribeToPresenter [
 
 	super subscribeToPresenter.
@@ -53,12 +53,12 @@ SpToploButtonAdapter >> subscribeToWidget [
 	widget whenClickedDo: [ model performAction ]
 ]
 
-{ #category : #factory }
+{ #category : #'updating widget' }
 SpToploButtonAdapter >> updateAction [
 	"Nothing to do as widget was built already with its definitive event handler."
 ]
 
-{ #category : #factory }
+{ #category : #'updating widget' }
 SpToploButtonAdapter >> updateAll [
 
 	super updateAll.
@@ -68,20 +68,20 @@ SpToploButtonAdapter >> updateAll [
 		updateAction
 ]
 
-{ #category : #factory }
+{ #category : #'updating widget' }
 SpToploButtonAdapter >> updateIcon [
 
 	widget userData at: #specIcon put: model icon.
 	widget iconImage: model icon
 ]
 
-{ #category : #factory }
+{ #category : #'updating widget' }
 SpToploButtonAdapter >> updateLabel [
 
 	widget labelText: model label
 ]
 
-{ #category : #updating }
+{ #category : #'updating widget' }
 SpToploButtonAdapter >> updateMenu [
 	"No need to act; if the menu is opened, it will use the current one."
 ]

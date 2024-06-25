@@ -36,7 +36,7 @@ SpToploAdapter >> adaptToploWidget [
 		subscribeToWidget
 ]
 
-{ #category : #visibility }
+{ #category : #testing }
 SpToploAdapter >> isVisible [
 	
 	^ widget isVisible
@@ -66,7 +66,7 @@ SpToploAdapter >> updateAll [
 	self updateVisible
 ]
 
-{ #category : #updating }
+{ #category : #'updating widget' }
 SpToploAdapter >> updateVisible [
 
 	widget visibility:

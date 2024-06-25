@@ -51,13 +51,13 @@ SpToploWidgetAdapter >> updateAll [
 		updateHelp
 ]
 
-{ #category : #updating }
+{ #category : #'updating widget' }
 SpToploWidgetAdapter >> updateEnabled [
 
 	widget enabled: model isEnabled
 ]
 
-{ #category : #updating }
+{ #category : #'updating widget' }
 SpToploWidgetAdapter >> updateHelp [
 
 	widget userData at: #specHelpText put: model help.

@@ -10,13 +10,13 @@ SpToploRadioButtonAdapter >> buildWidget [
 	^ ToRadioButton new
 ]
 
-{ #category : #'accessing - structure variables' }
+{ #category : #accessing }
 SpToploRadioButtonAdapter >> label [
 	
 	^ widget labelText
 ]
 
-{ #category : #'accessing - structure variables' }
+{ #category : #accessing }
 SpToploRadioButtonAdapter >> state [
 
 	^ widget checked
@@ -40,7 +40,7 @@ SpToploRadioButtonAdapter >> subscribeToWidget [
 		do: [ :event | model state: widget checked ]
 ]
 
-{ #category : #initialization }
+{ #category : #'updating widget' }
 SpToploRadioButtonAdapter >> updateAll [
 
 	super updateAll.
@@ -49,13 +49,13 @@ SpToploRadioButtonAdapter >> updateAll [
 		updateState
 ]
 
-{ #category : #updating }
+{ #category : #'updating widget' }
 SpToploRadioButtonAdapter >> updateLabel [
 
 	widget labelText: model label
 ]
 
-{ #category : #updating }
+{ #category : #'updating widget' }
 SpToploRadioButtonAdapter >> updateState [
 
 	widget checked: model state

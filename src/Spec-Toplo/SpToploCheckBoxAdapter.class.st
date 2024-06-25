@@ -10,13 +10,13 @@ SpToploCheckBoxAdapter >> buildWidget [
 	^ ToCheckbox new
 ]
 
-{ #category : #'accessing - structure variables' }
+{ #category : #accessing }
 SpToploCheckBoxAdapter >> label [
 	
 	^ widget labelText
 ]
 
-{ #category : #'accessing - structure variables' }
+{ #category : #accessing }
 SpToploCheckBoxAdapter >> state [
 
 	^ widget checked
@@ -42,7 +42,7 @@ SpToploCheckBoxAdapter >> subscribeToWidget [
 		do: [ :event | model state: widget checked ]
 ]
 
-{ #category : #initialization }
+{ #category : #'updating widget' }
 SpToploCheckBoxAdapter >> updateAll [
 
 	super updateAll.
@@ -51,13 +51,13 @@ SpToploCheckBoxAdapter >> updateAll [
 		updateState
 ]
 
-{ #category : #updating }
+{ #category : #'updating widget' }
 SpToploCheckBoxAdapter >> updateLabel [
 
 	widget labelText: model label
 ]
 
-{ #category : #updating }
+{ #category : #'updating widget' }
 SpToploCheckBoxAdapter >> updateState [
 
 	widget checked: model state

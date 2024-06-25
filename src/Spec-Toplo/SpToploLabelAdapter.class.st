@@ -33,14 +33,14 @@ SpToploLabelAdapter >> subscribeToPresenter [
 	model whenLabelChangedDo: [ self updateLabel ]
 ]
 
-{ #category : #initialization }
+{ #category : #'updating widget' }
 SpToploLabelAdapter >> updateAll [
 
 	super updateAll.
 	self updateLabel
 ]
 
-{ #category : #updating }
+{ #category : #'updating widget' }
 SpToploLabelAdapter >> updateLabel [
 
 	widget text: model label

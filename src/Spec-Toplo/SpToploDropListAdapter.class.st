@@ -28,7 +28,7 @@ SpToploDropListAdapter >> subscribeToPresenter [
 	model selection whenChangedDo: [ self updateSelection ]
 ]
 
-{ #category : #initialization }
+{ #category : #'updating widget' }
 SpToploDropListAdapter >> updateAll [
 
 	super updateAll.
@@ -38,7 +38,7 @@ SpToploDropListAdapter >> updateAll [
 		updateSelection
 ]
 
-{ #category : #updating }
+{ #category : #'updating widget' }
 SpToploDropListAdapter >> updateItems [
 
 	widget dataAccessor
@@ -46,7 +46,7 @@ SpToploDropListAdapter >> updateItems [
 		addAll: model items
 ]
 
-{ #category : #private }
+{ #category : #'updating widget' }
 SpToploDropListAdapter >> updateSelection [
 
 	widget selecter selectIndex: model selectedIndex

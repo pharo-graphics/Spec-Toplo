@@ -10,7 +10,7 @@ SpToploToggleButtonAdapter >> label [
 	^ widget labelText
 ]
 
-{ #category : #'accessing - structure variables' }
+{ #category : #accessing }
 SpToploToggleButtonAdapter >> state [
 
 	^ widget checked
@@ -36,7 +36,7 @@ SpToploToggleButtonAdapter >> subscribeToWidget [
 		do: [ :event | model state: widget checked ]
 ]
 
-{ #category : #initialization }
+{ #category : #'updating widget' }
 SpToploToggleButtonAdapter >> updateAll [
 
 	super updateAll.
@@ -46,13 +46,13 @@ SpToploToggleButtonAdapter >> updateAll [
 		updateLabel
 ]
 
-{ #category : #updating }
+{ #category : #'updating widget' }
 SpToploToggleButtonAdapter >> updateLabel [
 
 	widget labelText: model label
 ]
 
-{ #category : #updating }
+{ #category : #'updating widget' }
 SpToploToggleButtonAdapter >> updateState [
 
 	widget checked: model state
