@@ -1,7 +1,6 @@
 Class {
 	#name : #SpToploBackendForTest,
 	#superclass : #SpAbstractBackendForTest,
-	#traits : 'TAssertable',
 	#classTraits : 'TAssertable classTrait',
 	#instVars : [
 		'app'
@@ -10,9 +9,9 @@ Class {
 }
 
 { #category : #asserting }
-SpToploBackendForTest >> assertIcon: anElement equals: aForm [
+SpToploBackendForTest >> assertIcon: aForm equals: anotherForm [
 
-	self assert: anElement equals: aForm
+	self assert: anotherForm = aForm
 ]
 
 { #category : #opening }
