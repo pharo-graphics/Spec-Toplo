@@ -42,6 +42,13 @@ SpToploLayoutAdapter >> buildWidget [
 	^ nil
 ]
 
+{ #category : #building }
+SpToploLayoutAdapter >> buildWithSelector: aSelector [
+	"Inspired on SpMorphicLayoutAdapter>>#buildWithSelector:"
+
+	^ self widget
+]
+
 { #category : #accessing }
 SpToploLayoutAdapter >> children [
 	"Debug API. Answer the widgets added to this layout."

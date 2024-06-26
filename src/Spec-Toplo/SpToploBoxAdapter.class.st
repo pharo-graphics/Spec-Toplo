@@ -151,6 +151,19 @@ SpToploBoxAdapter >> updateAsExpandedChild: childBlElement with: aSpBoxConstrain
 ]
 
 { #category : #'as yet unclassified' }
+SpToploBoxAdapter >> updateAsNonExpandedChild: childBlElement with: aSpBoxConstraints [
+	"Set up child to stay rigid in the layout direction."
+
+	layout direction setRigidityOfNonExpandedBlElement: childBlElement.
+	aSpBoxConstraints width ifNotNil: [ :w | 
+		1 halt.
+		childBlElement width: w ].
+	aSpBoxConstraints height ifNotNil: [ :h | 
+		1 halt.
+		childBlElement height: h ]
+]
+
+{ #category : #'as yet unclassified' }
 SpToploBoxAdapter >> updateChildPadding: aBlElement with: aSpBoxConstraints [
 
 	| insets |
