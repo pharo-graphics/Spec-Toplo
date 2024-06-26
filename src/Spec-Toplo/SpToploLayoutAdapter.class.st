@@ -85,7 +85,7 @@ SpToploLayoutAdapter >> newBlElementFrom: aPresenter constraints: constraints [
 
 { #category : #'instance creation' }
 SpToploLayoutAdapter >> newChildBlElement: aPresenter constrainedBy: constraints [
-	"Answer a new Brick widget that corresponds to the received Spec presenter. The answer should follow the specified layout constraints.
+	"Answer a new Toplo widget that corresponds to the received Spec presenter. The answer should follow the specified layout constraints.
 	
 	Originally inspired on SpMorphicLayoutAdapter>>#basicAdd:constraints:to:"
 

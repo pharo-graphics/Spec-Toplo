@@ -10,7 +10,7 @@ Class {
 
 { #category : #adding }
 SpToploBoxAdapter >> addChildElement: aBlElement with: aSpBoxConstraints [
-	"Add child to the Brick widget. This can be the start or end pane according to constraints's #isPlacedAtStart."
+	"Add child to the Toplo widget. This can be the start or end pane according to constraints's #isPlacedAtStart."
 
 	(aSpBoxConstraints isPlacedAtStart
 		ifTrue: [ startPane ]
