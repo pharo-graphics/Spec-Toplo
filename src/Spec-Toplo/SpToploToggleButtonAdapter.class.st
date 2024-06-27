@@ -4,6 +4,12 @@ Class {
 	#category : #'Spec-Toplo-Adapters'
 }
 
+{ #category : #factory }
+SpToploToggleButtonAdapter >> buildWidget [
+
+	^ ToToggleButton new
+]
+
 { #category : #accessing }
 SpToploToggleButtonAdapter >> label [
 	
