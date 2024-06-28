@@ -31,6 +31,7 @@ SpToploAdapter >> adaptToploWidget [
 	"Initialize and bind the widget to the model"
 
 	self
+		updateLayout;
 		updateAll;
 		subscribeToPresenter;
 		subscribeToWidget
@@ -64,6 +65,12 @@ SpToploAdapter >> updateAll [
 	Expected to be sent during widget creation."
 
 	self updateVisible
+]
+
+{ #category : #initialization }
+SpToploAdapter >> updateLayout [
+
+	widget matchParent
 ]
 
 { #category : #'updating widget' }

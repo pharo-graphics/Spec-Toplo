@@ -85,6 +85,11 @@ SpToploWindowAdapter >> updateContentWithSpecLayout: aSpExecutableLayout [
 		addChild: (self presenter presenter buildWithLayout: aSpExecutableLayout)
 ]
 
+{ #category : #initialization }
+SpToploWindowAdapter >> updateLayout [
+	"Do nothing on the `BlSpace`."
+]
+
 { #category : #updating }
 SpToploWindowAdapter >> updateVisible [
 
