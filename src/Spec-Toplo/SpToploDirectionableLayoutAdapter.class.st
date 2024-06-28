@@ -8,6 +8,8 @@ Class {
 SpToploDirectionableLayoutAdapter >> newHorizontalPane [
 
 	^ ToPane horizontal
+		matchParent;
+		yourself
 ]
 
 { #category : #'instance creation' }
@@ -21,4 +23,6 @@ SpToploDirectionableLayoutAdapter >> newToploWidget [
 SpToploDirectionableLayoutAdapter >> newVerticalPane [
 
 	^ ToPane vertical
+		matchParent;
+		yourself
 ]
