@@ -43,5 +43,5 @@ SpToploBackendForTest >> waitUntilUIRedrawed [
 	aSpace := app windows anyOne adapter widget.
 	BlSpace
 		pulseUntilSpaceOpenedAndEmptyTaskQueue: aSpace
-		timeout: 500 milliSeconds
+		timeout: 200 milliSeconds
 ]
