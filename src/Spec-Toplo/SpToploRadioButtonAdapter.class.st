@@ -44,6 +44,7 @@ SpToploRadioButtonAdapter >> subscribeToWidget [
 SpToploRadioButtonAdapter >> updateAll [
 
 	super updateAll.
+
 	self
 		updateLabel;
 		updateState

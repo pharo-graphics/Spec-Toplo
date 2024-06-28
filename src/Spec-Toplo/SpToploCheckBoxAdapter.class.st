@@ -46,6 +46,7 @@ SpToploCheckBoxAdapter >> subscribeToWidget [
 SpToploCheckBoxAdapter >> updateAll [
 
 	super updateAll.
+
 	self
 		updateLabel;
 		updateState

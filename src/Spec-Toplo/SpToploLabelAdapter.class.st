@@ -37,6 +37,7 @@ SpToploLabelAdapter >> subscribeToPresenter [
 SpToploLabelAdapter >> updateAll [
 
 	super updateAll.
+
 	self updateLabel
 ]
 

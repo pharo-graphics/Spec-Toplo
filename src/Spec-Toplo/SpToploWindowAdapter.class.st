@@ -76,7 +76,7 @@ SpToploWindowAdapter >> title: aString [
 	widget title: aString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #updating }
 SpToploWindowAdapter >> updateContentWithSpecLayout: aSpExecutableLayout [
 	"Build the presenter of the window, and establish the Toplo widget as content of the window."
 

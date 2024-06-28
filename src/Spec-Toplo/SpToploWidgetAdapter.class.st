@@ -46,6 +46,7 @@ SpToploWidgetAdapter >> subscribeToPresenter [
 SpToploWidgetAdapter >> updateAll [
 
 	super updateAll.
+
 	self
 		updateEnabled;
 		updateHelp

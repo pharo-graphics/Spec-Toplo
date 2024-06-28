@@ -62,6 +62,7 @@ SpToploButtonAdapter >> updateAction [
 SpToploButtonAdapter >> updateAll [
 
 	super updateAll.
+
 	self
 		updateLabel;
 		updateIcon;
