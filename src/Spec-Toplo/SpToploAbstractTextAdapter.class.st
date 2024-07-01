@@ -17,7 +17,8 @@ SpToploAbstractTextAdapter >> subscribeToPresenter [
 
 	model
 		whenTextChangedDo: [ self updateText ];
-		whenPlaceholderChangedDo: [ self updatePlaceholder ]
+		whenPlaceholderChangedDo: [ self updatePlaceholder ];
+		whenEditableChangedDo: [ self updateEditable ]
 ]
 
 { #category : #'updating widget' }
@@ -28,6 +29,14 @@ SpToploAbstractTextAdapter >> updateAll [
 	self
 		updateText;
 		updatePlaceholder
+]
+
+{ #category : #initialization }
+SpToploAbstractTextAdapter >> updateEditable [
+
+	model isEditable
+		ifTrue: [ widget beEditable ]
+		ifFalse: [ widget beReadonlyWithSelection ]
 ]
 
 { #category : #'updating widget' }
