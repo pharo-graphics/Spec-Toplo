@@ -62,5 +62,8 @@ SpToploWidgetAdapter >> updateEnabled [
 SpToploWidgetAdapter >> updateHelp [
 
 	widget userData at: #specHelpText put: model help.
-	widget tooltipString: model help
+
+	model help
+		ifNil: [ widget removeTooltip ]
+		ifNotNil: [ :help | widget tooltipString: help  ]
 ]
