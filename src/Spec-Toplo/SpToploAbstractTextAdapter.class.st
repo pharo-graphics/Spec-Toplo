@@ -10,10 +10,42 @@ SpToploAbstractTextAdapter >> placeHolderText [
 	^ widget userData at: #specPlaceholder ifAbsent: [ nil ]
 ]
 
+{ #category : #'api - selection' }
+SpToploAbstractTextAdapter >> selectAll [
+	
+	widget selecter all select
+]
+
+{ #category : #accessing }
+SpToploAbstractTextAdapter >> selection [
+	
+	| selection |
+	selection := widget selection.
+	^ selection firstIndex to: selection to
+]
+
+{ #category : #initialization }
+SpToploAbstractTextAdapter >> setSelectionFromModel: anInterval [
+
+	| aSelecter |
+	aSelecter := widget selecter.
+	aSelecter overwrite.
+
+	anInterval isEmpty ifFalse: [
+		aSelecter
+			from: anInterval first - 1
+			to: anInterval last ].
+
+	aSelecter select
+]
+
 { #category : #initialization }
 SpToploAbstractTextAdapter >> subscribeToPresenter [
 
 	super subscribeToPresenter.
+
+	"Note: We don't subscribe with whenSelectionChangedDo: because the
+	presenter directly sends messages to this adapter when selection changes."
 
 	model
 		whenTextChangedDo: [ self updateText ];
@@ -21,14 +53,15 @@ SpToploAbstractTextAdapter >> subscribeToPresenter [
 		whenEditableChangedDo: [ self updateEditable ]
 ]
 
-{ #category : #'updating widget' }
+{ #category : #initialization }
 SpToploAbstractTextAdapter >> updateAll [
 
 	super updateAll.
 	
 	self
 		updateText;
-		updatePlaceholder
+		updatePlaceholder;
+		updateSelection
 ]
 
 { #category : #initialization }
@@ -44,6 +77,12 @@ SpToploAbstractTextAdapter >> updatePlaceholder [
 
 	widget userData at: #specPlaceholder put: model placeholder.
 	widget placeholderText: model placeholder
+]
+
+{ #category : #initialization }
+SpToploAbstractTextAdapter >> updateSelection [
+
+	self setSelectionFromModel: model selectionInterval
 ]
 
 { #category : #'updating widget' }
