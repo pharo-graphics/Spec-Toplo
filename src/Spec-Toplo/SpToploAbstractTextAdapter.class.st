@@ -16,6 +16,14 @@ SpToploAbstractTextAdapter >> selectAll [
 	widget selecter all select
 ]
 
+{ #category : #'new selection' }
+SpToploAbstractTextAdapter >> selectLine [
+
+	widget selecter
+		extendToWholeLine;
+		select
+]
+
 { #category : #accessing }
 SpToploAbstractTextAdapter >> selection [
 	
