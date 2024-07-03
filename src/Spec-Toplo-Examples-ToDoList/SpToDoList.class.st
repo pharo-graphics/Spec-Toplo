@@ -48,31 +48,31 @@ SpToDoList >> announcer [
 ]
 
 { #category : #accessing }
-SpToDoList >> delete: aToDoTask [ 
-	
+SpToDoList >> delete: aToDoTask [
+
 	tasks remove: aToDoTask.
-	self announceUpdated.
+	self announceUpdated
 ]
 
 { #category : #accessing }
 SpToDoList >> deleteAll [
-	
+
 	tasks removeAll.
-	self announceUpdated.
+	self announceUpdated
 ]
 
 { #category : #initialization }
-SpToDoList >> initialize [ 
+SpToDoList >> initialize [
 
 	super initialize.
 	tasks := OrderedCollection new.
-	announcer := Announcer new.
+	announcer := Announcer new
 ]
 
 { #category : #accessing }
 SpToDoList >> tasks [
 
-^ tasks	
+	^ tasks
 ]
 
 { #category : #announcements }

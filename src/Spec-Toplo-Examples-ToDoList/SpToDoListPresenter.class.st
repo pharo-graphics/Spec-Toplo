@@ -175,11 +175,11 @@ SpToDoListPresenter >> initializeToolbar [
 SpToDoListPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
-		title: 'Demo @ ' , aWindowPresenter application backend asString;
+		title: 'Demo @ ', aWindowPresenter application backend asString;
 		initialExtent: 600 @ 300;
 		centered;
 		statusBar: statusBar;
-		toolbar: toolbar.
+		toolbar: toolbar
 ]
 
 { #category : #actions }
@@ -197,12 +197,13 @@ SpToDoListPresenter >> presentersThatRequireTaskSelected [
 ]
 
 { #category : #private }
-SpToDoListPresenter >> refresh [ 
+SpToDoListPresenter >> refresh [
 
 	list unselectAll.
 	list items: toDoList tasks.
-	statusBar label: ('Number of tasks: {1}' format: { toDoList tasks size}).
-	self refreshAccordingToSelectedTask.
+	statusBar label:
+		('Number of tasks: {1}' format: { toDoList tasks size }).
+	self refreshAccordingToSelectedTask
 ]
 
 { #category : #private }

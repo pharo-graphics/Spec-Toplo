@@ -21,9 +21,9 @@ SpToDoTask class >> titled: aString described: anotherString in: aToDoList [
 
 { #category : #accessing }
 SpToDoTask >> completed: aBoolean [
-	
+
 	completed := aBoolean.
-	toDoList 	announceUpdated.
+	toDoList announceUpdated
 ]
 
 { #category : #accessing }
@@ -40,14 +40,14 @@ SpToDoTask >> description: aString [
 ]
 
 { #category : #initialization }
-SpToDoTask >> initializeTitle: aString described: anotherString in: aSpToDoList [ 
+SpToDoTask >> initializeTitle: aString described: anotherString in: aSpToDoList [
 
 	self initialize.
 	toDoList := aSpToDoList.
 	title := aString.
 	description := anotherString.
 	completed := false.
-	priority := SpToDoTaskPriority medium.
+	priority := SpToDoTaskPriority medium
 ]
 
 { #category : #testing }
@@ -58,8 +58,6 @@ SpToDoTask >> isCompleted [
 
 { #category : #printing }
 SpToDoTask >> printOn: aStream [
-
-	"Append a sequence of characters to aStream that identify the receiver."
 
 	super printOn: aStream.
 	aStream
@@ -72,6 +70,7 @@ SpToDoTask >> printOn: aStream [
 
 { #category : #accessing }
 SpToDoTask >> priority [
+
 	^ priority
 ]
 
@@ -89,10 +88,10 @@ SpToDoTask >> title [
 ]
 
 { #category : #accessing }
-SpToDoTask >> title: aString [ 
-	
+SpToDoTask >> title: aString [
+
 	title := aString.
-	toDoList 	announceUpdated.
+	toDoList announceUpdated
 ]
 
 { #category : #validating }

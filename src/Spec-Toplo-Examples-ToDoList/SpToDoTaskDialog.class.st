@@ -33,7 +33,7 @@ SpToDoTaskDialog class >> defaultLayout [
 
 ]
 
-{ #category : #actions }
+{ #category : #private }
 SpToDoTaskDialog >> accept [
 
 	[ 	| newTask |
@@ -42,14 +42,14 @@ SpToDoTaskDialog >> accept [
 		titleInput text: ''.
 		super accept.
 	]	on: SpToDoListValidationError
-		do: [ :error | self showError: error ].
-
+		do: [ :error | self showError: error ]
 ]
 
 { #category : #initialization }
 SpToDoTaskDialog >> initializeDialogWindow: aDialogWindowPresenter [
 
 	super initializeDialogWindow: aDialogWindowPresenter.
+
 	aDialogWindowPresenter
 		initialExtent: 300 @ 250;
 		title: 'Create a new task';

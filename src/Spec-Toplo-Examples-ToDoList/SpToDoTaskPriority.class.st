@@ -49,9 +49,9 @@ SpToDoTaskPriority class >> newNamed: aString rank: aNumber [
 SpToDoTaskPriority >> initializeNamed: aString rank: aNumber [
 
 	self initialize.
-	
+
 	name := aString.
-	rank := aNumber.
+	rank := aNumber
 ]
 
 { #category : #accessing }
@@ -62,8 +62,6 @@ SpToDoTaskPriority >> name [
 
 { #category : #printing }
 SpToDoTaskPriority >> printOn: aStream [
-
-	"Append a sequence of characters to aStream that identify the receiver."
 
 	super printOn: aStream.
 	aStream
