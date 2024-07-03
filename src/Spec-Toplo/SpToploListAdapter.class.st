@@ -65,8 +65,9 @@ SpToploListAdapter >> subscribeToWidget [
 
 	widget
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
-		do: [
-			model selection selectIndexes: widget selecter selectedIndexes ]
+			do: [ model selection selectIndexes: widget selecter selectedIndexes ];
+		addEventHandlerOn: ToListStrongSelectionEvent
+			do: [ model doActivateAtIndex: model selection selectedIndex ]
 ]
 
 { #category : #'updating widget' }
