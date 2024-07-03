@@ -96,5 +96,7 @@ SpToploAbstractTextAdapter >> updateSelection [
 { #category : #'updating widget' }
 SpToploAbstractTextAdapter >> updateText [
 
+	widget text asString = model text ifTrue: [ ^ self ].
+
 	widget text: model text
 ]
