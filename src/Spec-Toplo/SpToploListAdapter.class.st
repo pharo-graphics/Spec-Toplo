@@ -11,6 +11,9 @@ Class {
 SpToploListAdapter >> buildWidget [
 
 	^ ToListElement new
+		nodeBuilder: [ :node :holder |
+		  self newItemElementFor: node holder: holder ];
+		yourself
 ]
 
 { #category : #accessing }
@@ -24,6 +27,36 @@ SpToploListAdapter >> isNonEditableRow: aRow column: aColumn [
 
 	self flag: #todo.
 	^ true
+]
+
+{ #category : #'instance creation' }
+SpToploListAdapter >> newItemElementFor: node holder: holder [
+
+	self model hasIcons ifFalse: [ 
+		^ node addChild:
+			(ToLabel text: holder dataItem asString)
+				hMatchParent;
+				yourself ].
+
+	node addChild:
+		(ToLabeledIcon new
+			label: (ToLabel
+				text: (model displayValueFor: holder dataItem) asRopedText);
+			icon: (ToImage inner: (model iconFor: holder dataItem));
+			startInterspace: 10;
+			hMatchParent;
+			yourself)
+]
+
+{ #category : #refreshing }
+SpToploListAdapter >> refreshList [
+
+]
+
+{ #category : #factory }
+SpToploListAdapter >> refreshWidgetList [
+
+	widget notifyDataSourceChanged
 ]
 
 { #category : #accessing }
@@ -51,11 +84,8 @@ SpToploListAdapter >> subscribeToPresenter [
 
 	model
 		whenModelChangedDo: [ self updateItems ];
-		whenSelectionChangedDo: [ self updateSelection ]
-
-	"model selection whenChangedDo: [ self refreshWidgetSelection ]."
-	"model whenSearchEnabledChangedDo: [ self updateSearch ].
-"
+		whenSelectionChangedDo: [ self updateSelection ];
+		whenIconsChangedDo: [ self refreshWidgetList ]
 ]
 
 { #category : #initialization }
