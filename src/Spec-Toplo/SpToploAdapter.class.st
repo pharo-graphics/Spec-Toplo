@@ -1,3 +1,6 @@
+"
+I'm an abstract Spec adapter for all presenters.
+"
 Class {
 	#name : #SpToploAdapter,
 	#superclass : #SpAbstractAdapter,

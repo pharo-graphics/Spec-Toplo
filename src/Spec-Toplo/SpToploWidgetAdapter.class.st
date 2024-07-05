@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for widgets.
+"
 Class {
 	#name : #SpToploWidgetAdapter,
 	#superclass : #SpToploAdapter,

@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for `SpPanedLayout`.
+"
 Class {
 	#name : #SpToploPanedAdapter,
 	#superclass : #SpToploDirectionableLayoutAdapter,

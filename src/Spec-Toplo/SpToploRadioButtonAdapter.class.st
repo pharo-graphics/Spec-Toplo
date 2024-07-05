@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for `SpRadioButtonPresenter`.
+"
 Class {
 	#name : #SpToploRadioButtonAdapter,
 	#superclass : #SpToploWidgetAdapter,

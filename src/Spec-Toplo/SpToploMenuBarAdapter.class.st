@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for `SpMenuBarPresenter`.
+"
 Class {
 	#name : #SpToploMenuBarAdapter,
 	#superclass : #SpToploAdapter,

@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for `SpDropListPresenter`.
+"
 Class {
 	#name : #SpToploDropListAdapter,
 	#superclass : #SpToploWidgetAdapter,

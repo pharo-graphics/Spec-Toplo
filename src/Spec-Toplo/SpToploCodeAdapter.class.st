@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for `SpCodePresenter`.
+"
 Class {
 	#name : #SpToploCodeAdapter,
 	#superclass : #SpToploTextAdapter,

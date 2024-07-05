@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for presenters that are adapter into a `BlSpace`.
+"
 Class {
 	#name : #SpToploWindowLikeAdapter,
 	#superclass : #SpToploAdapter,

@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for layouts that have direction.
+"
 Class {
 	#name : #SpToploDirectionableLayoutAdapter,
 	#superclass : #SpToploLayoutAdapter,

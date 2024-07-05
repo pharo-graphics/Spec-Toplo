@@ -1,3 +1,6 @@
+"
+I'm an abstract Spec adapter for all text widgets.
+"
 Class {
 	#name : #SpToploAbstractTextAdapter,
 	#superclass : #SpToploWidgetAdapter,

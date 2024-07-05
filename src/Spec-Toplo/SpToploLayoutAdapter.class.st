@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for layouts.
+"
 Class {
 	#name : #SpToploLayoutAdapter,
 	#superclass : #SpToploAdapter,
