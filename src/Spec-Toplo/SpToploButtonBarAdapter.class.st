@@ -8,15 +8,6 @@ Class {
 SpToploButtonBarAdapter >> buildWidget [
 
 	^ ToPane horizontal
-		layout: (BlLinearLayout horizontal
-			cellSpacing: 5;
-			yourself);
-"		  cellSpacing: 5;"
-		  padding: (BlInsets top: 0 left: 5 bottom: 5 right: 10);
-		  margin: (BlInsets horizontal: 5);
-"		  alignCenterRight;"
-"		  addChildren: self newToploButtons;"
-		  yourself
 ]
 
 { #category : #factory }
@@ -58,4 +49,16 @@ SpToploButtonBarAdapter >> updateItems [
 	widget
 		removeChildren;
 		addChildren: self newToploButtons
+]
+
+{ #category : #initialization }
+SpToploButtonBarAdapter >> updateLayout [
+
+	widget
+		layout:
+			(BlLinearLayout horizontal
+				cellSpacing: 5;
+				yourself);
+		 padding: (BlInsets top: 0 left: 5 bottom: 5 right: 10);
+		 margin: (BlInsets horizontal: 5)
 ]
