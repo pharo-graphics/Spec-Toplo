@@ -13,6 +13,7 @@ SpToploMenuBarAdapter >> addMenuFor: item into: parentMenu [
 			parentMenu addItem:
 				(ToMenuItem new
 					whenClickedDo: item action;
+					iconImage: item icon;
 					labelText: item name;
 					yourself) ]
 
