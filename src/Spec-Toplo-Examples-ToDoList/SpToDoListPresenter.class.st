@@ -24,10 +24,10 @@ Class {
 		'deleteButton',
 		'toDoList',
 		'toggleCompletedButton',
-		'toolbar',
 		'statusBar',
 		'descriptionLabel',
-		'descriptionTextArea'
+		'descriptionTextArea',
+		'menuBar'
 	],
 	#category : #'Spec-Toplo-Examples-ToDoList-Presenters'
 }
@@ -108,6 +108,40 @@ SpToDoListPresenter >> deleteTask [
 ]
 
 { #category : #initialization }
+SpToDoListPresenter >> initializeMenuBar [
+	
+	| actionsMenu |
+	menuBar := self newMenuBar.
+
+	actionsMenu := self newMenu.
+	actionsMenu addGroup: [ :group |
+
+				group addItem: [ :item |
+					item
+						iconName: #smallAdd;
+						name: 'Add new task';
+						action: [ self openAddTaskDialog ] ].
+				
+				group addItem: [ :item |
+					item
+						iconName: #smallOk;
+						name: 'Complete all tasks';
+						action: [ self completeAllTasks ] ].
+				
+				group addItem: [ :item |
+					item
+						iconName: #remove;
+						name: 'Clean';
+						action: [ self deleteAllTasks ] ] ].
+
+
+	menuBar addItem: [ :barItem |
+		barItem
+			name: 'Actions';
+			subMenu: actionsMenu ]
+]
+
+{ #category : #initialization }
 SpToDoListPresenter >> initializePresenters [
 
 	listLabel := self newLabel
@@ -141,34 +175,10 @@ SpToDoListPresenter >> initializePresenters [
 		action: [ self deleteTask ];
 		yourself.
 
-	self initializeToolbar.
+	self initializeMenuBar.
 	statusBar := self newLabel.
 
 	self refresh.
-]
-
-{ #category : #initialization }
-SpToDoListPresenter >> initializeToolbar [
-	
-	toolbar := self newToolbar.
-
-	toolbar addItem: (self newToolbarButton
-		icon: (self iconNamed: #smallAdd);
-		label: 'Create';
-		action: [ self openAddTaskDialog ];
-		yourself).
-	
-	toolbar addItemRight: (self newToolbarButton
-		icon: (self iconNamed: #smallOk);
-		label: 'All done';
-		action: [ self completeAllTasks ];
-		yourself).
-		
-	toolbar addItemRight: (self newToolbarButton
-		icon: (self iconNamed: #remove);
-		label: 'Clean';
-		action: [ self deleteAllTasks ];
-		yourself).
 ]
 
 { #category : #initialization }
@@ -179,7 +189,7 @@ SpToDoListPresenter >> initializeWindow: aWindowPresenter [
 		initialExtent: 600 @ 300;
 		centered;
 		statusBar: statusBar;
-		toolbar: toolbar
+		menu: menuBar
 ]
 
 { #category : #actions }
