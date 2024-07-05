@@ -38,9 +38,6 @@ SpToploWindowElement >> initialize [
 	super initialize.
 
 	self
-		beVertical;
-		hFitContent;
-		vMatchParent;
 		layout: BlLinearLayout vertical;
 		background: Color white.
 	

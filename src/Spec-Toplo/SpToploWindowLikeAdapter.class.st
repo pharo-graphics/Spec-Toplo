@@ -5,17 +5,16 @@ Class {
 }
 
 { #category : #API }
-SpToploWindowLikeAdapter >> addPresenterIn: aBlSpace withSpecLayout: aSpExecutableLayout [ 
+SpToploWindowLikeAdapter >> addPresenterIn: aBlSpace withSpecLayout: aSpExecutableLayout [
 
-	self presenter initialExtent 
-		ifNotNil: [ :extent | widget extent: extent ].
+	model initialExtent ifNotNil: [ :extent |
+		widget extent: extent ].
 
 	self
 		updateMenu;
 		updateToolbar;
 		updateContentWithSpecLayout: aSpExecutableLayout;
 		updateStatusBar
-
 ]
 
 { #category : #'widget creation' }
@@ -23,7 +22,7 @@ SpToploWindowLikeAdapter >> buildWidget [
 
 	^ BlSpace new
 		  root: self newRootElement;
-		  host: self blocHost;
+"		  host: self blocHost;"
 		  yourself
 ]
 
@@ -56,6 +55,23 @@ SpToploWindowLikeAdapter >> close [
 	widget close
 ]
 
+{ #category : #'deferred message' }
+SpToploWindowLikeAdapter >> defer: aBlockClosure [
+	"Enqueue aBlockClosure in the space, which will be valued in next #pulse."
+
+	widget enqueueTask: (BlTaskAction new
+		 action: aBlockClosure;
+		 yourself)
+]
+
+{ #category : #'submorphs - add/remove' }
+SpToploWindowLikeAdapter >> delete [
+	
+	self widgetDo: [ :w |
+		w close.
+		model application windowClosed: self ]
+]
+
 { #category : #hook }
 SpToploWindowLikeAdapter >> newRootElement [
 
@@ -66,7 +82,7 @@ SpToploWindowLikeAdapter >> newRootElement [
 SpToploWindowLikeAdapter >> onSpaceClosed [
 	"Inspired on SpMorphicWindowAdapter>>#windowClosed"
 
-	self presenter
+	model
 		windowIsClosing;
 		windowClosed
 ]
@@ -77,14 +93,12 @@ SpToploWindowLikeAdapter >> onSpaceShown [
 	self defer: [
 		"Setting window position was problematic before being showed."
 
-		self presenter initialPosition 
-			ifNotNil: [ :position | widget position: position ].
-		self presenter isCentered
-			ifTrue: [ self centered ].
+		model initialPosition ifNotNil: [ :position |
+			widget position: position ].
+		model isCentered ifTrue: [ self centered ].
 
-	"	self presenter presenter takeKeyboardFocus."
-		self presenter windowIsOpening ].
-
+	"	model presenter takeKeyboardFocus."
+		model windowIsOpening ]
 ]
 
 { #category : #API }
@@ -93,6 +107,20 @@ SpToploWindowLikeAdapter >> open [
 	See #onSpaceShown for posterior initialization."
 
 	widget show
+]
+
+{ #category : #'instance creation' }
+SpToploWindowLikeAdapter >> openSync [
+	"Open a space. When this method returns, the space is opened (or an error ocurred)."
+
+	| aSemaphore |
+	aSemaphore := Semaphore new.
+	widget when: BlSpaceShownEvent doOnce: [ :event | aSemaphore signal ].
+
+	widget show.
+
+	"Wait until the space in actually opened by the host universe process."
+	aSemaphore wait: 1 second
 ]
 
 { #category : #protocol }
@@ -107,7 +135,7 @@ SpToploWindowLikeAdapter >> subscribeToPresenter [
 
 	super subscribeToPresenter.
 
-	self presenter
+	model
 		whenDecorationsChangedDo: [ self updateDecorationsAsBorderless ];
 		whenToolbarChangedDo: [ self updateToolbar ]
 
@@ -136,27 +164,31 @@ SpToploWindowLikeAdapter >> updateAll [
 
 { #category : #accessing }
 SpToploWindowLikeAdapter >> updateContentWithSpecLayout: aSpExecutableLayout [
-
 	"Build the presenter of the window, and establish the Toplo widget as content of the window."
 
 	widget root content:
-		(self presenter presenter buildWithLayout: aSpExecutableLayout)
+		(model presenter buildWithLayout: aSpExecutableLayout)
 ]
 
 { #category : #accessing }
 SpToploWindowLikeAdapter >> updateDecorationsAsBorderless [
 	
-	widget borderless: self presenter hasDecorations not
+	widget borderless: model hasDecorations not
+]
+
+{ #category : #initialization }
+SpToploWindowLikeAdapter >> updateLayout [
+	"Do nothing on the `BlSpace`."
 ]
 
 { #category : #'widget creation' }
 SpToploWindowLikeAdapter >> updateMenu [
 
-	self presenter hasMenu ifFalse: [
+	model hasMenu ifFalse: [
 		^ widget root removeMenu ].
 
 	"Build new Toplo menu from presenter spec and set it."	
-	widget root menu: self presenter menu buildWithSpec
+	widget root menu: model menu buildWithSpecAsPopup
 
 ]
 
@@ -165,10 +197,10 @@ SpToploWindowLikeAdapter >> updateStatusBar [
 
 	"Inspired on SpAbstractMorphicWindowAdapter>>#addStatusBarTo:"
 
-	self presenter hasStatusBar ifFalse: [ ^ widget root removeStatusBar ].
+	model hasStatusBar ifFalse: [ ^ widget root removeStatusBar ].
 
 	"Build new Toplo status bar from presenter spec and set it."
-	widget root statusBar: self presenter statusBar build
+	widget root statusBar: model statusBar build
 ]
 
 { #category : #'widget creation' }
@@ -176,8 +208,16 @@ SpToploWindowLikeAdapter >> updateToolbar [
 
 	"Inspired on SpAbstractMorphicWindowAdapter>>#setToolbarTo:"
 
-	self presenter hasToolbar ifFalse: [ ^ widget root removeToolbar ].
+	model hasToolbar ifFalse: [ ^ widget root removeToolbar ].
 
 	"Build new Toplo toolbar from presenter spec and set it."
-	widget root toolbar: self presenter toolbar build
+	widget root toolbar: model toolbar build
+]
+
+{ #category : #updating }
+SpToploWindowLikeAdapter >> updateVisible [
+
+	model isVisible
+		ifTrue: [ widget show ]
+		ifFalse: [ widget close ]
 ]

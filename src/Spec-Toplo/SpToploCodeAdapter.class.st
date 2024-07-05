@@ -18,7 +18,7 @@ SpToploCodeAdapter >> bindings [
 SpToploCodeAdapter >> buildWidget [
 
 	^ super buildWidget
-		styler: BlRBTextStyler new;
+		styler: BlPharoCodeStyler new;
 		yourself
 ]
 
