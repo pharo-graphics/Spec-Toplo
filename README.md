@@ -18,16 +18,14 @@ Other Spec backends are:
 - [GTK](https://github.com/pharo-spec/Spec-Gtk)
 
 
-## Installation
+## Install
 
-Evaluate the following script on [Pharo 11 or 12](https://pharo.org/download):
+The project can be loaded as usual via Metacello, using the `BaselineOfSpecToplo` specification. To copy/paste a loading script, see [this wiki page](../../wiki/Install).
 
-```smalltalk
-Metacello new
-	baseline: 'SpecToplo';
-	repository: 'github://pharo-graphics/Spec-Toplo/src';
-	load
-```
+
+## Branches & Contributions
+
+We describe our contribution workflow & branch name convention in [this wiki page](../../wiki/Branches-and-versions).
 
 
 ## License
