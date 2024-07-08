@@ -4,7 +4,7 @@ Class {
 	#category : #BaselineOfSpecToplo
 }
 
-{ #category : #baseline }
+{ #category : #baselines }
 BaselineOfSpecToplo >> baseline: spec [
 	<baseline>
 	
@@ -15,12 +15,14 @@ BaselineOfSpecToplo >> baseline: spec [
 
 			spec
 				package: 'Spec-Toplo' with: [ spec requires: #('Toplo') ];
-				package: 'Spec-Toplo-Tests' with: [ spec requires: #('Spec-Toplo') ]
+				package: 'Spec-Toplo-Tests' with: [ spec requires: #('Spec-Toplo') ];
+				package: 'Spec-Toplo-Examples-ToDoList'
 		]
 ]
 
 { #category : #'external projects' }
 BaselineOfSpecToplo >> declareToploOn: spec [
+
 	spec
 		baseline: 'Toplo'
 		with: [ spec repository: 'github://pharo-graphics/Toplo:dev/src' ]
