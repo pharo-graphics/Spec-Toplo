@@ -17,6 +17,20 @@ Other Spec backends are:
 - Morphic (the default)
 - [GTK](https://github.com/pharo-spec/Spec-Gtk)
 
+This backend is in active development. The following presenters and layouts are supported (but not completely):
+
+* Label
+* Text, Code and TextInput
+* List, DropList
+* Button
+* Button bar
+* Checkbox
+* Radio button
+* Toggle button
+* Menu bar
+* Paned and Box layouts
+* Window and Dialog
+
 
 ## Install
 
