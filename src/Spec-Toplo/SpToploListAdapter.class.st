@@ -4,6 +4,8 @@ I'm a Spec adapter for `SpListPresenter`.
 Class {
 	#name : #SpToploListAdapter,
 	#superclass : #SpToploWidgetAdapter,
+	#traits : 'SpToploTWithContextMenu',
+	#classTraits : 'SpToploTWithContextMenu classTrait',
 	#category : #'Spec-Toplo-Adapters'
 }
 
@@ -107,7 +109,8 @@ SpToploListAdapter >> updateAll [
 
 	self
 		updateItems;
-		updateSelection
+		updateSelection;
+		updateMenu
 ]
 
 { #category : #'updating widget' }
