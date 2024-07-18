@@ -34,20 +34,19 @@ SpToploListAdapter >> isNonEditableRow: aRow column: aColumn [
 { #category : #'instance creation' }
 SpToploListAdapter >> newItemElementFor: node holder: holder [
 
-	self model hasIcons ifFalse: [ 
-		^ node addChild:
-			(ToLabel text: holder dataItem asString)
-				hMatchParent;
-				yourself ].
-
-	node addChild:
-		(ToLabeledIcon new
-			label: (ToLabel
-				text: (model displayValueFor: holder dataItem) asRopedText);
-			icon: (ToImage inner: (model iconFor: holder dataItem));
+	| labeledIcon |
+	labeledIcon :=
+		ToLabeledIcon new
 			startInterspace: 10;
 			hMatchParent;
-			yourself)
+			yourself.
+
+	model hasIcons ifTrue: [
+		labeledIcon iconImage: (model iconFor: holder) ].
+
+	labeledIcon labelText: (model displayValueFor: holder) asRopedText.
+
+	node addChild: labeledIcon
 ]
 
 { #category : #refreshing }
