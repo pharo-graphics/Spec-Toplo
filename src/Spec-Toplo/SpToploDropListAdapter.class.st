@@ -24,16 +24,16 @@ SpToploDropListAdapter >> buildWidget [
 { #category : #factory }
 SpToploDropListAdapter >> newItemElementFor: node holder: holder [
 
-	model hasIcons ifFalse: [ 
+	model hasIcons ifFalse: [
 		^ node addChild:
-			(ToLabel text: holder dataItem asString)
+			(ToLabel text: (model displayForItem: holder) asRopedText)
 				hMatchParent;
 				yourself ].
 
 	node addChild:
 		(ToLabeledIcon new
-			labelText: (model displayForItem: holder dataItem);
-			icon: (ToImage inner: (model getIconFor: holder dataItem));
+			labelText: (model displayForItem: holder);
+			icon: (ToImage inner: (model getIconFor: holder));
 			startInterspace: 10;
 			hMatchParent;
 			yourself)

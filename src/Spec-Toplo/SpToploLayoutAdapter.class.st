@@ -32,6 +32,13 @@ SpToploLayoutAdapter >> add: aPresenter constraints: constraints [
 ]
 
 { #category : #adding }
+SpToploLayoutAdapter >> addChildElement: aBlElement with: aSpBoxConstraints [
+	"Add child to the Toplo widget"
+	
+	self subclassResponsibility
+]
+
+{ #category : #adding }
 SpToploLayoutAdapter >> addConstraints: constraints toChild: childBlElement [
 	"Inspired on SpMorphicLayoutAdapter>>#addConstraints:toChild:"
 

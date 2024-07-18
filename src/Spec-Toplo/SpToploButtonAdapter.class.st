@@ -4,6 +4,8 @@ I'm a Spec adapter for widgets, in general in the hierarchy of `SpAbstractWidget
 Class {
 	#name : #SpToploButtonAdapter,
 	#superclass : #SpToploWidgetAdapter,
+	#traits : 'SpToploTWithContextMenu',
+	#classTraits : 'SpToploTWithContextMenu classTrait',
 	#category : #'Spec-Toplo-Adapters'
 }
 
@@ -11,9 +13,6 @@ Class {
 SpToploButtonAdapter >> buildWidget [
 
 	^ ToButton new
-		contextMenu: [ :win :request |
-			self inform: win asString ];
-		yourself
 ]
 
 { #category : #accessing }
@@ -26,12 +25,6 @@ SpToploButtonAdapter >> icon [
 SpToploButtonAdapter >> label [
 
 	^ widget labelText
-]
-
-{ #category : #factory }
-SpToploButtonAdapter >> newContextMenu [
-
-	^ model contextMenu ifNotNil: #build
 ]
 
 { #category : #initialization }
@@ -66,7 +59,8 @@ SpToploButtonAdapter >> updateAll [
 	self
 		updateLabel;
 		updateIcon;
-		updateAction
+		updateAction;
+		updateMenu
 ]
 
 { #category : #'updating widget' }
@@ -80,9 +74,4 @@ SpToploButtonAdapter >> updateIcon [
 SpToploButtonAdapter >> updateLabel [
 
 	widget labelText: model label
-]
-
-{ #category : #'updating widget' }
-SpToploButtonAdapter >> updateMenu [
-	"No need to act; if the menu is opened, it will use the current one."
 ]

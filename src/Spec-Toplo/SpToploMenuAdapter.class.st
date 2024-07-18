@@ -3,12 +3,22 @@ I'm a Spec adapter for `SpMenuPresenter`.
 "
 Class {
 	#name : #SpToploMenuAdapter,
-	#superclass : #SpToploAdapter,
+	#superclass : #SpToploMenuLikeAdapter,
 	#category : #'Spec-Toplo-Adapters'
 }
 
 { #category : #factory }
 SpToploMenuAdapter >> buildWidget [
 
-	^ ToContextMenu new
+	^ ToMenu new
+]
+
+{ #category : #factory }
+SpToploMenuAdapter >> updateMenu [
+
+	"Reset"
+	widget items do: [ :each | widget removeItem: each ].
+
+	"Add menu groups"
+	self addMenuGroups: model menuGroups into: widget
 ]
