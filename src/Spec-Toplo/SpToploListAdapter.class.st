@@ -34,7 +34,7 @@ SpToploListAdapter >> newItemElementFor: node holder: holder [
 
 	self model hasIcons ifFalse: [ 
 		^ node addChild:
-			(ToLabel text: holder dataItem asString)
+			(ToLabel text: (model displayValueFor: holder dataItem) asRopedText)
 				hMatchParent;
 				yourself ].
 
