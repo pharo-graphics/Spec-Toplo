@@ -4,6 +4,8 @@ I'm a Spec adapter for `SpListPresenter`.
 Class {
 	#name : #SpToploListAdapter,
 	#superclass : #SpToploWidgetAdapter,
+	#traits : 'SpToploTWithContextMenu',
+	#classTraits : 'SpToploTWithContextMenu classTrait',
 	#category : #'Spec-Toplo-Adapters'
 }
 
@@ -32,20 +34,19 @@ SpToploListAdapter >> isNonEditableRow: aRow column: aColumn [
 { #category : #'instance creation' }
 SpToploListAdapter >> newItemElementFor: node holder: holder [
 
-	self model hasIcons ifFalse: [ 
-		^ node addChild:
-			(ToLabel text: (model displayValueFor: holder dataItem) asRopedText)
-				hMatchParent;
-				yourself ].
-
-	node addChild:
-		(ToLabeledIcon new
-			label: (ToLabel
-				text: (model displayValueFor: holder dataItem) asRopedText);
-			icon: (ToImage inner: (model iconFor: holder dataItem));
+	| labeledIcon |
+	labeledIcon :=
+		ToLabeledIcon new
 			startInterspace: 10;
 			hMatchParent;
-			yourself)
+			yourself.
+
+	model hasIcons ifTrue: [
+		labeledIcon iconImage: (model iconFor: holder) ].
+
+	labeledIcon labelText: (model displayValueFor: holder) asRopedText.
+
+	node addChild: labeledIcon
 ]
 
 { #category : #refreshing }
@@ -107,7 +108,8 @@ SpToploListAdapter >> updateAll [
 
 	self
 		updateItems;
-		updateSelection
+		updateSelection;
+		updateMenu
 ]
 
 { #category : #'updating widget' }

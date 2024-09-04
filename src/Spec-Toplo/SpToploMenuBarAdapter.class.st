@@ -3,7 +3,7 @@ I'm a Spec adapter for `SpMenuBarPresenter`.
 "
 Class {
 	#name : #SpToploMenuBarAdapter,
-	#superclass : #SpToploAdapter,
+	#superclass : #SpToploMenuLikeAdapter,
 	#category : #'Spec-Toplo-Adapters'
 }
 
@@ -34,6 +34,16 @@ SpToploMenuBarAdapter >> addMenuFor: item into: parentMenu [
 			parentMenu addMenu: subMenuWidget ]
 ]
 
+{ #category : #factory }
+SpToploMenuBarAdapter >> addMenuGroup: aGroup [
+
+	aGroup menuItems do: [ :item | 
+		| menu |
+		menu := self newMenuFor: item.
+
+		widget addMenu: menu ].
+]
+
 { #category : #'instance creation' }
 SpToploMenuBarAdapter >> addMenuGroups: menuGroups into: aToMenu [
 
@@ -46,6 +56,34 @@ SpToploMenuBarAdapter >> addMenuGroups: menuGroups into: aToMenu [
 SpToploMenuBarAdapter >> buildWidget [
 
 	^ ToMenuBar new
+]
+
+{ #category : #'instance creation' }
+SpToploMenuBarAdapter >> newMenuFor: item [ 
+
+	^ item subMenu
+			ifNil: [
+				"Leaf"
+				ToMenuItem new
+					whenClickedDo: item action;
+					labelText: item name;
+					yourself ]
+			ifNotNil: [ :menuPresenter |
+				"Node"
+				|menu|
+				menu := ToMenu new
+					labelText: item name;
+					yourself.
+				self addMenuGroups: item subMenu menuGroups into: menu.
+				menu ]
+
+]
+
+{ #category : #'instance creation' }
+SpToploMenuBarAdapter >> newMenuItemsFor: aSpMenuPresenter [ 
+
+	^ aSpMenuPresenter menuGroups
+		collect: [ :e | self addMenuGroup: e ]
 ]
 
 { #category : #factory }

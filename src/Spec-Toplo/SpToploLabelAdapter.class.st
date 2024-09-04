@@ -4,6 +4,8 @@ I'm a Spec adapter for `SpLabelPresenter`.
 Class {
 	#name : #SpToploLabelAdapter,
 	#superclass : #SpToploWidgetAdapter,
+	#traits : 'SpToploTWithContextMenu',
+	#classTraits : 'SpToploTWithContextMenu classTrait',
 	#category : #'Spec-Toplo-Adapters'
 }
 
@@ -38,7 +40,9 @@ SpToploLabelAdapter >> updateAll [
 
 	super updateAll.
 
-	self updateLabel
+	self
+		updateLabel;
+		updateMenu
 ]
 
 { #category : #'updating widget' }

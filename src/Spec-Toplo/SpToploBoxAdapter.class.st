@@ -38,6 +38,14 @@ SpToploBoxAdapter >> addConstraints: aSpBoxConstraints toChild: childBlElement [
 	^ childBlElement
 ]
 
+{ #category : #private }
+SpToploBoxAdapter >> applyAlignmentToChild: aToElement [
+	"Inspired on SpMorphicBoxAdapter>>#applyAlignmentToChild:"
+
+	layout vAlign ifNotNil: [ 1halt. aToElement vFitContent ].
+	layout hAlign ifNotNil: [ 1halt. aToElement hFitContent ]
+]
+
 { #category : #accessing }
 SpToploBoxAdapter >> children [
 	"Debug API. Answer the Toplo widgets that were added to this layout."
@@ -55,9 +63,9 @@ SpToploBoxAdapter >> newChildBlElement: aPresenter constrainedBy: aSpBoxConstrai
 	| newElement |
 	newElement := self newBlElementFrom: aPresenter constraints: aSpBoxConstraints.	
 
-"	self applyAlignmentToChild: childMorph.
-	self verifyBoxExtentOf: aPanel withChild: childMorph.
-"
+	self applyAlignmentToChild: newElement.
+"	self verifyBoxExtentOf: aPanel withChild: childMorph."
+
 	^ newElement
 ]
 
