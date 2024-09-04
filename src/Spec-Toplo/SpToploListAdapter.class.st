@@ -11,7 +11,7 @@ Class {
 SpToploListAdapter >> buildWidget [
 
 	^ ToListElement new
-		nodeBuilder: [ :node :holder |
+		nodeBuilder: [ :node :dataItem :holder |
 		  self newItemElementFor: node holder: holder ];
 		yourself
 ]
