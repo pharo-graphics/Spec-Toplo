@@ -14,7 +14,7 @@ SpToploListAdapter >> buildWidget [
 
 	^ ToListElement new
 		nodeBuilder: [ :node :dataItem :holder |
-		  self newItemElementFor: node holder: holder ];
+		  self newItemElementFor: node holder: dataItem ];
 		yourself
 ]
 
@@ -32,7 +32,7 @@ SpToploListAdapter >> isNonEditableRow: aRow column: aColumn [
 ]
 
 { #category : #'instance creation' }
-SpToploListAdapter >> newItemElementFor: node holder: holder [
+SpToploListAdapter >> newItemElementFor: node holder: dataItem [
 
 	| labeledIcon |
 	labeledIcon :=
@@ -42,9 +42,9 @@ SpToploListAdapter >> newItemElementFor: node holder: holder [
 			yourself.
 
 	model hasIcons ifTrue: [
-		labeledIcon iconImage: (model iconFor: holder) ].
+		labeledIcon iconImage: (model iconFor: dataItem) ].
 
-	labeledIcon labelText: (model displayValueFor: holder) asRopedText.
+	labeledIcon labelText: (model displayValueFor: dataItem) asRopedText.
 
 	node addChild: labeledIcon
 ]
