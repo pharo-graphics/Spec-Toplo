@@ -78,7 +78,8 @@ SpToploAbstractTextAdapter >> updateAll [
 	self
 		updateText;
 		updatePlaceholder;
-		updateSelection
+		updateSelection;
+		updateEditable
 ]
 
 { #category : #initialization }
