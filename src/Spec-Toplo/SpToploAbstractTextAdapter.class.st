@@ -64,6 +64,12 @@ SpToploAbstractTextAdapter >> subscribeToPresenter [
 		whenEditableChangedDo: [ self updateEditable ]
 ]
 
+{ #category : #simulating }
+SpToploAbstractTextAdapter >> typeByChar: aString [ 
+	
+	BlSpace simulateTextInput: aString on: widget
+]
+
 { #category : #initialization }
 SpToploAbstractTextAdapter >> updateAll [
 
