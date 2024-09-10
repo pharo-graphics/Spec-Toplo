@@ -64,6 +64,12 @@ SpToploAbstractTextAdapter >> subscribeToPresenter [
 		whenEditableChangedDo: [ self updateEditable ]
 ]
 
+{ #category : #accessing }
+SpToploAbstractTextAdapter >> text: aString [ 
+	
+	widget text: aString asRopedText
+]
+
 { #category : #simulating }
 SpToploAbstractTextAdapter >> typeByChar: aString [ 
 	
