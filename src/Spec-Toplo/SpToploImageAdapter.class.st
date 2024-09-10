@@ -15,7 +15,8 @@ SpToploImageAdapter >> buildWidget [
 
 { #category : #testing }
 SpToploImageAdapter >> hasImageAutoscaled [
-	self shouldBeImplemented.
+
+	^ false
 ]
 
 { #category : #accessing }
