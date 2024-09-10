@@ -36,8 +36,25 @@ SpToploAdapter >> adaptToploWidget [
 	self
 		updateLayout;
 		updateAll;
+		addShortcuts;
 		subscribeToPresenter;
 		subscribeToWidget
+]
+
+{ #category : #initialization }
+SpToploAdapter >> addShortcuts [
+
+	model contextKeyBindings ifNotNil: [ :aCategory | 
+		aCategory allEntries keymaps do: [ :each |
+			self
+				bindKeyCombination: each shortcut 
+				toAction: each action ] ]
+]
+
+{ #category : #compatibility }
+SpToploAdapter >> bindKeyCombination: aKMKeyCombination toAction: aBlock [
+
+	self shouldBeImplemented.
 ]
 
 { #category : #testing }

@@ -7,6 +7,76 @@ Class {
 	#category : #'Spec-Toplo-Adapters'
 }
 
+{ #category : #compatibility }
+SpToploAbstractTextAdapter >> bindKeyCombination: aKMKeyCombination toAction: aBlock [
+
+	widget editor addEditorShortcut: 
+		(BlShortcutWithAction new
+			 combination: (aKMKeyCombination acceptVisitor: SpToploKMVisitor new);
+			 action: aBlock;
+			 yourself).
+]
+
+{ #category : #emulating }
+SpToploAbstractTextAdapter >> keyDown: keyCharacter shift: shiftBoolean meta: metaBoolean control: controlBoolean option: optionBoolean [
+
+	| timestamp input key modifiers events |
+	timestamp := widget space time now.
+
+	input := OrderedCollection new.
+
+	shiftBoolean ifTrue: [ 
+		self notYetImplemented ].
+	metaBoolean ifTrue: [
+		input add: KeyboardKey metaLeft ].
+	controlBoolean ifTrue: [ 
+		self notYetImplemented ].
+	optionBoolean ifTrue: [ 
+		self notYetImplemented ].
+
+	key := KeyboardKey fromCharacter: keyCharacter.
+	modifiers :=
+		BlKeyModifiers
+			shift: shiftBoolean
+			ctrl: controlBoolean
+			alt: optionBoolean
+			cmd: metaBoolean.
+
+	events := Array streamContents: [ :stream |
+		input do: [ :eachKey |
+			stream nextPut:
+				((BlKeyDownEvent target: widget)
+					key: eachKey;
+					scanCode: nil;
+					timestamp: timestamp;
+					yourself) ].
+
+			stream
+				nextPut: ((BlKeyDownEvent target: widget)
+					key: key;
+					modifiers: modifiers;
+					timestamp: timestamp;
+					scanCode: nil;
+					yourself);
+				nextPut: ((BlKeyDownEvent target: widget)
+					key: key;
+					modifiers: modifiers;
+					timestamp: timestamp;
+					scanCode: nil;
+					yourself).
+
+		input reverseDo: [ :eachKey |
+			stream nextPut:
+				((BlKeyUpEvent target: widget)
+					key: eachKey;
+					timestamp: timestamp;
+					scanCode: nil;
+					yourself) ] ].
+
+	widget requestFocus.
+	BlSpace simulateEvents: events on: widget
+]
+
 { #category : #accessing }
 SpToploAbstractTextAdapter >> placeHolderText [
 
