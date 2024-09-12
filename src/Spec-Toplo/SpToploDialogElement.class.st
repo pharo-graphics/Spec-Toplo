@@ -1,3 +1,6 @@
+"
+I'm the root element of a `BlSpace` that represents a `SpDialogPresenter`.
+"
 Class {
 	#name : #SpToploDialogElement,
 	#superclass : #SpToploWindowElement,

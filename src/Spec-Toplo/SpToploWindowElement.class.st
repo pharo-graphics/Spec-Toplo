@@ -1,7 +1,5 @@
 "
 I'm the root element of a `BlSpace` that represents a `SpWindowPresenter`.
-
-
 "
 Class {
 	#name : #SpToploWindowElement,

@@ -180,7 +180,7 @@ SpToploAbstractTextAdapter >> updateAll [
 		updateEditable
 ]
 
-{ #category : #initialization }
+{ #category : #'updating widget' }
 SpToploAbstractTextAdapter >> updateEditable [
 
 	model isEditable

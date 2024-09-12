@@ -1,3 +1,6 @@
+"
+I'm a Spec backend for Bloc.
+"
 Class {
 	#name : #SpToploBackend,
 	#superclass : #SpApplicationBackend,
