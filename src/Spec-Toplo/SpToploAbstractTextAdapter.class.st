@@ -154,9 +154,11 @@ SpToploAbstractTextAdapter >> subscribeToWidget [
 
 { #category : #accessing }
 SpToploAbstractTextAdapter >> text: aString [ 
-	"Delete current string and insert a new one, without replacing the instance of `BlRopedText` to do not mess with the subscriptions."
+	"Make the widget show aString. Do it without replacing the instance of `BlRopedText` in widget, since we are subscribed to that instance."
 
-	widget text replaceByString: aString
+	widget text
+		deleteAll;
+		appendString: aString
 ]
 
 { #category : #simulating }
