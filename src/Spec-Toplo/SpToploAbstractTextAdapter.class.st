@@ -143,6 +143,7 @@ SpToploAbstractTextAdapter >> text: aString [
 { #category : #simulating }
 SpToploAbstractTextAdapter >> typeByChar: aString [ 
 	
+	widget requestFocus.
 	BlSpace simulateTextInput: aString on: widget
 ]
 
