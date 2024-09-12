@@ -17,6 +17,12 @@ SpToploAbstractTextAdapter >> bindKeyCombination: aKMKeyCombination toAction: aB
 			 yourself).
 ]
 
+{ #category : #accessing }
+SpToploAbstractTextAdapter >> getText [
+	
+	^ widget text asString
+]
+
 { #category : #emulating }
 SpToploAbstractTextAdapter >> keyDown: keyCharacter shift: shiftBoolean meta: metaBoolean control: controlBoolean option: optionBoolean [
 
