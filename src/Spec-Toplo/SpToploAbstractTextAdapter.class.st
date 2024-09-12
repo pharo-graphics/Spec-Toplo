@@ -140,10 +140,23 @@ SpToploAbstractTextAdapter >> subscribeToPresenter [
 		whenEditableChangedDo: [ self updateEditable ]
 ]
 
+{ #category : #initialization }
+SpToploAbstractTextAdapter >> subscribeToWidget [
+
+	super subscribeToWidget.
+
+	widget text
+		when: BlTextStringsInserted send: #widgetChangedText to: self;
+		when: BlTextsDeleted send: #widgetChangedText to: self;
+		when: BlTextAttributeAdded send: #widgetChangedText to: self;
+		when: BlTextAttributesRemoved send: #widgetChangedText to: self
+]
+
 { #category : #accessing }
 SpToploAbstractTextAdapter >> text: aString [ 
-	
-	widget text: aString asRopedText
+	"Delete current string and insert a new one, without replacing the instance of `BlRopedText` to do not mess with the subscriptions."
+
+	widget text replaceByString: aString
 ]
 
 { #category : #simulating }
@@ -192,4 +205,10 @@ SpToploAbstractTextAdapter >> updateText [
 	widget text asString = model text ifTrue: [ ^ self ].
 
 	widget text: model text
+]
+
+{ #category : #initialization }
+SpToploAbstractTextAdapter >> widgetChangedText [
+
+	model text: widget text asString
 ]
