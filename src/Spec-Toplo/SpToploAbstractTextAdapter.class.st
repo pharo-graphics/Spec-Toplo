@@ -7,7 +7,7 @@ Class {
 	#category : #'Spec-Toplo-Adapters'
 }
 
-{ #category : #compatibility }
+{ #category : #'accessing widget' }
 SpToploAbstractTextAdapter >> bindKeyCombination: aKMKeyCombination toAction: aBlock [
 
 	widget editor addEditorShortcut: 
@@ -17,13 +17,13 @@ SpToploAbstractTextAdapter >> bindKeyCombination: aKMKeyCombination toAction: aB
 			 yourself).
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing widget' }
 SpToploAbstractTextAdapter >> getText [
 	
 	^ widget text asString
 ]
 
-{ #category : #emulating }
+{ #category : #'accessing widget' }
 SpToploAbstractTextAdapter >> keyDown: keyCharacter shift: shiftBoolean meta: metaBoolean control: controlBoolean option: optionBoolean [
 
 	| timestamp input key modifiers events |
@@ -89,19 +89,19 @@ SpToploAbstractTextAdapter >> pendingText [
 	^ self getText
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing widget' }
 SpToploAbstractTextAdapter >> placeHolderText [
 
 	^ widget userData at: #specPlaceholder ifAbsent: [ nil ]
 ]
 
-{ #category : #'api - selection' }
+{ #category : #'accessing widget' }
 SpToploAbstractTextAdapter >> selectAll [
 	
 	widget selecter all select
 ]
 
-{ #category : #'new selection' }
+{ #category : #'accessing widget' }
 SpToploAbstractTextAdapter >> selectLine [
 
 	widget selecter
@@ -109,12 +109,15 @@ SpToploAbstractTextAdapter >> selectLine [
 		select
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing widget' }
 SpToploAbstractTextAdapter >> selection [
-	
+
 	| selection |
 	selection := widget selection.
-	^ selection firstIndex to: selection to
+
+	^ selection
+		ifEmpty: [ #() ]
+		ifNotEmpty: [ selection firstIndex to: selection to ]
 ]
 
 { #category : #'accessing widget' }
@@ -123,7 +126,7 @@ SpToploAbstractTextAdapter >> selectionInterval [
 	^ self selection
 ]
 
-{ #category : #initialization }
+{ #category : #'accessing widget' }
 SpToploAbstractTextAdapter >> setSelectionFromModel: anInterval [
 
 	| aSelecter |
@@ -164,7 +167,7 @@ SpToploAbstractTextAdapter >> subscribeToWidget [
 		when: BlTextAttributesRemoved send: #widgetChangedText to: self
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing widget' }
 SpToploAbstractTextAdapter >> text: aString [
 	"Make the widget show aString. Do it without replacing the instance of `BlRopedText` in widget, since we are subscribed to that instance."
 
@@ -172,7 +175,7 @@ SpToploAbstractTextAdapter >> text: aString [
 	widget text appendString: aString
 ]
 
-{ #category : #simulating }
+{ #category : #'accessing widget' }
 SpToploAbstractTextAdapter >> typeByChar: aString [ 
 	
 	widget requestFocus.
