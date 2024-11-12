@@ -83,6 +83,12 @@ SpToploAbstractTextAdapter >> keyDown: keyCharacter shift: shiftBoolean meta: me
 	BlSpace simulateEvents: events on: widget
 ]
 
+{ #category : #'accessing widget' }
+SpToploAbstractTextAdapter >> pendingText [
+
+	^ self getText
+]
+
 { #category : #accessing }
 SpToploAbstractTextAdapter >> placeHolderText [
 
@@ -109,6 +115,12 @@ SpToploAbstractTextAdapter >> selection [
 	| selection |
 	selection := widget selection.
 	^ selection firstIndex to: selection to
+]
+
+{ #category : #'accessing widget' }
+SpToploAbstractTextAdapter >> selectionInterval [
+
+	^ self selection
 ]
 
 { #category : #initialization }
