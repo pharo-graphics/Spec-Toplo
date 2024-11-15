@@ -18,6 +18,14 @@ SpToploAbstractTextAdapter >> bindKeyCombination: aKMKeyCombination toAction: aB
 ]
 
 { #category : #'accessing widget' }
+SpToploAbstractTextAdapter >> cursorPositionIndex: anInteger [
+	"Set the cursor position to the received integer >= 1."
+
+	"Note: Album considers first position is 0."
+	widget cursor position: anInteger - 1
+]
+
+{ #category : #'accessing widget' }
 SpToploAbstractTextAdapter >> getText [
 	
 	^ widget text asString
@@ -81,6 +89,15 @@ SpToploAbstractTextAdapter >> keyDown: keyCharacter shift: shiftBoolean meta: me
 
 	widget requestFocus.
 	BlSpace simulateEvents: events on: widget
+]
+
+{ #category : #'accessing widget' }
+SpToploAbstractTextAdapter >> lineAtCursorPosition [
+
+	| start end |
+	start := widget navigator findTextIndexAtLineStart: widget cursor.
+	end := widget navigator findTextIndexAtLineEnd: widget cursor.
+	^ (widget text from: start + 1 to: end) asString
 ]
 
 { #category : #'accessing widget' }
