@@ -4,6 +4,10 @@ I'm an abstract Spec adapter for all text widgets.
 Class {
 	#name : #SpToploAbstractTextAdapter,
 	#superclass : #SpToploWidgetAdapter,
+	#instVars : [
+		'plainTextHandler',
+		'listenTextChanges'
+	],
 	#category : #'Spec-Toplo-Adapters'
 }
 
@@ -143,6 +147,13 @@ SpToploAbstractTextAdapter >> selectionInterval [
 	^ self selection
 ]
 
+{ #category : #initialization }
+SpToploAbstractTextAdapter >> setPresenterText: aBlText [
+
+	self suspendTextListeningDuring: [
+		model text: aBlText asString ]
+]
+
 { #category : #'accessing widget' }
 SpToploAbstractTextAdapter >> setSelectionFromModel: anInterval [
 
@@ -156,6 +167,18 @@ SpToploAbstractTextAdapter >> setSelectionFromModel: anInterval [
 			to: anInterval last ].
 
 	aSelecter select
+]
+
+{ #category : #'accessing widget' }
+SpToploAbstractTextAdapter >> setWidgetString: aString [
+
+	widget selecter
+		all;
+		apply.
+	widget inserter
+		atEnd;
+		string: aString;
+		apply
 ]
 
 { #category : #initialization }
@@ -177,19 +200,28 @@ SpToploAbstractTextAdapter >> subscribeToWidget [
 
 	super subscribeToWidget.
 
-	widget text
-		when: BlTextStringsInserted send: #widgetChangedText to: self;
-		when: BlTextsDeleted send: #widgetChangedText to: self;
-		when: BlTextAttributeAdded send: #widgetChangedText to: self;
-		when: BlTextAttributesRemoved send: #widgetChangedText to: self
+	plainTextHandler :=
+		SpToploPlainTextFieldEventHandler new
+			adapter: self;
+			yourself.
+	widget addEventHandler: plainTextHandler
+]
+
+{ #category : #'as yet unclassified' }
+SpToploAbstractTextAdapter >> suspendTextListeningDuring: aBlock [
+ 
+	| handlers |
+	handlers := widget handlers.
+	widget removeEventHandlers.
+	aBlock ensure: [
+		handlers do: [ :each |
+			widget addEventHandler: each ] ]
 ]
 
 { #category : #'accessing widget' }
 SpToploAbstractTextAdapter >> text: aString [
-	"Make the widget show aString. Do it without replacing the instance of `BlRopedText` in widget, since we are subscribed to that instance."
 
-	widget text ifNotEmpty: [ widget text deleteAll ].
-	widget text appendString: aString
+	self setWidgetString: aString
 ]
 
 { #category : #'accessing widget' }
@@ -238,10 +270,4 @@ SpToploAbstractTextAdapter >> updateText [
 	widget text asString = model text ifTrue: [ ^ self ].
 
 	widget text: model text
-]
-
-{ #category : #initialization }
-SpToploAbstractTextAdapter >> widgetChangedText [
-
-	model text: widget text asString
 ]
