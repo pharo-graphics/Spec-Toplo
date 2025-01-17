@@ -41,7 +41,6 @@ SpToploTextInputFieldAdapter >> switchToPlainTextMode [
 
 	widget removeEventHandler: passwordHandler.
 
-1halt.
 	self setPresenterText: model text.
 	
 	widget addEventHandler: plainTextHandler.
