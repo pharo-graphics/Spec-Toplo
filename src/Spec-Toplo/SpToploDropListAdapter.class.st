@@ -11,14 +11,20 @@ Class {
 SpToploDropListAdapter >> buildWidget [
 
 	^ ToSingleSelectElement new
-		listNodeBuilder: [ :node :holder |
-			self newItemElementFor: node holder: holder ];
+"		listNodeBuilder: [ :node :holder |
+			self newItemElementFor: node holder: holder ];"
 		dataViewBuilder: [ :dataItemView :iconDesc |
 			dataItemView selectedDataTextField text: (model displayForItem: (model getList at: model selectedIndex)).
 "			model hasIcons ifTrue: [
 				dataItemView addChild: (ToImage inner: (model getIconFor: (model getList at: model selectedIndex))) ]" ];
 		yourself
 
+]
+
+{ #category : #accessing }
+SpToploDropListAdapter >> elementAt: index [
+
+	^ model getList at: index
 ]
 
 { #category : #factory }
@@ -70,7 +76,7 @@ SpToploDropListAdapter >> updateAll [
 { #category : #'updating widget' }
 SpToploDropListAdapter >> updateItems [
 
-	widget dataAccessor
+	widget popupListElement dataAccessor
 		removeAll;
 		addAll: model getList
 ]

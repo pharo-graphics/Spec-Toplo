@@ -31,7 +31,7 @@ SpToploMenuBarAdapter >> addMenuFor: item into: parentMenu [
 				addMenuGroups: subMenuPresenter menuGroups
 				into: subMenuWidget.
 
-			parentMenu addMenu: subMenuWidget ]
+			parentMenu addItem: subMenuWidget ]
 ]
 
 { #category : #factory }
@@ -106,7 +106,7 @@ SpToploMenuBarAdapter >> updateLayout [
 SpToploMenuBarAdapter >> updateMenu [
 
 	"Reset"
-	widget menus do: [ :each | widget removeMenu: each ].
+	widget items do: [ :each | widget removeItem: each ].
 
 	"Add menu groups"
 	self addMenuGroups: model menuGroups into: widget

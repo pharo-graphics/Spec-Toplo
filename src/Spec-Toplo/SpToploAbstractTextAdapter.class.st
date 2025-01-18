@@ -211,11 +211,11 @@ SpToploAbstractTextAdapter >> subscribeToWidget [
 SpToploAbstractTextAdapter >> suspendTextListeningDuring: aBlock [
  
 	| handlers |
-	handlers := widget handlers.
-	widget removeEventHandlers.
+	handlers := widget eventDispatcher handlers.
+	widget eventDispatcher removeEventHandlers.
 	aBlock ensure: [
 		handlers do: [ :each |
-			widget addEventHandler: each ] ]
+			widget eventDispatcher addEventHandler: each ] ]
 ]
 
 { #category : #'accessing widget' }
