@@ -24,3 +24,9 @@ SpToploBackend >> defaultConfigurationFor: aSpApplication [
 
 	^ aSpApplication defaultConfigurationForToplo
 ]
+
+{ #category : #accessing }
+SpToploBackend >> tableClass [
+
+	^ SpTablePresenter
+]
