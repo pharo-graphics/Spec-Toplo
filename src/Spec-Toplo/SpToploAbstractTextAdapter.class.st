@@ -5,8 +5,8 @@ Class {
 	#name : #SpToploAbstractTextAdapter,
 	#superclass : #SpToploWidgetAdapter,
 	#instVars : [
-		'plainTextHandler',
-		'listenTextChanges'
+		'listenTextChanges',
+		'eventHandler'
 	],
 	#category : #'Spec-Toplo-Adapters'
 }
@@ -33,6 +33,17 @@ SpToploAbstractTextAdapter >> cursorPositionIndex: anInteger [
 SpToploAbstractTextAdapter >> getText [
 	
 	^ widget text asString
+]
+
+{ #category : #initialization }
+SpToploAbstractTextAdapter >> initialize [
+
+	super initialize.
+	
+	eventHandler :=
+		self newTextEventHandler
+			adapter: self;
+			yourself
 ]
 
 { #category : #'accessing widget' }
@@ -104,6 +115,12 @@ SpToploAbstractTextAdapter >> lineAtCursorPosition [
 	^ (widget text from: start + 1 to: end) asString
 ]
 
+{ #category : #initialization }
+SpToploAbstractTextAdapter >> newTextEventHandler [
+
+	^ SpToploPlainTextFieldEventHandler new
+]
+
 { #category : #'accessing widget' }
 SpToploAbstractTextAdapter >> pendingText [
 
@@ -150,7 +167,7 @@ SpToploAbstractTextAdapter >> selectionInterval [
 { #category : #initialization }
 SpToploAbstractTextAdapter >> setPresenterText: aBlText [
 
-	self suspendTextListeningDuring: [
+	eventHandler suspendEventHandlingDuring: [
 		model text: aBlText asString ]
 ]
 
@@ -190,7 +207,7 @@ SpToploAbstractTextAdapter >> subscribeToPresenter [
 	presenter directly sends messages to this adapter when selection changes."
 
 	model
-		whenTextChangedDo: [ self updateText ];
+		whenTextChangedDo: [ :newText | eventHandler presenterChanged: newText ];
 		whenPlaceholderChangedDo: [ self updatePlaceholder ];
 		whenEditableChangedDo: [ self updateEditable ]
 ]
@@ -200,22 +217,7 @@ SpToploAbstractTextAdapter >> subscribeToWidget [
 
 	super subscribeToWidget.
 
-	plainTextHandler :=
-		SpToploPlainTextFieldEventHandler new
-			adapter: self;
-			yourself.
-	widget addEventHandler: plainTextHandler
-]
-
-{ #category : #'as yet unclassified' }
-SpToploAbstractTextAdapter >> suspendTextListeningDuring: aBlock [
- 
-	| handlers |
-	handlers := widget eventDispatcher handlers.
-	widget eventDispatcher removeEventHandlers.
-	aBlock ensure: [
-		handlers do: [ :each |
-			widget eventDispatcher addEventHandler: each ] ]
+	widget addEventHandler: eventHandler
 ]
 
 { #category : #'accessing widget' }
@@ -266,6 +268,8 @@ SpToploAbstractTextAdapter >> updateSelection [
 
 { #category : #'updating widget' }
 SpToploAbstractTextAdapter >> updateText [
+
+	{ #updateText. widget text asString. model text. widget text asString = model text } traceCr.
 
 	widget text asString = model text ifTrue: [ ^ self ].
 

@@ -3,18 +3,9 @@ I am an event handler that can be added to a `ToTextField` to make it behave lik
 "
 Class {
 	#name : #SpToploPlainTextFieldEventHandler,
-	#superclass : #BlCustomEventHandler,
-	#instVars : [
-		'adapter'
-	],
+	#superclass : #SpToploAbstractTextEventHandler,
 	#category : #'Spec-Toplo-Widgets'
 }
-
-{ #category : #accessing }
-SpToploPlainTextFieldEventHandler >> adapter: aSpToploTextAdapter [
-
-	adapter := aSpToploTextAdapter
-]
 
 { #category : #'api - accessing' }
 SpToploPlainTextFieldEventHandler >> eventsToHandle [
@@ -26,11 +17,19 @@ SpToploPlainTextFieldEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 SpToploPlainTextFieldEventHandler >> textEditedEvent: evt [
 
+	isSuspended ifTrue: [ ^ self ].
+
+	{ #textEditedEvent:. evt text } traceCr.
+	
 	adapter setPresenterText: evt text
 ]
 
 { #category : #'event handling' }
 SpToploPlainTextFieldEventHandler >> textReplacedEvent: evt [
+
+	isSuspended ifTrue: [ ^ self ].
+
+	{ #textReplacedEvent:. evt text } traceCr.
 
 	adapter setPresenterText: evt text
 ]
