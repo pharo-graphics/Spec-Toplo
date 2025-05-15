@@ -25,13 +25,13 @@ SpToDoTaskPriority class >> allPredefined [
 { #category : #accessing }
 SpToDoTaskPriority class >> high [
 
-	^ high ifNil: [ high := self newNamed: 'High' rank: 90 percent ]
+	^ high ifNil: [ high := self newNamed: 'High' rank: 100 percent ]
 ]
 
 { #category : #accessing }
 SpToDoTaskPriority class >> low [
 
-	^ low ifNil: [ low := self newNamed: 'Low' rank: 10 percent ]
+	^ low ifNil: [ low := self newNamed: 'Low' rank: 20 percent ]
 ]
 
 { #category : #accessing }

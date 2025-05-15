@@ -71,7 +71,6 @@ SpToDoTaskDialog >> initializePresenter [
 
 	titleInput := self newTextInput.
 
-
 	priorityLabel := self newLabel
 		                 label: 'Priority:';
 		                 yourself.
@@ -81,18 +80,34 @@ SpToDoTaskDialog >> initializePresenter [
 			                    item
 				                    ifNil: [ '-- none ---' ]
 				                    ifNotNil: [ item name ] ];
-		                    displayIcon: [ :item | self iconNamed: #empty ];
+		                    displayIcon: [ :item | self priorityFormFor: item rank ];
 		                    items: SpToDoTaskPriority allPredefined;
 		                    selectIndex: 1;
 		                    yourself.
-	"		display: [ :item | item name ];"
-
 
 	descriptionLabel := self newLabel
 		                    label: 'Description:';
 		                    yourself.
 
 	descriptionTextArea := self newText
+]
+
+{ #category : #private }
+SpToDoTaskDialog >> priorityFormFor: ratio [
+
+	| width height ratioBottomColor ratioTopColor |
+	width := 16.
+	height := 16.
+	ratioBottomColor := Color veryLightGray.
+	ratioTopColor := Color red.
+
+	^ (FormCanvas extent: width @ height)
+		fillColor: ratioBottomColor;
+		drawRectangle: (0 asPoint extent: (ratio * (width-1)) ceiling @ (height-1))
+			color: ratioTopColor
+			borderWidth: 1
+			borderColor: ratioBottomColor;
+		form
 ]
 
 { #category : #initialization }
