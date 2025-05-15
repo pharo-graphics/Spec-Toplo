@@ -14,7 +14,7 @@ SpToploListAdapter >> buildWidget [
 
 	^ ToListElement new
 		nodeBuilder: [ :node :dataItem :holder |
-		  self newItemElementFor: node holder: dataItem ];
+		  node addChild: (self newItemElementFor: dataItem) ];
 		yourself
 ]
 
@@ -32,7 +32,8 @@ SpToploListAdapter >> isNonEditableRow: aRow column: aColumn [
 ]
 
 { #category : #'instance creation' }
-SpToploListAdapter >> newItemElementFor: node holder: dataItem [
+SpToploListAdapter >> newItemElementFor: anItem [
+	"Answer a new `BlElement` to represent the received item. In the case of the SpListPresenter, the item is one of the objects set in the collection via `SpAbstractListPresenter>>#items:` (so, it's not a wrapper)."
 
 	| labeledIcon |
 	labeledIcon :=
@@ -42,11 +43,11 @@ SpToploListAdapter >> newItemElementFor: node holder: dataItem [
 			yourself.
 
 	model hasIcons ifTrue: [
-		labeledIcon iconImage: (model iconFor: dataItem) ].
+		labeledIcon iconImage: (model iconFor: anItem) ].
 
-	labeledIcon labelText: (model displayValueFor: dataItem) asRopedText.
+	labeledIcon labelText: (model displayValueFor: anItem) asRopedText.
 
-	node addChild: labeledIcon
+	^ labeledIcon
 ]
 
 { #category : #refreshing }
