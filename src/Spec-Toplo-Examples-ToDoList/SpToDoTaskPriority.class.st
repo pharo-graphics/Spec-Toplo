@@ -37,7 +37,7 @@ SpToDoTaskPriority class >> medium [
 	^ medium ifNil: [ medium := self newNamed: 'Medium' rank: 50 percent ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 SpToDoTaskPriority class >> newNamed: aString rank: aNumber [
 
 	^ self basicNew

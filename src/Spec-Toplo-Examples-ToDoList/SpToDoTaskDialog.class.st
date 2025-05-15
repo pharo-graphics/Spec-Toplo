@@ -1,3 +1,6 @@
+"
+I represent a window to add a `SpToDoTask` to a `SpToDoList`.
+"
 Class {
 	#name : #SpToDoTaskDialog,
 	#superclass : #SpDialogPresenter,
