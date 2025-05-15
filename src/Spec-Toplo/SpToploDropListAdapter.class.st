@@ -10,15 +10,16 @@ Class {
 { #category : #factory }
 SpToploDropListAdapter >> buildWidget [
 
-	^ ToSingleSelectElement new
-"		listNodeBuilder: [ :node :holder |
-			self newItemElementFor: node holder: holder ];"
-		dataViewBuilder: [ :dataItemView :iconDesc |
-			dataItemView selectedDataTextField text: (model displayForItem: (model getList at: model selectedIndex)).
-"			model hasIcons ifTrue: [
-				dataItemView addChild: (ToImage inner: (model getIconFor: (model getList at: model selectedIndex))) ]" ];
-		yourself
+	| aSelect |
+	aSelect := ToSingleSelectElement new.
 
+	aSelect dataViewBuilder: [ :node :dataItem |
+		node addChild: (self newItemElementFor: dataItem) ].
+
+	aSelect popupListElement nodeBuilder: [ :node :dataItem |
+		node addChild: (self newItemElementFor: dataItem) ].
+
+	^ aSelect
 ]
 
 { #category : #accessing }
@@ -28,21 +29,20 @@ SpToploDropListAdapter >> elementAt: index [
 ]
 
 { #category : #factory }
-SpToploDropListAdapter >> newItemElementFor: node holder: holder [
+SpToploDropListAdapter >> newItemElementFor: aSpDropListItem [
 
 	model hasIcons ifFalse: [
-		^ node addChild:
-			(ToLabel text: (model displayForItem: holder) asRopedText)
-				hMatchParent;
-				yourself ].
-
-	node addChild:
-		(ToLabeledIcon new
-			labelText: (model displayForItem: holder);
-			icon: (ToImage inner: (model getIconFor: holder));
-			startInterspace: 10;
+		^ ToLabel new
+			text: (model displayForItem: aSpDropListItem) asRopedText;
 			hMatchParent;
-			yourself)
+			yourself ].
+
+	^ ToLabeledIcon new
+		labelText: (model displayForItem: aSpDropListItem);
+		icon: (ToImage inner: (model getIconFor: aSpDropListItem));
+		startInterspace: 10;
+		hMatchParent;
+		yourself
 ]
 
 { #category : #accessing }
