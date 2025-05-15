@@ -15,7 +15,7 @@ SpToploMenuBarAdapter >> addMenuFor: item into: parentMenu [
 			"Leaf"
 			parentMenu addItem:
 				(ToMenuItem new
-					whenClickedDo: item action;
+					clickAction: item action;
 					iconImage: item icon;
 					labelText: item name;
 					yourself) ]
