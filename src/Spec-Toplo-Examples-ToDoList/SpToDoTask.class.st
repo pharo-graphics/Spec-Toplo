@@ -1,3 +1,6 @@
+"
+I represent a task, that has a title, a priority, and can be completed.
+"
 Class {
 	#name : #SpToDoTask,
 	#superclass : #Object,

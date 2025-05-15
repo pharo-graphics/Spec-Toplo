@@ -1,3 +1,6 @@
+"
+I represent a list of tasks, that can be added, deleted and queried. My API provides the Observer design pattern.
+"
 Class {
 	#name : #SpToDoList,
 	#superclass : #Object,

@@ -1,3 +1,6 @@
+"
+I represent the priority of a `SoToDoTask`. I don't provide API to mutate instances. I provide several Singleton instances.
+"
 Class {
 	#name : #SpToDoTaskPriority,
 	#superclass : #Object,
