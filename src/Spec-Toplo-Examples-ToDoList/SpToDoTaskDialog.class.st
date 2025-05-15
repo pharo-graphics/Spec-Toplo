@@ -61,9 +61,9 @@ SpToDoTaskDialog >> initializeDialogWindow: aDialogWindowPresenter [
 ]
 
 { #category : #initialization }
-SpToDoTaskDialog >> initializePresenter [
+SpToDoTaskDialog >> initializePresenters [
 
-	super initializePresenter.
+	super initializePresenters.
 
 	titleLabel := self newLabel
 		              label: 'Title:';
