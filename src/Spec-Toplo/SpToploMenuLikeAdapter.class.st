@@ -40,9 +40,11 @@ SpToploMenuLikeAdapter >> addMenuFor: item into: parentMenu [
 { #category : #'instance creation' }
 SpToploMenuLikeAdapter >> addMenuGroups: menuGroups into: aToMenu [
 
-	menuGroups do: [ :aGroup |
-		aGroup menuItems do: [ :item | 
-			self addMenuFor: item into: aToMenu ] ]
+	menuGroups
+		do: [ :aGroup |
+			aGroup menuItems do: [ :item |
+				self addMenuFor: item into: aToMenu ] ]
+		separatedBy: [ aToMenu addSeparator ]
 ]
 
 { #category : #factory }
