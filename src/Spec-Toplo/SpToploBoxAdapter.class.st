@@ -40,10 +40,11 @@ SpToploBoxAdapter >> addConstraints: aSpBoxConstraints toChild: childBlElement [
 
 { #category : #private }
 SpToploBoxAdapter >> applyAlignmentToChild: aToElement [
-	"Inspired on SpMorphicBoxAdapter>>#applyAlignmentToChild:"
+	"Inspired on SpMorphicBoxAdapter>>#applyAlignmentToChild:
+	They use #rigid, that would equal to exact resizer, but fit content may make sense."
 
-	layout vAlign ifNotNil: [ 1halt. aToElement vFitContent ].
-	layout hAlign ifNotNil: [ 1halt. aToElement hFitContent ]
+	layout vAlign ifNotNil: [ aToElement vFitContent ].
+	layout hAlign ifNotNil: [ aToElement hFitContent ]
 ]
 
 { #category : #accessing }
