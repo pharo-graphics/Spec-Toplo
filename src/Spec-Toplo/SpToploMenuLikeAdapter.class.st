@@ -12,13 +12,16 @@ SpToploMenuLikeAdapter >> addMenuFor: item into: parentMenu [
 
 	item subMenu
 		ifNil: [
+			| newItem |
 			"Leaf"
-			parentMenu addItem:
-				(ToMenuItem new
+			newItem := ToMenuItem new
 					clickAction: item action;
-					iconImage: item icon;
 					labelText: item name;
-					yourself) ]
+					yourself.
+			item icon ifNotNil: [
+				newItem iconImage: item icon ].
+
+			parentMenu addItem: newItem ]
 
 		ifNotNil: [ :subMenuPresenter |
 			"Node"
