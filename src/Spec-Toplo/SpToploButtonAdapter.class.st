@@ -43,7 +43,7 @@ SpToploButtonAdapter >> subscribeToWidget [
 
 	super subscribeToWidget.
 	
-	widget whenClickedDo: [ model performAction ]
+	widget clickAction: [ model performAction ]
 ]
 
 { #category : #'updating widget' }

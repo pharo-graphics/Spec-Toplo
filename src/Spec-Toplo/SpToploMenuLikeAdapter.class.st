@@ -11,14 +11,12 @@ Class {
 SpToploMenuLikeAdapter >> addMenuFor: item into: parentMenu [
 
 	item subMenu
-		ifNil: [
-			"Leaf"
-			parentMenu addItem:
-				(ToMenuItem new
-					whenClickedDo: item action;
-					iconImage: item icon;
-					labelText: item name;
-					yourself) ]
+		ifNil: [ | leaf |
+			leaf := ToMenuItem new.
+			item action ifNotNil: [ :ic | leaf 	clickAction: ic ].
+			item icon ifNotNil: [ :ic | leaf 	iconImage: ic ].
+			item name ifNotNil: [ :n | leaf 	labelText: n ].
+			parentMenu addItem: leaf ]
 
 		ifNotNil: [ :subMenuPresenter |
 			"Node"
@@ -31,7 +29,7 @@ SpToploMenuLikeAdapter >> addMenuFor: item into: parentMenu [
 				addMenuGroups: subMenuPresenter menuGroups
 				into: subMenuWidget.
 
-			parentMenu addMenu: subMenuWidget ]
+			parentMenu addItem: subMenuWidget ]
 ]
 
 { #category : #'instance creation' }

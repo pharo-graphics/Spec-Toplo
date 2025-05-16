@@ -13,6 +13,12 @@ SpToploMenuAdapter >> buildWidget [
 	^ ToMenu new
 ]
 
+{ #category : #accessing }
+SpToploMenuAdapter >> openAt: aPoint [ 
+
+	self widgetDo: [ :w | w labelText: 'XXX Menu'; openInSpace "invokeAt: (aPoint + (2@7)) in: self currentWorld allowKeyboard: true" ]
+]
+
 { #category : #factory }
 SpToploMenuAdapter >> updateMenu [
 

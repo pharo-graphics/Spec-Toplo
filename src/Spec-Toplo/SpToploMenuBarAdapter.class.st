@@ -7,33 +7,6 @@ Class {
 	#category : #'Spec-Toplo-Adapters'
 }
 
-{ #category : #'instance creation' }
-SpToploMenuBarAdapter >> addMenuFor: item into: parentMenu [
-
-	item subMenu
-		ifNil: [
-			"Leaf"
-			parentMenu addItem:
-				(ToMenuItem new
-					whenClickedDo: item action;
-					iconImage: item icon;
-					labelText: item name;
-					yourself) ]
-
-		ifNotNil: [ :subMenuPresenter |
-			"Node"
-			| subMenuWidget |
-			subMenuWidget :=
-				ToMenu new
-					labelText: item name;
-					yourself.
-			self
-				addMenuGroups: subMenuPresenter menuGroups
-				into: subMenuWidget.
-
-			parentMenu addItem: subMenuWidget ]
-]
-
 { #category : #factory }
 SpToploMenuBarAdapter >> addMenuGroup: aGroup [
 
@@ -65,7 +38,7 @@ SpToploMenuBarAdapter >> newMenuFor: item [
 			ifNil: [
 				"Leaf"
 				ToMenuItem new
-					whenClickedDo: item action;
+					clickAction: item action;
 					labelText: item name;
 					yourself ]
 			ifNotNil: [ :menuPresenter |
