@@ -55,7 +55,7 @@ SpToploMenuBarAdapter >> addMenuGroups: menuGroups into: aToMenu [
 { #category : #factory }
 SpToploMenuBarAdapter >> buildWidget [
 
-	^ ToMenuBar new
+	^ ToMenuPane new
 ]
 
 { #category : #'instance creation' }
@@ -65,7 +65,7 @@ SpToploMenuBarAdapter >> newMenuFor: item [
 			ifNil: [
 				"Leaf"
 				ToMenuItem new
-					whenClickedDo: item action;
+					clickAction: item action;
 					labelText: item name;
 					yourself ]
 			ifNotNil: [ :menuPresenter |
