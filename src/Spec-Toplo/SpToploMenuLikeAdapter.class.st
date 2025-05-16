@@ -15,7 +15,7 @@ SpToploMenuLikeAdapter >> addMenuFor: item into: parentMenu [
 			"Leaf"
 			parentMenu addItem:
 				(ToMenuItem new
-					whenClickedDo: item action;
+					clickAction: item action;
 					iconImage: item icon;
 					labelText: item name;
 					yourself) ]
@@ -31,7 +31,7 @@ SpToploMenuLikeAdapter >> addMenuFor: item into: parentMenu [
 				addMenuGroups: subMenuPresenter menuGroups
 				into: subMenuWidget.
 
-			parentMenu addMenu: subMenuWidget ]
+			parentMenu addItem: subMenuWidget ]
 ]
 
 { #category : #'instance creation' }

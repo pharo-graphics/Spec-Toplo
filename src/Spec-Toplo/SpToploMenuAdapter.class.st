@@ -13,6 +13,17 @@ SpToploMenuAdapter >> buildWidget [
 	^ ToMenu new
 ]
 
+{ #category : #accessing }
+SpToploMenuAdapter >> openAt: aPoint [ 
+
+	self flag: #todo.
+	widget forceLayout.
+	
+	widget openInNewSpace
+		extent: widget size;
+		position: aPoint
+]
+
 { #category : #factory }
 SpToploMenuAdapter >> updateMenu [
 
