@@ -54,7 +54,7 @@ SpToploMenuLikeAdapter >> updateAll [
 SpToploMenuLikeAdapter >> updateMenu [
 
 	"Reset"
-	widget menus do: [ :each | widget removeMenu: each ].
+	widget items do: [ :each | widget removeItem: each ].
 
 	"Add menu groups"
 	self addMenuGroups: model menuGroups into: widget

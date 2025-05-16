@@ -14,22 +14,11 @@ SpToploMenuAdapter >> buildWidget [
 ]
 
 { #category : #accessing }
-SpToploMenuAdapter >> openAt: aPoint [ 
+SpToploMenuAdapter >> openAt: aPoint [
 
-	self flag: #todo.
 	widget forceLayout.
-	
-	widget openInNewSpace
+	widget labelText: 'Menu'.
+	widget openInSpace
 		extent: widget size;
 		position: aPoint
-]
-
-{ #category : #factory }
-SpToploMenuAdapter >> updateMenu [
-
-	"Reset"
-	widget items do: [ :each | widget removeItem: each ].
-
-	"Add menu groups"
-	self addMenuGroups: model menuGroups into: widget
 ]
