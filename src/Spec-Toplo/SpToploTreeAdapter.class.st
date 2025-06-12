@@ -80,7 +80,6 @@ SpToploTreeAdapter >> newItemElementFor: item [
 SpToploTreeAdapter >> selectPath: aPath [
 
 	| items |
-1halt.
 	aPath ifEmpty: [ ^ widget selecter deselectAll ].
 
 	items := widget dataSource itemsAtPath: aPath.
@@ -91,9 +90,8 @@ SpToploTreeAdapter >> selectPath: aPath [
 { #category : #accessing }
 SpToploTreeAdapter >> selectedPaths [
 
-	widget isMultipleSelection ifTrue: [ 1halt ].
-
-	^ { widget selectionModel selectedIndexes }
+	^ widget selectionModel selectedIndexes collect: [ :each |
+		  widget dataSource pathOfIndex: each ]
 ]
 
 { #category : #initialization }
@@ -131,25 +129,13 @@ SpToploTreeAdapter >> suspendSelectionDuring: aBlock [
 SpToploTreeAdapter >> transferSelectionChange: evt [
 
 	| currentPaths |
-	suspendTransferSelection ifTrue: [ ^self ].
+	currentPaths := self selectedPaths.
 
-	currentPaths := widget selectionModel selectedIndexes
-		collect: [ :each | widget dataSource pathOfIndex: each ].
+	currentPaths = model selection selectedPaths ifTrue: [ ^ self ].
 
 	model selection
 		clearSelection;
 		selectPaths: currentPaths
-
-
-"	model selection unselectPath: unselectedPaths.
-	model selection selectPaths: selectedPaths"
-	
-"	1halt.	
-	evt unselectedPaths do: [ :each |
-		model selection unselectPath: each ].
-	evt addedSelectedPaths do: [ :each |
-		model selection selectPath: each ].
-"
 ]
 
 { #category : #initialization }
@@ -183,13 +169,5 @@ SpToploTreeAdapter >> updateSelection [
 
 	self suspendSelectionDuring: [
 		widget selecter deselectAll.
-		model selection selectedPaths do: [ :each |
-			self selectPath: each ] ]
-]
-
-{ #category : #initialization }
-SpToploTreeAdapter >> widgetSelectionChanged: ann [
-
-1halt.
-	self suspendSelectionEventsDuring: [ self basicSelectionChanged: ann ]
+		model selection selectedPaths do: [ :each | self selectPath: each ] ]
 ]
