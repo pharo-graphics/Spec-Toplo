@@ -26,6 +26,12 @@ SpToploBackend >> defaultConfigurationFor: aSpApplication [
 ]
 
 { #category : #accessing }
+SpToploBackend >> listClass [
+
+	^ SpListPresenter
+]
+
+{ #category : #accessing }
 SpToploBackend >> tableClass [
 
 	^ SpTablePresenter
