@@ -57,6 +57,15 @@ SpToploAdapter >> bindKeyCombination: aKMKeyCombination toAction: aBlock [
 	self shouldBeImplemented.
 ]
 
+{ #category : #'deferred message' }
+SpToploAdapter >> defer: aBlockClosure [
+	"Enqueue aBlockClosure in the space, which will be valued in next #pulse."
+
+	widget enqueueTask: (BlTaskAction new
+		 action: aBlockClosure;
+		 yourself)
+]
+
 { #category : #testing }
 SpToploAdapter >> isVisible [
 	
