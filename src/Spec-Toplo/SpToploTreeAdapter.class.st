@@ -27,6 +27,24 @@ SpToploTreeAdapter >> buildWidget [
 ]
 
 { #category : #'expanding-collapsing' }
+SpToploTreeAdapter >> collapseAll [
+
+	widget collapseAll
+]
+
+{ #category : #'expanding-collapsing' }
+SpToploTreeAdapter >> expandAll [
+
+	widget expandAll
+]
+
+{ #category : #accessing }
+SpToploTreeAdapter >> expandPath: aPath [
+
+	widget dataSource itemsAtPath: aPath
+]
+
+{ #category : #'expanding-collapsing' }
 SpToploTreeAdapter >> expandRoots [
 
 	widget expandRoots
@@ -38,6 +56,15 @@ SpToploTreeAdapter >> initialize [
 	super initialize.
 	
 	suspendTransferSelection := false
+]
+
+{ #category : #testing }
+SpToploTreeAdapter >> isExpanded: item [
+
+	^ widget dataSource collection
+		detect: [ :each | each unwrapped = item ]
+		ifFound: [ :dataItem | dataItem isExpanded ]
+		ifNone: [ false ]
 ]
 
 { #category : #private }
