@@ -51,10 +51,28 @@ SpToploAdapter >> addShortcuts [
 				toAction: each action ] ]
 ]
 
+{ #category : #adding }
+SpToploAdapter >> addStyle: aString [
+	"Ignore style and just apply it again (the new style will not there).
+	
+	Inspired on SpAbstractMorphicAdapter>>#addStyle:"
+
+	self updateStyle
+]
+
 { #category : #compatibility }
 SpToploAdapter >> bindKeyCombination: aKMKeyCombination toAction: aBlock [
 
 	self shouldBeImplemented.
+]
+
+{ #category : #'deferred message' }
+SpToploAdapter >> defer: aBlockClosure [
+	"Enqueue aBlockClosure in the space, which will be valued in next #pulse."
+
+	widget enqueueTask: (BlTaskAction new
+		 action: aBlockClosure;
+		 yourself)
 ]
 
 { #category : #testing }
@@ -91,6 +109,12 @@ SpToploAdapter >> updateAll [
 SpToploAdapter >> updateLayout [
 
 	widget matchParent
+]
+
+{ #category : #adding }
+SpToploAdapter >> updateStyle [
+
+	self flag: #todo
 ]
 
 { #category : #'updating widget' }

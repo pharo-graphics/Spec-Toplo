@@ -58,15 +58,6 @@ SpToploWindowLikeAdapter >> close [
 	widget close
 ]
 
-{ #category : #'deferred message' }
-SpToploWindowLikeAdapter >> defer: aBlockClosure [
-	"Enqueue aBlockClosure in the space, which will be valued in next #pulse."
-
-	widget enqueueTask: (BlTaskAction new
-		 action: aBlockClosure;
-		 yourself)
-]
-
 { #category : #'submorphs - add/remove' }
 SpToploWindowLikeAdapter >> delete [
 	

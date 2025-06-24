@@ -26,7 +26,25 @@ SpToploBackend >> defaultConfigurationFor: aSpApplication [
 ]
 
 { #category : #accessing }
+SpToploBackend >> dropListClass [
+
+	^ SpDropListPresenter
+]
+
+{ #category : #accessing }
+SpToploBackend >> listClass [
+
+	^ SpListPresenter
+]
+
+{ #category : #accessing }
 SpToploBackend >> tableClass [
 
 	^ SpTablePresenter
+]
+
+{ #category : #accessing }
+SpToploBackend >> treeClass [
+
+	^ SpTreePresenter
 ]
