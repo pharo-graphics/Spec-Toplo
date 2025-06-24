@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for `SpTreePresenter`.
+"
 Class {
 	#name : #SpToploTreeAdapter,
 	#superclass : #SpToploWidgetAdapter,
@@ -6,22 +9,6 @@ Class {
 	],
 	#category : #'Spec-Toplo-Adapters'
 }
-
-{ #category : #initialization }
-SpToploTreeAdapter >> basicSelectionChanged: ann [
-	1halt.
-	"| selection |
-
-	selection := self presenter selection.
-	ann newSelectedIndexes ifEmpty: [ ^ selection unselectAll ].
-	(ann newSelectedIndexes difference: ann oldSelectedIndexes) ifEmpty: [ ^ self ].
-
-	selection selectPaths: (ann newSelectedIndexes
-		collect: [ :index | self widget dataSource pathFromIndex: index ]).
-
-	self presenter isActiveOnSingleClick ifTrue: [
-		self presenter doActivateAtPath: selection selectedPath ]"
-]
 
 { #category : #factory }
 SpToploTreeAdapter >> buildWidget [
@@ -118,7 +105,7 @@ SpToploTreeAdapter >> subscribeToWidget [
 		do: [ :evt | self transferStrongSelection: evt ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 SpToploTreeAdapter >> suspendSelectionDuring: aBlock [
 
 	suspendTransferSelection := true.
