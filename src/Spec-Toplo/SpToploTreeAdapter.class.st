@@ -15,7 +15,8 @@ SpToploTreeAdapter >> buildWidget [
 
 	| tree |
 	tree := ToTreeElement new.
-
+"	tree withRowNumbers. USEFUL TO DEBUG"
+	
 	tree nodeManager childrenGetter: [ :dataItem |
 		model childrenFor: dataItem ].
 	
@@ -66,12 +67,13 @@ SpToploTreeAdapter >> newItemElementFor: item [
 { #category : #accessing }
 SpToploTreeAdapter >> selectPath: aPath [
 
-	| items |
+	| items index |
 	aPath ifEmpty: [ ^ widget selecter deselectAll ].
 
 	items := widget dataSource itemsAtPath: aPath.
-
-	widget selecter selectIndex: items last position
+	index := items last position.
+	
+	widget selecter deselectAll; selectIndex: index
 ]
 
 { #category : #accessing }
@@ -128,8 +130,7 @@ SpToploTreeAdapter >> transferSelectionChange: evt [
 { #category : #initialization }
 SpToploTreeAdapter >> transferStrongSelection: evt [
 
-	1halt.
-	model doActivateAtPath: 1halt. "model selection selectedIndex"
+	model doActivateAtPath: model selection selectedPath.
 ]
 
 { #category : #initialization }
