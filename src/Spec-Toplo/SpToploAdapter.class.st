@@ -51,6 +51,15 @@ SpToploAdapter >> addShortcuts [
 				toAction: each action ] ]
 ]
 
+{ #category : #adding }
+SpToploAdapter >> addStyle: aString [
+	"Ignore style and just apply it again (the new style will not there).
+	
+	Inspired on SpAbstractMorphicAdapter>>#addStyle:"
+
+	self updateStyle
+]
+
 { #category : #compatibility }
 SpToploAdapter >> bindKeyCombination: aKMKeyCombination toAction: aBlock [
 
@@ -100,6 +109,12 @@ SpToploAdapter >> updateAll [
 SpToploAdapter >> updateLayout [
 
 	widget matchParent
+]
+
+{ #category : #adding }
+SpToploAdapter >> updateStyle [
+
+	self flag: #todo
 ]
 
 { #category : #'updating widget' }
