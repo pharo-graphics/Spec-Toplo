@@ -5,7 +5,7 @@ Class {
 	#name : #SpToploTreeAdapter,
 	#superclass : #SpToploWidgetAdapter,
 	#instVars : [
-		'suspendTransferSelection'
+		'suspendUpdateSelection'
 	],
 	#category : #'Spec-Toplo-Adapters'
 }
@@ -55,7 +55,7 @@ SpToploTreeAdapter >> initialize [
 
 	super initialize.
 	
-	suspendTransferSelection := false
+	suspendUpdateSelection := false
 ]
 
 { #category : #testing }
@@ -70,8 +70,7 @@ SpToploTreeAdapter >> isExpanded: item [
 { #category : #private }
 SpToploTreeAdapter >> itemAtPath: aPath [
 
-	self suspendSelectionDuring: [
-		^ (widget dataSource itemsAtPath: aPath) last unwrapped ]
+	^ (widget dataSource itemsAtPath: aPath) last unwrapped
 ]
 
 { #category : #factory }
@@ -135,23 +134,24 @@ SpToploTreeAdapter >> subscribeToWidget [
 ]
 
 { #category : #private }
-SpToploTreeAdapter >> suspendSelectionDuring: aBlock [
+SpToploTreeAdapter >> suspendUpdateSelectionDuring: aBlock [
 
-	suspendTransferSelection := true.
-	aBlock ensure: [ suspendTransferSelection := false ]
+	suspendUpdateSelection := true.
+	aBlock ensure: [ suspendUpdateSelection := false ]
 ]
 
 { #category : #initialization }
 SpToploTreeAdapter >> transferSelectionChange: evt [
 
 	| currentPaths |
-	currentPaths := self selectedPaths.
+	self suspendUpdateSelectionDuring: [
+		currentPaths := self selectedPaths.
 
-	currentPaths = model selection selectedPaths ifTrue: [ ^ self ].
+		currentPaths = model selection selectedPaths ifTrue: [ ^ self ].
 
-	model selection
-		clearSelection;
-		selectPaths: currentPaths
+		model selection
+			clearSelection;
+			selectPaths: currentPaths ]
 ]
 
 { #category : #initialization }
@@ -182,7 +182,8 @@ SpToploTreeAdapter >> updateRoots [
 { #category : #selection }
 SpToploTreeAdapter >> updateSelection [
 
-	self suspendSelectionDuring: [
-		widget selecter deselectAll.
-		model selection selectedPaths do: [ :each | self selectPath: each ] ]
+	suspendUpdateSelection ifTrue: [ ^ self ].
+
+	widget selecter deselectAll.
+	model selection selectedPaths do: [ :each | self selectPath: each ]
 ]
