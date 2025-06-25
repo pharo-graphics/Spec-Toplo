@@ -50,7 +50,7 @@ SpToploTreeAdapter >> expandRoots [
 	widget expandRoots
 ]
 
-{ #category : #selection }
+{ #category : #initialization }
 SpToploTreeAdapter >> initialize [
 
 	super initialize.
@@ -76,18 +76,31 @@ SpToploTreeAdapter >> itemAtPath: aPath [
 { #category : #factory }
 SpToploTreeAdapter >> newItemElementFor: item [
 
-	model displayIcon ifNil: [
-		^ ToLabel new
-			text: (model display cull: item) asString asRopedText;
-			hMatchParent;
-			yourself ].
+	| text itemElement |
+	text := (model display cull: item) asString.
 
-	^ ToLabeledIcon new
-		labelText: (model display cull: item) asString;
-		iconImage: (model displayIcon cull: item);
-		startInterspace: 10;
-		hMatchParent;
-		yourself
+	itemElement := model displayIcon
+		ifNil: [
+			ToLabel new
+				text: text;
+				yourself ]
+		ifNotNil: [
+			 ToLabeledIcon new
+				labelText: text;
+				iconImage: (model displayIcon cull: item);
+				startInterspace: 10;
+				yourself ].
+
+	model displayColor ifNotNil: [ :block |
+		(block cull: item) ifNotNil: [ :aColor |
+			itemElement addTokenNamed: #'color-text' withValue: aColor ] ].
+
+	model displayItalic ifNotNil: [ :block |
+		(block cull: item) ifTrue: [ itemElement label italic ] ].
+
+	itemElement hMatchParent.
+
+	^ itemElement
 ]
 
 { #category : #accessing }
