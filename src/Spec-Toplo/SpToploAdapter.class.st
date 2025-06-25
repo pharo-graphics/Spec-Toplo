@@ -81,6 +81,15 @@ SpToploAdapter >> isVisible [
 	^ widget isVisible
 ]
 
+{ #category : #accessing }
+SpToploAdapter >> removeStyle: aString [ 
+	"ignore style and just apply it again (the removed style will not be there).
+	
+	Inspired on: SpAbstractMorphicAdapter>>#removeStyle:"
+
+	self updateStyle
+]
+
 { #category : #initialization }
 SpToploAdapter >> subscribeToPresenter [
 	"Subscribe to the presenter so the widget updates on every change announcement."
