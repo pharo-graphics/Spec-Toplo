@@ -13,6 +13,8 @@ Class {
 SpToploButtonAdapter >> buildWidget [
 
 	^ ToButton new
+		flexible: true;
+		yourself
 ]
 
 { #category : #accessing }
