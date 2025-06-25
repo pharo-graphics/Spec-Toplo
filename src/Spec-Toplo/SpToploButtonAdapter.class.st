@@ -73,5 +73,9 @@ SpToploButtonAdapter >> updateIcon [
 { #category : #'updating widget' }
 SpToploButtonAdapter >> updateLabel [
 
-	widget labelText: model label
+	widget labelText: model label.
+
+	"The label may include multiple lines (MiniDrTests is example),
+	but this can only be set after a label is set."
+	widget label beMultiLine
 ]
