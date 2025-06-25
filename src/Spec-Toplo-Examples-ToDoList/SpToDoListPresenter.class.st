@@ -110,33 +110,43 @@ SpToDoListPresenter >> deleteTask [
 { #category : #initialization }
 SpToDoListPresenter >> initializeMenuBar [
 	
-	| actionsMenu |
+	| actionsMenu allTasksMenu |
 	menuBar := self newMenuBar.
+
+	allTasksMenu := self newMenu.
+	allTasksMenu addGroup: [ :group |
+
+		group addItem: [ :item |
+			item
+				iconName: #smallOk;
+				name: 'Complete all tasks';
+				action: [ self completeAllTasks ] ].
+		
+		group addItem: [ :item |
+			item
+				iconName: #remove;
+				name: 'Remove all tasks';
+				action: [ self deleteAllTasks ] ] ].
+
 
 	actionsMenu := self newMenu.
 	actionsMenu addGroup: [ :group |
 
-				group addItem: [ :item |
-					item
-						iconName: #smallAdd;
-						name: 'Add new task';
-						action: [ self openAddTaskDialog ] ].
-				
-				group addItem: [ :item |
-					item
-						iconName: #smallOk;
-						name: 'Complete all tasks';
-						action: [ self completeAllTasks ] ].
-				
-				group addItem: [ :item |
-					item
-						iconName: #remove;
-						name: 'Clean';
-						action: [ self deleteAllTasks ] ] ].
+		group addItem: [ :item |
+			item
+				iconName: #smallAdd;
+				name: 'Add a new task';
+				action: [ self openAddTaskDialog ] ].
+
+		group addItem: [ :item |
+			item
+				iconName: #group;
+				name: 'All tasks';
+				subMenu: allTasksMenu ] ].
 
 
-	menuBar addItem: [ :barItem |
-		barItem
+	menuBar addItem: [ :item |
+		item
 			name: 'Actions';
 			subMenu: actionsMenu ]
 ]
