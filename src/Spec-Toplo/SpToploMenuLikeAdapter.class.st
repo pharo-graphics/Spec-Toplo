@@ -9,32 +9,22 @@ Class {
 
 { #category : #'instance creation' }
 SpToploMenuLikeAdapter >> addMenuFor: item into: parentMenu [
+	"Create a Toplo item for the received argument and add it to the menu."
 
+	| toploItem |
 	item subMenu
-		ifNil: [
-			| newItem |
-			"Leaf"
-			newItem := ToMenuItem new
-					clickAction: item action;
-					labelText: item name;
-					yourself.
-			item icon ifNotNil: [
-				newItem iconImage: item icon ].
-
-			parentMenu addItem: newItem ]
-
+		ifNil: [ toploItem := ToMenuItem new ]
 		ifNotNil: [ :subMenuPresenter |
-			"Node"
-			| subMenuWidget |
-			subMenuWidget :=
-				ToMenu new
-					labelText: item name;
-					yourself.
+			toploItem := ToMenu new.
 			self
 				addMenuGroups: subMenuPresenter menuGroups
-				into: subMenuWidget.
+				into: toploItem ].
 
-			parentMenu addItem: subMenuWidget ]
+	item name   ifNotNil: [ :o | toploItem labelText: o ].
+	item icon   ifNotNil: [ :o | toploItem iconImage: o ].
+	item action ifNotNil: [ :o | toploItem clickAction: o ].
+
+	parentMenu addItem: toploItem
 ]
 
 { #category : #'instance creation' }
