@@ -25,6 +25,13 @@ SpToploBackend >> defaultConfigurationFor: aSpApplication [
 	^ aSpApplication defaultConfigurationForToplo
 ]
 
+{ #category : #'deferred message' }
+SpToploBackend >> defer: aBlockClosure [
+	"Enqueue aBlockClosure from any process to be executed in the UI process at the beginning of the next pulse."
+
+	BlHost preferableHostClass universe defer: aBlockClosure
+]
+
 { #category : #accessing }
 SpToploBackend >> dropListClass [
 
