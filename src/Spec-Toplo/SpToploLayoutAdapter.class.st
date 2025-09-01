@@ -32,7 +32,7 @@ SpToploLayoutAdapter >> add: aPresenter constraints: constraints [
 ]
 
 { #category : #adding }
-SpToploLayoutAdapter >> addChildElement: aBlElement with: aSpBoxConstraints [
+SpToploLayoutAdapter >> addChildElement: aBlElement with: aSpConstraints [
 	"Add child to the Toplo widget"
 	
 	self subclassResponsibility

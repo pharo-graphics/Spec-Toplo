@@ -73,7 +73,7 @@ SpToploWindowElement >> menu: aBlElement [
 SpToploWindowElement >> newEmptyElement [
 
 	^ BlElement new
-		  size: 10 @ 10;
+		  extent: 10 @ 10;
 		  yourself
 ]
 

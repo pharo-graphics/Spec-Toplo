@@ -168,10 +168,8 @@ SpToploBoxAdapter >> updateAsNonExpandedChild: childBlElement with: aSpBoxConstr
 
 	layout direction setRigidityOfNonExpandedBlElement: childBlElement.
 	aSpBoxConstraints width ifNotNil: [ :w | 
-		1 halt.
 		childBlElement width: w ].
 	aSpBoxConstraints height ifNotNil: [ :h | 
-		1 halt.
 		childBlElement height: h ]
 ]
 

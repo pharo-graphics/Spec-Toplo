@@ -1,3 +1,6 @@
+"
+I convert instances of `KMKeyCombination` to instances of `BlKeyCombination`.
+"
 Class {
 	#name : #SpToploKMVisitor,
 	#superclass : #Object,
@@ -5,16 +8,26 @@ Class {
 }
 
 { #category : #visiting }
+SpToploKMVisitor >> visitKeyCombinationChoice: aKMKeyCombination [
+
+	| alternative |
+	alternative := BlAlternativeCombination new.
+
+	aKMKeyCombination combinationsDo: [ :each |
+		alternative with: (each acceptVisitor: self) ].
+
+	^ alternative
+]
+
+{ #category : #visiting }
 SpToploKMVisitor >> visitSingleShortcut: aKMKeyCombination [
 
-	| builder |
-	builder := BlKeyCombination builder.
-	
-	aKMKeyCombination modifier class = KMMetaModifier
-		ifTrue: [ builder meta ]
-		ifFalse: [ self notYetImplemented ].
-	
-	builder key: aKMKeyCombination key.
-	
-	^ builder build 
+	^ aKMKeyCombination class = KMKeyCombinationChoice
+		ifTrue: [ self visitKeyCombinationChoice: aKMKeyCombination ]
+		ifFalse: [
+			| builder |
+			builder := BlKeyCombination builder.
+			aKMKeyCombination modifier applyOnBlKeyCombinationBuilder: builder.
+			builder key: aKMKeyCombination key.
+			builder build ]
 ]
