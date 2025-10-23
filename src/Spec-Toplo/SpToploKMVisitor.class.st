@@ -8,6 +8,18 @@ Class {
 }
 
 { #category : #visiting }
+SpToploKMVisitor >> visitCombinationShortcut: aKMKeyCombinationSequence [
+
+	| combination |
+	combination := BlCompulsoryCombination new.
+
+	aKMKeyCombinationSequence sequence do: [ :each |
+		combination with: (each acceptVisitor: self) ].
+
+	^ combination
+]
+
+{ #category : #visiting }
 SpToploKMVisitor >> visitKeyCombinationChoice: aKMKeyCombination [
 
 	| alternative |
@@ -22,12 +34,22 @@ SpToploKMVisitor >> visitKeyCombinationChoice: aKMKeyCombination [
 { #category : #visiting }
 SpToploKMVisitor >> visitSingleShortcut: aKMKeyCombination [
 
-	^ aKMKeyCombination class = KMKeyCombinationChoice
-		ifTrue: [ self visitKeyCombinationChoice: aKMKeyCombination ]
+	self flag: #todo. "Should double-dispatch, but KM doesn't provide it"
+
+	^ aKMKeyCombination class = KMSingleKeyCombination
+		ifTrue: [ BlSingleKeyCombination key: aKMKeyCombination key ]
 		ifFalse: [
-			| builder |
-			builder := BlKeyCombination builder.
-			aKMKeyCombination modifier applyOnBlKeyCombinationBuilder: builder.
-			builder key: aKMKeyCombination key.
-			builder build ]
+			aKMKeyCombination class = KMModifiedKeyCombination
+				ifTrue: [
+					| builder |
+					builder := BlKeyCombination builder.
+					aKMKeyCombination modifier applyOnBlKeyCombinationBuilder: builder.
+					builder key: aKMKeyCombination key.
+					builder build ]
+				ifFalse: [
+					aKMKeyCombination class = KMKeyCombinationChoice
+						ifTrue: [
+							self visitKeyCombinationChoice: aKMKeyCombination ]
+						ifFalse: [
+							self error: #todo ] ] ]
 ]
