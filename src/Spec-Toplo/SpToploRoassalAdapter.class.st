@@ -38,8 +38,10 @@ SpToploRoassalAdapter >> buildWidget [
 
 { #category : #initialization }
 SpToploRoassalAdapter >> freeCanvas [
-	
-	canvas := RSCanvas new.
+
+	canvas clear.
+	canvas fixedShapes: RSGroup new.
+	canvas controllerInteraction: nil.
 	canvas extent: widget extent
 ]
 
