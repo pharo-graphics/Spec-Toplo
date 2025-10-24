@@ -61,8 +61,7 @@ RSToploRoassalExamplePresenter >> initializePresenters [
 	super initializePresenters.
 
 	roassal := self newRoassal.
-	roassal script: [ :canvas | self buildInCanvas: canvas ].
-	roassal refresh
+	roassal script: [ :canvas | self buildInCanvas: canvas ]
 ]
 
 { #category : #initialization }
