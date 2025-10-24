@@ -18,10 +18,10 @@ SpToploRoassalAdapter >> adapt: aComposableModel [
 { #category : #initialization }
 SpToploRoassalAdapter >> applyScript [
 
-	| extent aModel |
+	| extent |
 	extent := canvas extent.
-	aModel := self model.
-	aModel script value: canvas.
+	self freeCanvas.
+	self model script value: canvas.
 	canvas notifyExtentChanged: extent.
 	self updateBlocElement
 ]
@@ -34,6 +34,13 @@ SpToploRoassalAdapter >> buildWidget [
 	
 	
 	
+]
+
+{ #category : #initialization }
+SpToploRoassalAdapter >> freeCanvas [
+	
+	canvas := RSCanvas new.
+	canvas extent: widget extent
 ]
 
 { #category : #dependencies }

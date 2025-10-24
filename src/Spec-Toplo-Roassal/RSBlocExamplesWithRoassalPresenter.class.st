@@ -103,8 +103,6 @@ RSBlocExamplesWithRoassalPresenter >> showNullVisualization [
 { #category : #initialization }
 RSBlocExamplesWithRoassalPresenter >> showVisualizationFor: aSelector [
 
-	visualization canvas clear.
-	visualization canvas controllerInteraction: nil.
 	visualization script: [ :canvas |
 		examplesClass new perform: aSelector with: canvas ]
 ]
