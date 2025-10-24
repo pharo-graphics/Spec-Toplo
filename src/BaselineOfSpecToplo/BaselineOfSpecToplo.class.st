@@ -16,7 +16,9 @@ BaselineOfSpecToplo >> baseline: spec [
 			spec
 				package: 'Spec-Toplo' with: [ spec requires: #('Toplo') ];
 				package: 'Spec-Toplo-Tests' with: [ spec requires: #('Spec-Toplo') ];
-				package: 'Spec-Toplo-Examples-ToDoList'
+				package: 'Spec-Toplo-Examples-ToDoList';
+				package: 'Spec-Toplo-Roassal' with: [ spec requires: #('Spec-Toplo') ]
+				
 		]
 ]
 
