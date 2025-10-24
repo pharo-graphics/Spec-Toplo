@@ -7,15 +7,13 @@ Class {
 	#category : #'Spec-Toplo-Adapters'
 }
 
-{ #category : #factory }
+{ #category : #initialization }
 SpToploRoassalAdapter >> adapt: aComposableModel [
 
 	super adapt: aComposableModel.
 	canvas := widget.
-
-	self model currentCanvas ifNotNil: [ :aCanvas |
-			widget canvas: aCanvas.
-			canvas := aCanvas ]
+	self model canvas: canvas roassalShape.
+	self applyScript
 ]
 
 { #category : #initialization }
@@ -29,7 +27,7 @@ SpToploRoassalAdapter >> applyScript [
 	aModel script value: canvas.
 	aModel canvas: canvas.
 	canvas notifyExtentChanged: extent.
-	self updateBlocElement 
+	"self updateBlocElement "
 ]
 
 { #category : #factory }
@@ -41,12 +39,4 @@ SpToploRoassalAdapter >> buildWidget [
 { #category : #dependencies }
 SpToploRoassalAdapter >> release [
 	self class instVarNames do: [ :n | self instVarNamed: n put: nil ]
-]
-
-{ #category : #factory }
-SpToploRoassalAdapter >> updateBlocElement [
-
-	widget removeChildren.
-
-	widget addChild: model canvas host canvasElement
 ]
