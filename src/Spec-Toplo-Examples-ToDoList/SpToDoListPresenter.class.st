@@ -27,7 +27,8 @@ Class {
 		'statusBar',
 		'descriptionLabel',
 		'descriptionTextArea',
-		'menuBar'
+		'menuBar',
+		'welcomeLabel'
 	],
 	#category : #'Spec-Toplo-Examples-ToDoList-Presenters'
 }
@@ -186,7 +187,7 @@ SpToDoListPresenter >> initializePresenters [
 		yourself.
 
 	self initializeMenuBar.
-	statusBar := self newLabel.
+	statusBar := self newStatusBar.
 
 	self refresh.
 ]
@@ -221,7 +222,7 @@ SpToDoListPresenter >> refresh [
 
 	list unselectAll.
 	list items: toDoList tasks.
-	statusBar label:
+	statusBar pushMessage:
 		('Number of tasks: {1}' format: { toDoList tasks size }).
 	self refreshAccordingToSelectedTask
 ]
