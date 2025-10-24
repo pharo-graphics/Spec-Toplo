@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'roassal'
 	],
-	#category : #'Spec-Toplo-Roassal'
+	#category : #'Spec-Toplo-Roassal-RoassalPresenterExamples'
 }
 
 { #category : #examples }
