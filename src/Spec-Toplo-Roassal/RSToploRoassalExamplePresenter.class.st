@@ -26,16 +26,18 @@ RSToploRoassalExamplePresenter class >> exampleRoassalPresenterInToplo [
 { #category : #initialization }
 RSToploRoassalExamplePresenter >> buildInCanvas: canvas [
 	"This is a demo script"
-	
+
 	| y p |
-	y := { { 1. 2. 3. 4. 5. } .
-			 { 5. 6. 7. 5. 10. }  .
-			 { 12. 12. 13. 14. 15. 24. }  }.
+	y := {
+		     { 1. 2. 3. 4. 5 }.
+		     { 5. 6. 7. 5. 10 }.
+		     { 12. 12. 13. 14. 15. 24 } }.
 	p := RSBoxPlot new y: y.
 
 	p horizontalTick numberOfTicks: y size.
 	p xlabel: 'X Axis'.
-	p verticalTick numberOfTicks: 10;
+	p verticalTick
+		numberOfTicks: 10;
 		asFloat.
 	p ylabel: 'Y Axis'.
 	p title: 'Box Plot'.

@@ -11,8 +11,8 @@ Class {
 SpToploRoassalAdapter >> adapt: aComposableModel [
 
 	super adapt: aComposableModel.
-	canvas := widget children anyOne.
-	self model canvas: canvas roassalShape.
+	canvas := widget children anyOne roassalShape.
+	self model canvas: canvas.
 	self applyScript
 ]
 
@@ -20,14 +20,10 @@ SpToploRoassalAdapter >> adapt: aComposableModel [
 SpToploRoassalAdapter >> applyScript [
 
 	| extent aModel |
-	canvas := self model canvas.
 	extent := canvas extent.
-	"self freeCanvas."
 	aModel := self model.
 	aModel script value: canvas.
-	aModel canvas: canvas.
-	canvas notifyExtentChanged: extent.
-	"self updateBlocElement "
+	canvas notifyExtentChanged: extent
 ]
 
 { #category : #factory }
