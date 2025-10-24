@@ -14,19 +14,6 @@ Class {
 	#category : #'Spec-Toplo-Roassal-RoassalPresenterExamples'
 }
 
-{ #category : #layout }
-RSBlocExamplesWithRoassalPresenter class >> defaultLayout [
-
-	^ SpBoxLayout newLeftToRight
-		  borderWidth: 10;
-		  add: (SpPanedLayout newHorizontal
-			  positionOfSlider: 33 percent;
-			  add: #examplesList;
-			  add: #visualization;
-			  yourself);
-		  yourself
-]
-
 { #category : #examples }
 RSBlocExamplesWithRoassalPresenter class >> exampleOpenRSBlocExamples [
 
@@ -48,6 +35,19 @@ RSBlocExamplesWithRoassalPresenter >> connectPresenters [
 			self refreshAccordingToSelectedExample ];
 		whenActivatedDo: [ :aSelection | 
 			(examplesClass >> aSelection selectedItem) browse ]
+]
+
+{ #category : #layout }
+RSBlocExamplesWithRoassalPresenter >> defaultLayout [
+
+	^ SpBoxLayout newLeftToRight
+		  borderWidth: 10;
+		  add: (SpPanedLayout newHorizontal
+			  positionOfSlider: 33 percent;
+			  add: #examplesList;
+			  add: #visualization;
+			  yourself);
+		  yourself
 ]
 
 { #category : #initialization }
