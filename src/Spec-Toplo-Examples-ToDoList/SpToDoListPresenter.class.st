@@ -37,24 +37,30 @@ Class {
 SpToDoListPresenter class >> defaultLayout [
 
 	^ SpBoxLayout newTopToBottom
-		  borderWidth: 5;
-		  spacing: 5;
-		  add: (SpPanedLayout newLeftToRight
-				   positionOfSlider: 60 percent;
-				   add: (SpBoxLayout newTopToBottom
-						    add: #listLabel expand: false;
-						    add: #list;
-						    add: (SpBoxLayout newLeftToRight
-								     add: #toggleCompletedButton;
-								     add: #deleteButton;
-								     yourself)
-						    expand: false;
-						    yourself);
-				   add: (SpBoxLayout newTopToBottom
-						    add: #descriptionLabel expand: false;
-						    add: #descriptionTextArea;
-						    yourself);
-				   yourself)
+		borderWidth: 5;
+		spacing: 5;
+		add:
+			(SpOverlayLayout new
+				child:
+					(SpPanedLayout newLeftToRight
+					   positionOfSlider: 60 percent;
+					   add: (SpBoxLayout newTopToBottom
+							    add: #listLabel expand: false;
+							    add: #list;
+							    add: (SpBoxLayout newLeftToRight
+									     add: #toggleCompletedButton;
+									     add: #deleteButton;
+									     yourself)
+							    expand: false;
+							    yourself);
+					   add: (SpBoxLayout newTopToBottom
+							    add: #descriptionLabel expand: false;
+							    add: #descriptionTextArea;
+							    yourself);
+					   yourself);
+				addOverlay: #welcomeLabel
+					withConstraints: [ :c | c vAlignCenter; hAlignCenter ]);
+			yourself
 ]
 
 { #category : #actions }
@@ -189,7 +195,15 @@ SpToDoListPresenter >> initializePresenters [
 	self initializeMenuBar.
 	statusBar := self newStatusBar.
 
-	self refresh.
+
+	"The welcome message shows some instants"
+	welcomeLabel := self newLabel
+		label: 'Welcome!';
+"		displayBackgroundColor: [ Color gray alpha: 0.5 ];"
+		yourself.
+	self showWelcomeOverlayForSomeSeconds.
+
+	self refresh
 ]
 
 { #category : #initialization }
@@ -256,6 +270,14 @@ SpToDoListPresenter >> setModelBeforeInitialization: aSpToDoList [
 
 	toDoList := aSpToDoList.
 	toDoList whenUpdatedSend: #refresh to: self
+]
+
+{ #category : #actions }
+SpToDoListPresenter >> showWelcomeOverlayForSomeSeconds [
+
+	welcomeLabel show.
+	[ 3 seconds wait. welcomeLabel hide ] fork
+
 ]
 
 { #category : #private }
