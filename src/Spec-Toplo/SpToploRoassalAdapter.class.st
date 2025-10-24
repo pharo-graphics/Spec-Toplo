@@ -11,7 +11,7 @@ Class {
 SpToploRoassalAdapter >> adapt: aComposableModel [
 
 	super adapt: aComposableModel.
-	canvas := widget.
+	canvas := widget children anyOne.
 	self model canvas: canvas roassalShape.
 	self applyScript
 ]
@@ -32,8 +32,13 @@ SpToploRoassalAdapter >> applyScript [
 
 { #category : #factory }
 SpToploRoassalAdapter >> buildWidget [
-
-	^ RSCanvas new useBlocHost host canvasElement
+	| element |
+	element := ToElement new.
+	element addChild: RSCanvas new useBlocHost host canvasElement.
+	^ element
+	
+	
+	
 ]
 
 { #category : #dependencies }
