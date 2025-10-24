@@ -136,3 +136,11 @@ SpToploLayoutAdapter >> subscribeToPresenter [
 		self remove: ann child ].
 
 ]
+
+{ #category : #protocol }
+SpToploLayoutAdapter >> takeKeyboardFocus [
+	"Inspired on SpMorphicLayoutAdapter>>#takeKeyboardFocus"
+
+	model presentersInFocusOrder ifNotEmpty: [ :presenters |
+		presenters first takeKeyboardFocus ]
+]

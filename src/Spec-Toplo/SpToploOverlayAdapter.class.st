@@ -1,6 +1,12 @@
+"
+I'm a Spec adapter for `SpOverlayLayout`.
+"
 Class {
 	#name : #SpToploOverlayAdapter,
 	#superclass : #SpToploLayoutAdapter,
+	#classVars : [
+		'PlacementConverter'
+	],
 	#category : #'Spec-Toplo-Adapters'
 }
 
@@ -36,10 +42,4 @@ SpToploOverlayAdapter >> newToploWidget [
 	^ ToPane horizontal
 		matchParent;
 		yourself
-]
-
-{ #category : #protocol }
-SpToploOverlayAdapter >> takeKeyboardFocus [
-	
-	widget requestFocus
 ]
