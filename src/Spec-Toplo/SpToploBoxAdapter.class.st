@@ -146,7 +146,7 @@ SpToploBoxAdapter >> replace: aPresenter with: otherPresenter withConstraints: c
 	parentPane replaceChild: oldElement with: newElement
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #updating }
 SpToploBoxAdapter >> updateAsExpandedChild: childBlElement with: aSpBoxConstraints [
 	
 	"If is not 'fill', we need to pad it with another (since it 'expands', but does not 'fill')"
@@ -162,7 +162,7 @@ SpToploBoxAdapter >> updateAsExpandedChild: childBlElement with: aSpBoxConstrain
 	childBlElement matchParent
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #updating }
 SpToploBoxAdapter >> updateAsNonExpandedChild: childBlElement with: aSpBoxConstraints [
 	"Set up child to stay rigid in the layout direction."
 
@@ -173,7 +173,7 @@ SpToploBoxAdapter >> updateAsNonExpandedChild: childBlElement with: aSpBoxConstr
 		childBlElement height: h ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #updating }
 SpToploBoxAdapter >> updateChildPadding: aBlElement with: aSpBoxConstraints [
 
 	| insets |
