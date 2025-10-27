@@ -46,17 +46,20 @@ SpToploOverlayAdapter >> addChildElement: aBlElement with: aSpOverlayConstraints
 ]
 
 { #category : #adding }
-SpToploOverlayAdapter >> addConstraints: aSpOverlayConstraints toChild: aBlElement [
+SpToploOverlayAdapter >> addConstraints: aSpOverlayConstraints toChild: aToElement [
 
-	^ aSpOverlayConstraints isOverlay
-		ifFalse: [ aBlElement ]
-		ifTrue: [
-			aBlElement asFloatElement
-				placement: 
-					(PlacementConverter at: {
-						aSpOverlayConstraints hAlign ifNil: [ SpLayoutWidgetAlignment center ].
-						aSpOverlayConstraints vAlign ifNil: [ SpLayoutWidgetAlignment center ] });
-				yourself ]
+	aSpOverlayConstraints isOverlay ifFalse: [ ^ aToElement ].
+
+	self flag: #todo. "See: https://github.com/pharo-graphics/Spec-Toplo/issues/37"
+	aToElement fitContent.
+
+	^ aToElement asFloatElement
+		offset: 0@0;
+		placement: 
+			(PlacementConverter at: {
+				aSpOverlayConstraints hAlign ifNil: [ SpLayoutWidgetAlignment center ].
+				aSpOverlayConstraints vAlign ifNil: [ SpLayoutWidgetAlignment center ] });
+		yourself
 ]
 
 { #category : #'instance creation' }

@@ -197,10 +197,7 @@ SpToDoListPresenter >> initializePresenters [
 
 
 	"The welcome message shows some instants"
-	welcomeLabel := self newLabel
-		label: 'Welcome!';
-"		displayBackgroundColor: [ Color gray alpha: 0.5 ];"
-		yourself.
+	welcomeLabel := self newLabel.
 	self showWelcomeOverlayForSomeSeconds.
 
 	self refresh
@@ -275,9 +272,16 @@ SpToDoListPresenter >> setModelBeforeInitialization: aSpToDoList [
 { #category : #actions }
 SpToDoListPresenter >> showWelcomeOverlayForSomeSeconds [
 
-	welcomeLabel show.
-	[ 3 seconds wait. welcomeLabel hide ] fork
+	[ | welcomeBase |
+	welcomeBase := 'Welcome! '.
 
+	welcomeLabel show.
+
+	(1 to: 4) reverseDo: [ :index |
+		welcomeLabel label: welcomeBase, index asString.
+		1 seconds wait ].
+	
+	welcomeLabel hide ] fork
 ]
 
 { #category : #private }
