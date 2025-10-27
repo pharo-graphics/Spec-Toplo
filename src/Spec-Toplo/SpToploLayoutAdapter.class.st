@@ -32,7 +32,7 @@ SpToploLayoutAdapter >> add: aPresenter constraints: constraints [
 ]
 
 { #category : #adding }
-SpToploLayoutAdapter >> addChildElement: aBlElement with: aSpBoxConstraints [
+SpToploLayoutAdapter >> addChildElement: aBlElement with: aSpConstraints [
 	"Add child to the Toplo widget"
 	
 	self subclassResponsibility
@@ -135,4 +135,12 @@ SpToploLayoutAdapter >> subscribeToPresenter [
 	layout whenChildrenRemovedDo: [ :ann |
 		self remove: ann child ].
 
+]
+
+{ #category : #protocol }
+SpToploLayoutAdapter >> takeKeyboardFocus [
+	"Inspired on SpMorphicLayoutAdapter>>#takeKeyboardFocus"
+
+	model presentersInFocusOrder ifNotEmpty: [ :presenters |
+		presenters first takeKeyboardFocus ]
 ]
