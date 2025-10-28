@@ -44,7 +44,7 @@ SpToDoListPresenter class >> defaultLayout [
 						    positionOfSlider: 60 percent;
 						    add: (SpScrollableLayout with: (SpBoxLayout newTopToBottom
 										      add: #listLabel expand: false;
-										      add: #list;
+										      add: #list withConstraints: [ :c | c height: 200 ];
 										      add: (SpBoxLayout newLeftToRight
 												       add: #toggleCompletedButton;
 												       add: #deleteButton;

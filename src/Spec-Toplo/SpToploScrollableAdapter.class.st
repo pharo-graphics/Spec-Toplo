@@ -13,9 +13,11 @@ SpToploScrollableAdapter >> addChildElement: aToElement with: aSpBoxConstraints 
 { #category : #adding }
 SpToploScrollableAdapter >> addConstraints: aSpBoxConstraints toChild: childBlElement [
 
-	self flag:
-		#'Fit Content is required so that child keep their minimal width and height instead of shreaking infinitly. Maybe we need to play with minWidth: and minHeight: instead of current implementation'.
-	childBlElement fitContent.
+	aSpBoxConstraints isExpand ifFalse: [
+		self
+			updateAsNonExpandedChild: childBlElement
+			with: aSpBoxConstraints ].
+
 
 	^ childBlElement
 ]
@@ -61,4 +63,15 @@ SpToploScrollableAdapter >> newToploWidget [
 		              yourself.
 
 	^ scrollPane
+]
+
+{ #category : #adding }
+SpToploScrollableAdapter >> updateAsNonExpandedChild: childBlElement with: aSpBoxConstraints [
+	"Set up child to stay rigid in the layout direction."
+
+	layout direction setRigidityOfNonExpandedBlElement: childBlElement.
+	aSpBoxConstraints width ifNotNil: [ :w | 
+		childBlElement width: w ].
+	aSpBoxConstraints height ifNotNil: [ :h | 
+		childBlElement height: h ]
 ]
