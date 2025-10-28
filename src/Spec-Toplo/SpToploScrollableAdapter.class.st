@@ -20,8 +20,6 @@ SpToploScrollableAdapter >> addConstraints: aSpBoxConstraints toChild: childBlEl
 			updateAsNonExpandedChild: childBlElement
 			with: aSpBoxConstraints ].
 
-
-
 	^ childBlElement
 ]
 
@@ -55,7 +53,7 @@ SpToploScrollableAdapter >> newToploWidget [
 		        attachTo: scrollableElement;
 		        yourself.
 
-	scrollPane := ToPane new
+	scrollPane := ToElement new
 		              addChild: scrollableElement;
 		              addChild: vBar;
 		              addChild: hBar;
