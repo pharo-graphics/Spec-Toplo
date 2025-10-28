@@ -37,30 +37,30 @@ Class {
 SpToDoListPresenter class >> defaultLayout [
 
 	^ SpBoxLayout newTopToBottom
-		borderWidth: 5;
-		spacing: 5;
-		add:
-			(SpOverlayLayout new
-				child:
-					(SpPanedLayout newLeftToRight
-					   positionOfSlider: 60 percent;
-					   add: (SpBoxLayout newTopToBottom
-							    add: #listLabel expand: false;
-							    add: #list;
-							    add: (SpBoxLayout newLeftToRight
-									     add: #toggleCompletedButton;
-									     add: #deleteButton;
-									     yourself)
-							    expand: false;
-							    yourself);
-					   add: (SpBoxLayout newTopToBottom
-							    add: #descriptionLabel expand: false;
-							    add: #descriptionTextArea;
-							    yourself);
-					   yourself);
-				addOverlay: #welcomeLabel
-					withConstraints: [ :c | c vAlignCenter; hAlignCenter ]);
-			yourself
+		  borderWidth: 5;
+		  spacing: 5;
+		  add: (SpOverlayLayout new
+				   child: (SpPanedLayout newLeftToRight
+						    positionOfSlider: 60 percent;
+						    add: (SpScrollableLayout with: (SpBoxLayout newTopToBottom
+										      add: #listLabel expand: false;
+										      add: #list;
+										      add: (SpBoxLayout newLeftToRight
+												       add: #toggleCompletedButton;
+												       add: #deleteButton;
+												       yourself)
+										      expand: false;
+										      yourself));
+						    add: (SpBoxLayout newTopToBottom
+								     add: #descriptionLabel expand: false;
+								     add: #descriptionTextArea;
+								     yourself);
+						    yourself);
+				   addOverlay: #welcomeLabel withConstraints: [ :c |
+					   c
+						   vAlignCenter;
+						   hAlignCenter ]);
+		  yourself
 ]
 
 { #category : #actions }
