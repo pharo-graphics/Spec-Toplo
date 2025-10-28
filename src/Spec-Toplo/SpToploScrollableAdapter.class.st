@@ -13,10 +13,13 @@ SpToploScrollableAdapter >> addChildElement: aToElement with: aSpBoxConstraints 
 { #category : #adding }
 SpToploScrollableAdapter >> addConstraints: aSpBoxConstraints toChild: childBlElement [
 
+	self flag:
+		'using `childBlElement fitContent` will make the scroll bar appears but do change the layout'.
 	aSpBoxConstraints isExpand ifFalse: [
 		self
 			updateAsNonExpandedChild: childBlElement
 			with: aSpBoxConstraints ].
+
 
 
 	^ childBlElement

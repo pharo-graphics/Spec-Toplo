@@ -23,6 +23,6 @@ SpToploTWithContextMenu >> fillContextMenu: aContextMenu [
 SpToploTWithContextMenu >> updateMenu [
 	"Some presenters with context menu send this message to their adapters."
 
-	self widget contextMenu: [ :aContextMenu :request |
+	self widget contextMenuBuilder: [ :aContextMenu :request |
 		self fillContextMenu: aContextMenu ]
 ]
