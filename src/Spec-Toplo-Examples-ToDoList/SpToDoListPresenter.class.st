@@ -27,7 +27,8 @@ Class {
 		'statusBar',
 		'descriptionLabel',
 		'descriptionTextArea',
-		'menuBar'
+		'menuBar',
+		'welcomeLabel'
 	],
 	#category : #'Spec-Toplo-Examples-ToDoList-Presenters'
 }
@@ -36,24 +37,30 @@ Class {
 SpToDoListPresenter class >> defaultLayout [
 
 	^ SpBoxLayout newTopToBottom
-		  borderWidth: 5;
-		  spacing: 5;
-		  add: (SpPanedLayout newLeftToRight
-				   positionOfSlider: 60 percent;
-				   add: (SpScrollableLayout with: (SpBoxLayout newTopToBottom
-								     add: #listLabel expand: false;
-								     add: #list;
-								     add: (SpBoxLayout newLeftToRight
-										      add: #toggleCompletedButton;
-										      add: #deleteButton;
-										      yourself)
-								     expand: false;
-								     yourself));
-				   add: (SpBoxLayout newTopToBottom
-						    add: #descriptionLabel expand: false;
-						    add: #descriptionTextArea;
-						    yourself);
-				   yourself)
+		borderWidth: 5;
+		spacing: 5;
+		add:
+			(SpOverlayLayout new
+				child:
+					(SpPanedLayout newLeftToRight
+					   positionOfSlider: 60 percent;
+					   add: (SpBoxLayout newTopToBottom
+							    add: #listLabel expand: false;
+							    add: #list;
+							    add: (SpBoxLayout newLeftToRight
+									     add: #toggleCompletedButton;
+									     add: #deleteButton;
+									     yourself)
+							    expand: false;
+							    yourself);
+					   add: (SpBoxLayout newTopToBottom
+							    add: #descriptionLabel expand: false;
+							    add: #descriptionTextArea;
+							    yourself);
+					   yourself);
+				addOverlay: #welcomeLabel
+					withConstraints: [ :c | c vAlignCenter; hAlignCenter ]);
+			yourself
 ]
 
 { #category : #actions }
@@ -186,9 +193,14 @@ SpToDoListPresenter >> initializePresenters [
 		yourself.
 
 	self initializeMenuBar.
-	statusBar := self newLabel.
+	statusBar := self newStatusBar.
 
-	self refresh.
+
+	"The welcome message shows some instants"
+	welcomeLabel := self newLabel.
+	self showWelcomeOverlayForSomeSeconds.
+
+	self refresh
 ]
 
 { #category : #initialization }
@@ -221,7 +233,7 @@ SpToDoListPresenter >> refresh [
 
 	list unselectAll.
 	list items: toDoList tasks.
-	statusBar label:
+	statusBar pushMessage:
 		('Number of tasks: {1}' format: { toDoList tasks size }).
 	self refreshAccordingToSelectedTask
 ]
@@ -255,6 +267,21 @@ SpToDoListPresenter >> setModelBeforeInitialization: aSpToDoList [
 
 	toDoList := aSpToDoList.
 	toDoList whenUpdatedSend: #refresh to: self
+]
+
+{ #category : #actions }
+SpToDoListPresenter >> showWelcomeOverlayForSomeSeconds [
+
+	[ | welcomeBase |
+	welcomeBase := 'Welcome! '.
+
+	welcomeLabel show.
+
+	(1 to: 4) reverseDo: [ :index |
+		welcomeLabel label: welcomeBase, index asString.
+		1 seconds wait ].
+	
+	welcomeLabel hide ] fork
 ]
 
 { #category : #private }
