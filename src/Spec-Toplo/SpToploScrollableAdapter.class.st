@@ -12,9 +12,20 @@ SpToploScrollableAdapter >> addChildElement: aToElement with: aSpBoxConstraints 
 
 { #category : #adding }
 SpToploScrollableAdapter >> addConstraints: aSpBoxConstraints toChild: childBlElement [
+	"Add constraint from Spec2 and apply custom constraint required by Toplo"
 
-	self flag:
-		'using `childBlElement fitContent` will make the scroll bar appears but do change the layout'.
+	"Compute size in fit context"
+
+	childBlElement fitContent.
+	"Force local layout computation to get default value that should be use as min"
+	childBlElement forceLocalLayout.
+	"Set min values. These values will be used when computing when to display scrollbar"
+	childBlElement minWidth: childBlElement width.
+	childBlElement minHeight: childBlElement height.
+	"reset to default matchParent"
+	childBlElement matchParent.
+
+
 	aSpBoxConstraints isExpand ifFalse: [
 		self
 			updateAsNonExpandedChild: childBlElement
