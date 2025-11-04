@@ -80,7 +80,7 @@ SpToploNotebookAdapter >> updatePagesWith: aCollection [
 	pagesToRemove := self widget items collection reject: [ :tabButton |
 		                 aCollection anySatisfy: [ :page |
 			                 page = (self modelOfTab: tabButton) ] ].
-	pagesToRemove do: [ :tabButton | self widget removePage: tabButton ].
+	pagesToRemove do: [ :tabButton | self widget removeItem: tabButton ].
 	aCollection
 		reject: [ :page |
 				self widget items collection anySatisfy: [ :p |
