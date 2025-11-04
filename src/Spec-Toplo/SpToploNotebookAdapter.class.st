@@ -65,10 +65,11 @@ SpToploNotebookAdapter >> modelOfTab: tabButton [
 ]
 
 { #category : #factory }
-SpToploNotebookAdapter >> selectPage: aPage [
+SpToploNotebookAdapter >> selectPage: page [
 
-	self widgetDo: [ :w |
-		w page: (aPage ifNotNil: [ w pageWithModel: aPage ]) ]
+	self widget selectedAtPosition:
+		(self widget items collection detect: [ :tabButton |
+			 (self modelOfTab: tabButton) = page ]) holder position
 ]
 
 { #category : #factory }
