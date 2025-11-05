@@ -16,14 +16,14 @@ SpToploScrollableAdapter >> addConstraints: aSpBoxConstraints toChild: childBlEl
 
 	"Compute size in fit context"
 
-	childBlElement whenLayoutedDoOnce: [
+	childBlElement whenLayoutedDoOnce: [ :layout |
 			childBlElement fitContent.
-
+			childBlElement whenLayoutedDoOnce: [ 
 			"Set min values. These values will be used when computing when to display scrollbar"
 			childBlElement minWidth: childBlElement width.
 			childBlElement minHeight: childBlElement height.
 			"reset to default matchParent"
-			childBlElement matchParent ].
+			childBlElement matchParent ] ].
 
 
 
