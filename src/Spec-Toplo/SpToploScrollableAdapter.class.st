@@ -16,14 +16,16 @@ SpToploScrollableAdapter >> addConstraints: aSpBoxConstraints toChild: childBlEl
 
 	"Compute size in fit context"
 
-	childBlElement fitContent.
-	"Force local layout computation to get default value that should be use as min"
-	childBlElement forceLocalLayout.
-	"Set min values. These values will be used when computing when to display scrollbar"
-	childBlElement minWidth: childBlElement width.
-	childBlElement minHeight: childBlElement height.
-	"reset to default matchParent"
-	childBlElement matchParent.
+	childBlElement whenLayoutedDoOnce: [
+			childBlElement fitContent.
+
+			"Set min values. These values will be used when computing when to display scrollbar"
+			childBlElement minWidth: childBlElement width.
+			childBlElement minHeight: childBlElement height.
+			"reset to default matchParent"
+			childBlElement matchParent ].
+
+
 
 
 	aSpBoxConstraints isExpand ifFalse: [
