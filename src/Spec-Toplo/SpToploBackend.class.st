@@ -20,6 +20,12 @@ SpToploBackend >> adapterBindingsClass [
 ]
 
 { #category : #accessing }
+SpToploBackend >> componentListClass [
+
+	^ SpComponentListPresenter
+]
+
+{ #category : #accessing }
 SpToploBackend >> defaultConfigurationFor: aSpApplication [
 
 	^ aSpApplication defaultConfigurationForToplo
