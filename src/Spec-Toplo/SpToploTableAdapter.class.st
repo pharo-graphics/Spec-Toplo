@@ -25,7 +25,7 @@ SpToploTableAdapter >> buildWidget [
 	^ table
 ]
 
-{ #category : #factory }
+{ #category : #'updating widget' }
 SpToploTableAdapter >> updateSelection [
 
 	widget list selecter selectIndexes: model selection selectedIndexes
