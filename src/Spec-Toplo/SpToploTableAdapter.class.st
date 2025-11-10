@@ -8,11 +8,15 @@ Class {
 SpToploTableAdapter >> buildColumns [
 
 	^ self model columns collect: [ :spCollumn |
-			  ToTableColumn new
-				  title: spCollumn title;
-				  key: spCollumn title;
-				  dataIndex: spCollumn evaluation;
-				  yourself ]
+			  | column |
+			  column := ToTableColumn new
+				            title: spCollumn title;
+				            key: spCollumn title;
+				            dataIndex: spCollumn evaluation;
+				            yourself.
+			  spCollumn isSortable ifTrue: [
+				  column sorterBlock: spCollumn sortFunction ].
+			  column ]
 ]
 
 { #category : #factory }
