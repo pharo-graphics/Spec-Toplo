@@ -12,7 +12,7 @@ SpToploTableAdapter >> buildColumns [
 			  column := ToTableColumn new
 				            title: spCollumn title;
 				            key: spCollumn title;
-				            dataIndex: spCollumn evaluation;
+				            dataIndex: (spCollumn evaluation ifNil: [ #yourself ]);
 				            yourself.
 			  spCollumn isSortable ifTrue: [
 				  column sorterBlock: spCollumn sortFunction ].
