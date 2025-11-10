@@ -12,6 +12,7 @@ SpToploTableAdapter >> buildColumns [
 			  column := ToTableColumn new
 				            title: spCollumn title;
 				            key: spCollumn title;
+				            "Use yourself by default. It sometimes happen when user give a list of string as data"
 				            dataIndex: (spCollumn evaluation ifNil: [ #yourself ]);
 				            yourself.
 			  spCollumn isSortable ifTrue: [
