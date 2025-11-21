@@ -1,6 +1,10 @@
 Class {
 	#name : #SpToploTableAdapter,
 	#superclass : #SpToploAbstractListAdapter,
+	#instVars : [
+		'additionnalActivationBlocks',
+		'additionnalDeactivationBlocks'
+	],
 	#category : #'Spec-Toplo-Adapters'
 }
 
@@ -8,16 +12,13 @@ Class {
 SpToploTableAdapter >> buildColumns [
 
 	^ self model columns collect: [ :spCollumn |
-			  | column |
-			  column := ToTableColumn new
-				            title: spCollumn title;
-				            key: spCollumn title;
-				            "Use yourself by default. It sometimes happen when user give a list of string as data"
-				            dataIndex: (spCollumn evaluation ifNil: [ #yourself ]);
-				            yourself.
-			  spCollumn isSortable ifTrue: [
-				  column sorterBlock: spCollumn sortFunction ].
-			  column ]
+		  self buildToploColumnFrom: spCollumn ]
+]
+
+{ #category : #factory }
+SpToploTableAdapter >> buildToploColumnFrom: spCollumn [
+
+	^ spCollumn acceptColumnVisitor: self
 ]
 
 { #category : #factory }
@@ -26,6 +27,82 @@ SpToploTableAdapter >> buildWidget [
 	| toploColumns table |
 	toploColumns := self buildColumns.
 	table := ToTableElement new.
+	table showHeader: self model isShowingColumnHeaders.
 	table columns: toploColumns.
 	^ table
+]
+
+{ #category : #initialization }
+SpToploTableAdapter >> initialize [
+
+	super initialize.
+	additionnalActivationBlocks := OrderedCollection new.
+	additionnalDeactivationBlocks := OrderedCollection new
+]
+
+{ #category : #initialization }
+SpToploTableAdapter >> subscribeToWidget [
+
+	super subscribeToWidget.
+
+	widget list
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :event |
+				| touchedElements additionnalBlock |
+				model selection selectIndexes:
+						widget list selecter selectedIndexes.
+				touchedElements := event touchedIntervals flatCollect: [
+						                   :intervals |
+						                   intervals collect: [ :idx |
+								                   event target dataAccessor at: idx ] ].
+
+				additionnalBlock := event selectionOption triggerSelectionState
+					                    ifTrue: [ additionnalActivationBlocks ]
+					                    ifFalse: [ additionnalDeactivationBlocks ].
+				touchedElements do: [ :el |
+						additionnalBlock do: [ :block | block value: el ] ] ];
+		addEventHandlerOn: ToListStrongSelectionEvent
+		do: [ model doActivateAtIndex: model selection selectedIndex ]
+]
+
+{ #category : #'updating widget' }
+SpToploTableAdapter >> updateSelection [
+
+	widget list selecter selectIndexes: model selection selectedIndexes
+]
+
+{ #category : #visitor }
+SpToploTableAdapter >> visitCompositeColumn: spCollumn [
+
+	| column |
+	"In this case, consider that the table has a column with checkbox for selection"
+	column := ToTableColumn new
+		          title: spCollumn title;
+		          key: spCollumn title;
+		          "Use yourself by default. It sometimes happen when user give a list of string as data"
+		          dataIndex: (spCollumn evaluation ifNil: [ #yourself ]);
+		          yourself.
+	(spCollumn columns first isKindOf: SpCheckBoxTableColumn) ifTrue: [
+		column useCheckbox: true.
+		spCollumn columns first onActivation ifNotNil: [ :activationBlock | additionnalActivationBlocks add: activationBlock  ].
+		spCollumn columns first onDeactivation ifNotNil: [ :deactivationBlock | additionnalDeactivationBlocks add: deactivationBlock  ].
+		 ].
+	spCollumn isSortable ifTrue: [
+		column sorterBlock: spCollumn sortFunction ].
+	^ column
+]
+
+{ #category : #visitor }
+SpToploTableAdapter >> visitStringColumn: spCollumn [
+
+	| column |
+	column := ToTableColumn new
+		          title: spCollumn title;
+		          key: spCollumn title;
+		          "Use yourself by default. It sometimes happen when user give a list of string as data"
+		          dataIndex: (spCollumn evaluation ifNil: [ #yourself ]);
+		          yourself.
+	spCollumn isSortable ifTrue: [
+		column sorterBlock: spCollumn sortFunction ].
+	^ column
 ]
