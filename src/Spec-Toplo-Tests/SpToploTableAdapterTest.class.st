@@ -63,17 +63,18 @@ SpToploTableAdapterTest >> testChooserSelectAll [
 SpToploTableAdapterTest >> testChooserSelectAndUnselectSameItem [
 
 	self buildChooserPresenter.
+	"If I select and unslect. No move should happen"
 	chooser sourceList listPresenter selectIndex: 1.
 	chooser sourceList listPresenter unselectIndex: 1.
 	chooser addSelected.
 	self
 		assert:
 		chooser sourceList listPresenter adapter widget list itemCount
-		equals: 1.
+		equals: 2.
 	self
 		assert:
 		chooser targetList listPresenter adapter widget list itemCount
-		equals: 2
+		equals: 1
 ]
 
 { #category : #chooser }
