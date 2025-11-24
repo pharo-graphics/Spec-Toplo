@@ -51,16 +51,18 @@ SpToploTableAdapter >> subscribeToWidget [
 				| touchedElements additionnalBlock |
 				model selection selectIndexes:
 						widget list selecter selectedIndexes.
-				touchedElements := event touchedIntervals flatCollect: [
-						                   :intervals |
-						                   intervals collect: [ :idx |
-								                   event target dataAccessor at: idx ] ].
+				"If their is no selectedIndexes. Probably a reset of the collection so do nothing"
+				widget list selecter selectedIndexes ifNotEmpty: [
+							touchedElements := event touchedIntervals flatCollect: [
+									                   :intervals |
+									                   intervals collect: [ :idx |
+											                   event target dataAccessor at: idx ] ].
 
-				additionnalBlock := event selectionOption triggerSelectionState
-					                    ifTrue: [ additionnalActivationBlocks ]
-					                    ifFalse: [ additionnalDeactivationBlocks ].
-				touchedElements do: [ :el |
-						additionnalBlock do: [ :block | block value: el ] ] ];
+							additionnalBlock := event selectionOption triggerSelectionState
+								                    ifTrue: [ additionnalActivationBlocks ]
+								                    ifFalse: [ additionnalDeactivationBlocks ].
+							touchedElements do: [ :el |
+									additionnalBlock do: [ :block | block value: el ] ] ] ];
 		addEventHandlerOn: ToListStrongSelectionEvent
 		do: [ model doActivateAtIndex: model selection selectedIndex ]
 ]

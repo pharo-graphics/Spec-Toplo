@@ -63,6 +63,21 @@ SpToDoListPresenter class >> defaultLayout [
 		  yourself
 ]
 
+{ #category : #layout }
+SpToDoListPresenter class >> openInToplo [
+
+	<script>
+	| app todo |
+	app := SpApplication new
+		       useBackend: #Toplo;
+		       yourself.
+
+
+	todo := self newApplication: app model: SpToDoList exampleWithSomeTasks.
+	todo open.
+	^ todo
+]
+
 { #category : #actions }
 SpToDoListPresenter >> completeAllTasks [
 
