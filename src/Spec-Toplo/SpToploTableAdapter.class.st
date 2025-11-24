@@ -65,12 +65,6 @@ SpToploTableAdapter >> subscribeToWidget [
 		do: [ model doActivateAtIndex: model selection selectedIndex ]
 ]
 
-{ #category : #'updating widget' }
-SpToploTableAdapter >> updateSelection [
-
-	widget list selecter selectIndexes: model selection selectedIndexes
-]
-
 { #category : #visitor }
 SpToploTableAdapter >> visitCompositeColumn: spCollumn [
 

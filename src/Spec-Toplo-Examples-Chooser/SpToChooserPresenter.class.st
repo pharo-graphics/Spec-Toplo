@@ -18,7 +18,8 @@ SpToChooserPresenter class >> openInToplo [
 
 
 	chooser := self newApplication: app.
-	chooser open
+	chooser open.
+	^ chooser
 ]
 
 { #category : #layout }
