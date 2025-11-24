@@ -11,6 +11,19 @@ Class {
 	#category : #'Spec-Toplo-Tests-Adapters'
 }
 
+{ #category : #'test - building' }
+SpToploTableAdapterTest >> buildChooserPresenter [
+
+	chooser := SpChooserPresenter
+		           sourceItems: {
+				           SpChooserPresenter.
+				           SpFilteringListPresenter }
+		           chosenItems: { SpFilteringSelectableListPresenter }
+		           displayBlock: #name.
+	chooser application: application.
+	^ chooser build
+]
+
 { #category : #running }
 SpToploTableAdapterTest >> setUp [
 
@@ -21,22 +34,51 @@ SpToploTableAdapterTest >> setUp [
 	application useBackend: #Toplo
 ]
 
-{ #category : #running }
+{ #category : #chooser }
+SpToploTableAdapterTest >> testChooserSelectAll [
+
+	self buildChooserPresenter.
+	self
+		assert:
+		chooser targetList listPresenter adapter widget list itemCount
+		equals: 1.
+	self
+		assert:
+		chooser sourceList listPresenter adapter widget list itemCount
+		equals: 2.
+	chooser sourceList listPresenter selectIndex: 1.
+	chooser sourceList listPresenter selectIndex: 2.
+	chooser addSelected.
+	self
+		assert:
+		chooser sourceList listPresenter adapter widget list itemCount
+		equals: 0.
+	self
+		assert:
+		chooser targetList listPresenter adapter widget list itemCount
+		equals: 3
+]
+
+{ #category : #chooser }
 SpToploTableAdapterTest >> testChooserSelection [
 
-	chooser := SpChooserPresenter
-		           sourceItems: {
-				           SpChooserPresenter.
-				           SpFilteringListPresenter }
-		           chosenItems: { SpFilteringSelectableListPresenter }
-		           displayBlock: #name.
-	chooser application: application.
-	chooser build.
-	
-	self assert: chooser targetList listPresenter adapter widget list itemCount equals: 1.
-	self assert: chooser sourceList listPresenter adapter widget list itemCount equals: 2.
+	self buildChooserPresenter.
+	self
+		assert:
+		chooser targetList listPresenter adapter widget list itemCount
+		equals: 1.
+	self
+		assert:
+		chooser sourceList listPresenter adapter widget list itemCount
+		equals: 2.
 	chooser sourceList listPresenter selectIndex: 1.
 	chooser addSelected.
-	self assert: chooser targetList listPresenter adapter widget list itemCount equals: 2.
-	self assert: chooser sourceList listPresenter adapter widget list itemCount equals: 1
+	self
+		assert:
+		chooser targetList listPresenter adapter widget list itemCount
+		equals: 2.
+	self
+		assert:
+		chooser sourceList listPresenter adapter widget list itemCount
+		equals: 1
 ]
