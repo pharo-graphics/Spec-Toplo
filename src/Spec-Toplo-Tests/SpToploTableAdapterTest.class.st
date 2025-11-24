@@ -60,6 +60,23 @@ SpToploTableAdapterTest >> testChooserSelectAll [
 ]
 
 { #category : #chooser }
+SpToploTableAdapterTest >> testChooserSelectAndUnselectSameItem [
+
+	self buildChooserPresenter.
+	chooser sourceList listPresenter selectIndex: 1.
+	chooser sourceList listPresenter unselectIndex: 1.
+	chooser addSelected.
+	self
+		assert:
+		chooser sourceList listPresenter adapter widget list itemCount
+		equals: 1.
+	self
+		assert:
+		chooser targetList listPresenter adapter widget list itemCount
+		equals: 2
+]
+
+{ #category : #chooser }
 SpToploTableAdapterTest >> testChooserSelection [
 
 	self buildChooserPresenter.
@@ -75,10 +92,10 @@ SpToploTableAdapterTest >> testChooserSelection [
 	chooser addSelected.
 	self
 		assert:
-		chooser targetList listPresenter adapter widget list itemCount
-		equals: 2.
+		chooser sourceList listPresenter adapter widget list itemCount
+		equals: 1.
 	self
 		assert:
-		chooser sourceList listPresenter adapter widget list itemCount
-		equals: 1
+		chooser targetList listPresenter adapter widget list itemCount
+		equals: 2
 ]
