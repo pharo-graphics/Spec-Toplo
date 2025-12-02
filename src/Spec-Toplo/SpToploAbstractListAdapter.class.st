@@ -108,5 +108,7 @@ SpToploAbstractListAdapter >> updateItems [
 { #category : #'updating widget' }
 SpToploAbstractListAdapter >> updateSelection [
 
+	model selection selectedIndexes ifEmpty: [
+		^ widget selecter deselectAll ].
 	widget selecter selectIndexes: model selection selectedIndexes
 ]

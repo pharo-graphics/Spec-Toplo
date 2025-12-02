@@ -63,7 +63,7 @@ SpToploAdapter >> addStyle: aString [
 { #category : #compatibility }
 SpToploAdapter >> bindKeyCombination: aKMKeyCombination toAction: aBlock [
 
-	self shouldBeImplemented.
+	"self shouldBeImplemented."
 ]
 
 { #category : #'deferred message' }
