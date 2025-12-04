@@ -6,7 +6,8 @@ Class {
 	#superclass : #TestCase,
 	#instVars : [
 		'application',
-		'chooser'
+		'chooser',
+		'tablePresenter'
 	],
 	#category : #'Spec-Toplo-Tests-Adapters'
 }
@@ -22,6 +23,21 @@ SpToploTableAdapterTest >> buildChooserPresenter [
 		           displayBlock: #name.
 	chooser application: application.
 	^ chooser build
+]
+
+{ #category : #'test - building' }
+SpToploTableAdapterTest >> buildTablePresenter [
+
+	| column |
+	column := SpStringTableColumn new
+		          title: 'Title';
+		          yourself.
+
+	tablePresenter := SpTablePresenter new
+		                  items: { #right. #center. #left };
+		                  addColumn: column.
+	tablePresenter application: application.
+	^ tablePresenter build
 ]
 
 { #category : #running }
@@ -98,5 +114,46 @@ SpToploTableAdapterTest >> testChooserSelection [
 	self
 		assert:
 		chooser targetList listPresenter adapter widget list itemCount
+		equals: 2
+]
+
+{ #category : #chooser }
+SpToploTableAdapterTest >> testTableColumnsNumber [
+
+	self buildTablePresenter.
+	"If I select and unslect. No move should happen"
+	self
+		assert: tablePresenter adapter widget list columns size
+		equals: 1
+]
+
+{ #category : #chooser }
+SpToploTableAdapterTest >> testTableSelectionMultiSelection [
+
+	self buildTablePresenter.
+	tablePresenter beMultipleSelection.
+	"If I select and unslect. No move should happen"
+	tablePresenter adapter widget list selecter selectIndex: 1.
+	self assert: tablePresenter selectedIndex equals: 1.
+	tablePresenter selectIndex: 2.
+	"no api for selected indexes"
+	self assert: tablePresenter selectedItems size equals: 2.
+	self
+		assert: tablePresenter adapter widget list selecter selectedIndexes
+		equals: #(1 2)
+]
+
+{ #category : #chooser }
+SpToploTableAdapterTest >> testTableSelectionSingleSelection [
+
+	self buildTablePresenter.
+	tablePresenter beSingleSelection.
+	"If I select and unslect. No move should happen"
+	tablePresenter adapter widget list selecter selectIndex: 1.
+	self assert: tablePresenter selectedIndex equals: 1.
+	tablePresenter selectIndex: 2.
+	self assert: tablePresenter selectedIndex equals: 2.
+	self
+		assert: tablePresenter adapter widget list selecter selectedIndex
 		equals: 2
 ]

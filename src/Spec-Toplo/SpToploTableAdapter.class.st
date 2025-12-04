@@ -3,8 +3,7 @@ Class {
 	#superclass : #SpToploAbstractListAdapter,
 	#instVars : [
 		'additionnalActivationBlocks',
-		'additionnalDeactivationBlocks',
-		'table'
+		'additionnalDeactivationBlocks'
 	],
 	#category : #'Spec-Toplo-Adapters'
 }
@@ -25,10 +24,11 @@ SpToploTableAdapter >> buildToploColumnFrom: spCollumn [
 { #category : #factory }
 SpToploTableAdapter >> buildWidget [
 
-	table := ToTableElement new.
-	table showHeader: self model isShowingColumnHeaders.
-	table columns: self buildColumns.
-	^ table
+	widget := ToTableElement new.
+	widget showHeader: self model isShowingColumnHeaders.
+	widget selecter multiple: self model selectionMode isMultipleSelection.
+	widget columns: self buildColumns.
+	^ widget
 ]
 
 { #category : #initialization }
@@ -78,7 +78,7 @@ SpToploTableAdapter >> visitCompositeColumn: spCollumn [
 		          dataIndex: (spCollumn evaluation ifNil: [ #yourself ]);
 		          yourself.
 	(spCollumn columns first isKindOf: SpCheckBoxTableColumn) ifTrue: [
-		table useCheckbox: true.
+		widget useCheckbox: true.
 		spCollumn columns first onActivation ifNotNil: [ :activationBlock | additionnalActivationBlocks add: activationBlock  ].
 		spCollumn columns first onDeactivation ifNotNil: [ :deactivationBlock | additionnalDeactivationBlocks add: deactivationBlock  ].
 		 ].
