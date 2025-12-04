@@ -80,8 +80,11 @@ SpToploTableAdapterTest >> testChooserSelectAndUnselectSameItem [
 
 	self buildChooserPresenter.
 	"If I select and unslect. No move should happen"
+	self assert: chooser sourceList listPresenter selectedItems size equals: 0.
 	chooser sourceList listPresenter selectIndex: 1.
+	self assert: chooser sourceList listPresenter selectedItems size equals: 1.
 	chooser sourceList listPresenter unselectIndex: 1.
+	self assert: chooser sourceList listPresenter selectedItems size equals: 0.
 	chooser addSelected.
 	self
 		assert:

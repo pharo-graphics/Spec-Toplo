@@ -1,9 +1,13 @@
+"
+The `activatedList` keep a trace of the selected index to correctly deactivate them when items are unselected
+"
 Class {
 	#name : #SpToploTableAdapter,
 	#superclass : #SpToploAbstractListAdapter,
 	#instVars : [
 		'additionnalActivationBlocks',
-		'additionnalDeactivationBlocks'
+		'additionnalDeactivationBlocks',
+		'activatedList'
 	],
 	#category : #'Spec-Toplo-Adapters'
 }
@@ -36,7 +40,25 @@ SpToploTableAdapter >> initialize [
 
 	super initialize.
 	additionnalActivationBlocks := OrderedCollection new.
-	additionnalDeactivationBlocks := OrderedCollection new
+	additionnalDeactivationBlocks := OrderedCollection new.
+	activatedList := Set new
+]
+
+{ #category : #initialization }
+SpToploTableAdapter >> subscribeToPresenter [
+
+	super subscribeToPresenter.
+
+	model whenSelectionChangedDo: [ :selection |
+			selection selectedIndex > 0 ifTrue: [
+					additionnalActivationBlocks do: [ :block |
+							block value: (model itemAt: selection selectedIndex).
+							activatedList add: selection selectedIndex ] ].
+			selection selectedIndex = 0 ifTrue: [ "deactivation context"
+					activatedList do: [ :idx |
+							additionnalDeactivationBlocks do: [ :block |
+								block value: (model itemAt: idx) ] ].
+					activatedList removeAll ] ]
 ]
 
 { #category : #initialization }
@@ -47,21 +69,8 @@ SpToploTableAdapter >> subscribeToWidget [
 	widget list
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: [ :event |
-				| touchedElements additionnalBlock |
-				model selection selectIndexes:
-						widget list selecter selectedIndexes.
-				"If their is no selectedIndexes. Probably a reset of the collection so do nothing"
-				widget list selecter selectedIndexes ifNotEmpty: [
-							touchedElements := event touchedIntervals flatCollect: [
-									                   :intervals |
-									                   intervals collect: [ :idx |
-											                   event target dataAccessor at: idx ] ].
-
-							additionnalBlock := event selectionOption triggerSelectionState
-								                    ifTrue: [ additionnalActivationBlocks ]
-								                    ifFalse: [ additionnalDeactivationBlocks ].
-							touchedElements do: [ :el |
-									additionnalBlock do: [ :block | block value: el ] ] ] ];
+			model selection selectIndexes: widget list selecter selectedIndexes.
+			  ];
 		addEventHandlerOn: ToListStrongSelectionEvent
 		do: [ model doActivateAtIndex: model selection selectedIndex ]
 ]
