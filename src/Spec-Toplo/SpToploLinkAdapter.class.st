@@ -23,5 +23,6 @@ SpToploLinkAdapter >> setStyleSheet: label [
 
 { #category : #initialization }
 SpToploLinkAdapter >> subscribeToWidget [
-	widget clickAction: [ self model action value ]
+	
+	widget clickAction: self model action
 ]
