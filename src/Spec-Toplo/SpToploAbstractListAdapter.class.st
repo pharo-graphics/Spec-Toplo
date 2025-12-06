@@ -71,7 +71,8 @@ SpToploAbstractListAdapter >> subscribeToPresenter [
 
 	model
 		whenModelChangedDo: [ self updateItems ];
-		whenSelectionChangedDo: [ self updateSelection ]
+		whenSelectionChangedDo: [ self updateSelection ];
+		whenSelectionModeChangedDo: [ self updateSelectionMode ]
 ]
 
 { #category : #initialization }
@@ -111,4 +112,10 @@ SpToploAbstractListAdapter >> updateSelection [
 	model selection selectedIndexes ifEmpty: [
 		^ widget selecter deselectAll ].
 	widget selecter selectIndexes: model selection selectedIndexes
+]
+
+{ #category : #'updating widget' }
+SpToploAbstractListAdapter >> updateSelectionMode [
+
+	widget selecter multiple: self model isMultipleSelection
 ]
