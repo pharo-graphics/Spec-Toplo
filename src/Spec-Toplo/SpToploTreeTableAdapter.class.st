@@ -15,6 +15,11 @@ SpToploTreeTableAdapter >> buildWidget [
 	^ widget
 ]
 
+{ #category : #'expanding-collapsing' }
+SpToploTreeTableAdapter >> expandAll [
+	widget list expandAll
+]
+
 { #category : #factory }
 SpToploTreeTableAdapter >> itemAtPath: aPath [
 
