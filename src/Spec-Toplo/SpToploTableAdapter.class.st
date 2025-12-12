@@ -19,6 +19,21 @@ SpToploTableAdapter >> buildColumns [
 		  self buildToploColumnFrom: spCollumn ]
 ]
 
+{ #category : #'as yet unclassified' }
+SpToploTableAdapter >> buildGenericToTableColumnFrom: spCollumn [
+
+	| column |
+	column := ToTableColumn new
+		  title: spCollumn title;
+		  key: spCollumn title;
+		  "Use yourself by default. It sometimes happen when user give a list of string as data"
+		  dataIndex: (spCollumn evaluation ifNil: [ #yourself ]);
+		  yourself.
+	spCollumn isSortable ifTrue: [
+		column sorterBlock: spCollumn sortFunction ].
+	^ column
+]
+
 { #category : #factory }
 SpToploTableAdapter >> buildToploColumnFrom: spCollumn [
 
@@ -80,19 +95,27 @@ SpToploTableAdapter >> visitCompositeColumn: spCollumn [
 
 	| column |
 	"In this case, consider that the table has a column with checkbox for selection"
-	column := ToTableColumn new
-		          title: spCollumn title;
-		          key: spCollumn title;
-		          "Use yourself by default. It sometimes happen when user give a list of string as data"
-		          dataIndex: (spCollumn evaluation ifNil: [ #yourself ]);
-		          yourself.
+	column := self buildGenericToTableColumnFrom: spCollumn.
+	"Use yourself by default. It sometimes happen when user give a list of string as data"
 	(spCollumn columns first isKindOf: SpCheckBoxTableColumn) ifTrue: [
-		widget useCheckbox: true.
-		spCollumn columns first onActivation ifNotNil: [ :activationBlock | additionnalActivationBlocks add: activationBlock  ].
-		spCollumn columns first onDeactivation ifNotNil: [ :deactivationBlock | additionnalDeactivationBlocks add: deactivationBlock  ].
-		 ].
-	spCollumn isSortable ifTrue: [
-		column sorterBlock: spCollumn sortFunction ].
+			widget useCheckbox: true.
+			spCollumn columns first onActivation ifNotNil: [ :activationBlock |
+				additionnalActivationBlocks add: activationBlock ].
+			spCollumn columns first onDeactivation ifNotNil: [
+				:deactivationBlock |
+				additionnalDeactivationBlocks add: deactivationBlock ] ].
+
+	^ column
+]
+
+{ #category : #visiting }
+SpToploTableAdapter >> visitImageColumn: aSpImageTableColumn [
+
+	| column |
+	column := self buildGenericToTableColumnFrom: aSpImageTableColumn.
+	column cellBuilder: [ :element :dataItem :holder |
+		element addChild: dataItem asElement ].
+
 	^ column
 ]
 
@@ -100,13 +123,7 @@ SpToploTableAdapter >> visitCompositeColumn: spCollumn [
 SpToploTableAdapter >> visitStringColumn: spCollumn [
 
 	| column |
-	column := ToTableColumn new
-		          title: spCollumn title;
-		          key: spCollumn title;
-		          "Use yourself by default. It sometimes happen when user give a list of string as data"
-		          dataIndex: (spCollumn evaluation ifNil: [ #yourself ]);
-		          yourself.
-	spCollumn isSortable ifTrue: [
-		column sorterBlock: spCollumn sortFunction ].
+	column := self buildGenericToTableColumnFrom: spCollumn.
+	
 	^ column
 ]
