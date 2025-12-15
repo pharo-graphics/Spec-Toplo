@@ -124,6 +124,19 @@ SpToploTableAdapter >> visitStringColumn: spCollumn [
 
 	| column |
 	column := self buildGenericToTableColumnFrom: spCollumn.
-	
+	column cellBuilder: [ :element :dataItem :holder |
+			| label |
+			label := ToAttributedLabel text: dataItem asString.
+			spCollumn displayColor ifNotNil: [ :displayColorBlock |
+				label foreground: (displayColorBlock value: holder dataItem) ].
+
+			spCollumn displayItalic ifNotNil: [ :displayItalicBlock |
+				(displayItalicBlock value: holder dataItem) ifTrue: [
+					label italic ] ].
+
+			spCollumn displayBold ifNotNil: [ :displayBoldBlock |
+				(displayBoldBlock value: holder dataItem) ifTrue: [ label bold ] ].
+
+			element addChild: label ].
 	^ column
 ]
