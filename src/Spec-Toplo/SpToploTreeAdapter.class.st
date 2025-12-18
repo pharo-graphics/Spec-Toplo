@@ -70,7 +70,7 @@ SpToploTreeAdapter >> isExpanded: item [
 { #category : #private }
 SpToploTreeAdapter >> itemAtPath: aPath [
 
-	^ (widget dataSource itemsAtPath: aPath) last unwrapped
+	^ (widget dataSource itemsAtPath: aPath) last dataItem
 ]
 
 { #category : #factory }

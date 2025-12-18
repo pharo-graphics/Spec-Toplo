@@ -12,3 +12,9 @@ SpToploAdapterBindings >> abstractAdapterClass [
 	
 	^ SpToploAdapter
 ]
+
+{ #category : #'as yet unclassified' }
+SpToploAdapterBindings >> useInnerWindowAdapter [
+	
+	bindings at: #WindowAdapter put: SpToploInnerWindowAdapter name
+]

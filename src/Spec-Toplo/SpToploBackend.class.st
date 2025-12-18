@@ -44,6 +44,10 @@ SpToploBackend >> dropListClass [
 	^ SpDropListPresenter
 ]
 
+{ #category : #'as yet unclassified' }
+SpToploBackend >> inform: aMsg [
+]
+
 { #category : #accessing }
 SpToploBackend >> listClass [
 
@@ -60,4 +64,10 @@ SpToploBackend >> tableClass [
 SpToploBackend >> treeClass [
 
 	^ SpTreePresenter
+]
+
+{ #category : #'as yet unclassified' }
+SpToploBackend >> useInnerWindowAdapter [
+	
+	adapterBindings useInnerWindowAdapter 
 ]
