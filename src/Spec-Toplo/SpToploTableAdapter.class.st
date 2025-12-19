@@ -30,6 +30,7 @@ SpToploTableAdapter >> buildGenericToTableColumnFrom: spCollumn [
 		          dataIndex: (spCollumn evaluation ifNil: [ #yourself ]);
 		          yourself.
 	column width: spCollumn width.
+	column resizable: spCollumn isExpandable.
 	spCollumn isSortable ifTrue: [
 		column sorterBlock: spCollumn sortFunction ].
 	^ column
