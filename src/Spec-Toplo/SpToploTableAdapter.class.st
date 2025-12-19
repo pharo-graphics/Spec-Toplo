@@ -19,16 +19,17 @@ SpToploTableAdapter >> buildColumns [
 		  self buildToploColumnFrom: spCollumn ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #factory }
 SpToploTableAdapter >> buildGenericToTableColumnFrom: spCollumn [
 
 	| column |
 	column := ToTableColumn new
-		  title: spCollumn title;
-		  key: spCollumn title;
-		  "Use yourself by default. It sometimes happen when user give a list of string as data"
-		  dataIndex: (spCollumn evaluation ifNil: [ #yourself ]);
-		  yourself.
+		          title: spCollumn title;
+		          key: spCollumn title;
+		          "Use yourself by default. It sometimes happen when user give a list of string as data"
+		          dataIndex: (spCollumn evaluation ifNil: [ #yourself ]);
+		          yourself.
+	column width: spCollumn width.
 	spCollumn isSortable ifTrue: [
 		column sorterBlock: spCollumn sortFunction ].
 	^ column
