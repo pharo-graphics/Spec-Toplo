@@ -43,7 +43,7 @@ SpToploTreeTableAdapter >> subscribeToWidget [
 			model selection selectPath: widget list selecter selectedIndexes.
 			  ];
 		addEventHandlerOn: ToListStrongSelectionEvent
-		do: [ model doActivateAtIndex: model selection selectedIndex ]
+		do: [ model doActivateAtPath: model selection selectedPath ]
 ]
 
 { #category : #factory }
