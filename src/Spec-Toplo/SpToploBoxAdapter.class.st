@@ -119,6 +119,12 @@ SpToploBoxAdapter >> remove: aPresenter [
 ]
 
 { #category : #protocol }
+SpToploBoxAdapter >> removeAll [
+	
+	self removeSubWidgets
+]
+
+{ #category : #protocol }
 SpToploBoxAdapter >> removeSubWidgets [
 	
 	startPane removeChildren.

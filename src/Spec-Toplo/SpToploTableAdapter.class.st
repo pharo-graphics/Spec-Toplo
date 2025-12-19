@@ -90,6 +90,23 @@ SpToploTableAdapter >> subscribeToWidget [
 		do: [ model doActivateAtIndex: model selection selectedIndex ]
 ]
 
+{ #category : #visiting }
+SpToploTableAdapter >> visitCheckboxColumn: aSpCheckBoxTableColumn [
+
+	| column |
+	column := self buildGenericToTableColumnFrom: aSpCheckBoxTableColumn.
+	column cellBuilder: [ :element :dataItem :holder |
+			| checkbox |
+			checkbox := ToCheckbox new.
+			checkbox addEventHandlerOn: ToCheckableCheckEvent do: [ :event |
+					event checked
+						ifTrue: [ aSpCheckBoxTableColumn onActivation value: holder dataItem ]
+						ifFalse: [ aSpCheckBoxTableColumn onDeactivation value: holder dataItem ] ].
+			element addChild: checkbox ].
+
+	^ column
+]
+
 { #category : #visitor }
 SpToploTableAdapter >> visitCompositeColumn: spCollumn [
 
