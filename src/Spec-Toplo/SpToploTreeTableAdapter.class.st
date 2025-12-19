@@ -34,7 +34,7 @@ SpToploTreeTableAdapter >> subscribeToPresenter [
 		whenSelectionChangedDo: [ self updateSelection ]
 ]
 
-{ #category : #factory }
+{ #category : #initialization }
 SpToploTreeTableAdapter >> subscribeToWidget [
 
 	widget list
@@ -46,7 +46,7 @@ SpToploTreeTableAdapter >> subscribeToWidget [
 		do: [ model doActivateAtPath: model selection selectedPath ]
 ]
 
-{ #category : #factory }
+{ #category : #'updating widget' }
 SpToploTreeTableAdapter >> updateItems [
 
 	widget dataAccessor
@@ -54,7 +54,7 @@ SpToploTreeTableAdapter >> updateItems [
 		addAll: model roots
 ]
 
-{ #category : #factory }
+{ #category : #'updating widget' }
 SpToploTreeTableAdapter >> updateSelection [
 
 	model selection selectedPaths ifEmpty: [
