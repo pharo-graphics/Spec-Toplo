@@ -15,6 +15,11 @@ SpToploTreeTableAdapter >> buildWidget [
 	^ widget
 ]
 
+{ #category : #'expanding-collapsing' }
+SpToploTreeTableAdapter >> expandAll [
+	widget list expandAll
+]
+
 { #category : #factory }
 SpToploTreeTableAdapter >> itemAtPath: aPath [
 
@@ -29,7 +34,7 @@ SpToploTreeTableAdapter >> subscribeToPresenter [
 		whenSelectionChangedDo: [ self updateSelection ]
 ]
 
-{ #category : #factory }
+{ #category : #initialization }
 SpToploTreeTableAdapter >> subscribeToWidget [
 
 	widget list
@@ -38,10 +43,10 @@ SpToploTreeTableAdapter >> subscribeToWidget [
 			model selection selectPath: widget list selecter selectedIndexes.
 			  ];
 		addEventHandlerOn: ToListStrongSelectionEvent
-		do: [ model doActivateAtIndex: model selection selectedIndex ]
+		do: [ model doActivateAtPath: model selection selectedPath ]
 ]
 
-{ #category : #factory }
+{ #category : #'updating widget' }
 SpToploTreeTableAdapter >> updateItems [
 
 	widget dataAccessor
@@ -49,7 +54,7 @@ SpToploTreeTableAdapter >> updateItems [
 		addAll: model roots
 ]
 
-{ #category : #factory }
+{ #category : #'updating widget' }
 SpToploTreeTableAdapter >> updateSelection [
 
 	model selection selectedPaths ifEmpty: [

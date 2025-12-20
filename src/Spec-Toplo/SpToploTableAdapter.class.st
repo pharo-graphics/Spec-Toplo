@@ -20,6 +20,23 @@ SpToploTableAdapter >> buildColumns [
 ]
 
 { #category : #factory }
+SpToploTableAdapter >> buildGenericToTableColumnFrom: spCollumn [
+
+	| column |
+	column := ToTableColumn new
+		          title: spCollumn title;
+		          key: spCollumn title;
+		          "Use yourself by default. It sometimes happen when user give a list of string as data"
+		          dataIndex: (spCollumn evaluation ifNil: [ #yourself ]);
+		          yourself.
+	column width: spCollumn width.
+	column resizable: spCollumn isExpandable.
+	spCollumn isSortable ifTrue: [
+		column sorterBlock: spCollumn sortFunction ].
+	^ column
+]
+
+{ #category : #factory }
 SpToploTableAdapter >> buildToploColumnFrom: spCollumn [
 
 	^ spCollumn acceptColumnVisitor: self
@@ -75,24 +92,49 @@ SpToploTableAdapter >> subscribeToWidget [
 		do: [ model doActivateAtIndex: model selection selectedIndex ]
 ]
 
+{ #category : #visiting }
+SpToploTableAdapter >> visitCheckboxColumn: aSpCheckBoxTableColumn [
+
+	| column |
+	column := self buildGenericToTableColumnFrom: aSpCheckBoxTableColumn.
+	column cellBuilder: [ :element :dataItem :holder |
+			| checkbox |
+			checkbox := ToCheckbox new.
+			checkbox addEventHandlerOn: ToCheckableCheckEvent do: [ :event |
+					event checked
+						ifTrue: [ aSpCheckBoxTableColumn onActivation value: holder dataItem ]
+						ifFalse: [ aSpCheckBoxTableColumn onDeactivation value: holder dataItem ] ].
+			element addChild: checkbox ].
+
+	^ column
+]
+
 { #category : #visitor }
 SpToploTableAdapter >> visitCompositeColumn: spCollumn [
 
 	| column |
 	"In this case, consider that the table has a column with checkbox for selection"
-	column := ToTableColumn new
-		          title: spCollumn title;
-		          key: spCollumn title;
-		          "Use yourself by default. It sometimes happen when user give a list of string as data"
-		          dataIndex: (spCollumn evaluation ifNil: [ #yourself ]);
-		          yourself.
+	column := self buildGenericToTableColumnFrom: spCollumn.
+	"Use yourself by default. It sometimes happen when user give a list of string as data"
 	(spCollumn columns first isKindOf: SpCheckBoxTableColumn) ifTrue: [
-		widget useCheckbox: true.
-		spCollumn columns first onActivation ifNotNil: [ :activationBlock | additionnalActivationBlocks add: activationBlock  ].
-		spCollumn columns first onDeactivation ifNotNil: [ :deactivationBlock | additionnalDeactivationBlocks add: deactivationBlock  ].
-		 ].
-	spCollumn isSortable ifTrue: [
-		column sorterBlock: spCollumn sortFunction ].
+			widget useCheckbox: true.
+			spCollumn columns first onActivation ifNotNil: [ :activationBlock |
+				additionnalActivationBlocks add: activationBlock ].
+			spCollumn columns first onDeactivation ifNotNil: [
+				:deactivationBlock |
+				additionnalDeactivationBlocks add: deactivationBlock ] ].
+
+	^ column
+]
+
+{ #category : #visiting }
+SpToploTableAdapter >> visitImageColumn: aSpImageTableColumn [
+
+	| column |
+	column := self buildGenericToTableColumnFrom: aSpImageTableColumn.
+	column cellBuilder: [ :element :dataItem :holder |
+		element addChild: dataItem asElement ].
+
 	^ column
 ]
 
@@ -100,13 +142,20 @@ SpToploTableAdapter >> visitCompositeColumn: spCollumn [
 SpToploTableAdapter >> visitStringColumn: spCollumn [
 
 	| column |
-	column := ToTableColumn new
-		          title: spCollumn title;
-		          key: spCollumn title;
-		          "Use yourself by default. It sometimes happen when user give a list of string as data"
-		          dataIndex: (spCollumn evaluation ifNil: [ #yourself ]);
-		          yourself.
-	spCollumn isSortable ifTrue: [
-		column sorterBlock: spCollumn sortFunction ].
+	column := self buildGenericToTableColumnFrom: spCollumn.
+	column cellBuilder: [ :element :dataItem :holder |
+			| label |
+			label := ToAttributedLabel text: dataItem asString.
+			spCollumn displayColor ifNotNil: [ :displayColorBlock |
+				label foreground: (displayColorBlock value: holder dataItem) ].
+
+			spCollumn displayItalic ifNotNil: [ :displayItalicBlock |
+				(displayItalicBlock value: holder dataItem) ifTrue: [
+					label italic ] ].
+
+			spCollumn displayBold ifNotNil: [ :displayBoldBlock |
+				(displayBoldBlock value: holder dataItem) ifTrue: [ label bold ] ].
+
+			element addChild: label ].
 	^ column
 ]
