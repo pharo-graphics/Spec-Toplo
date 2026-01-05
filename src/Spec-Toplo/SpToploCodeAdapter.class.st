@@ -43,6 +43,11 @@ SpToploCodeAdapter >> subscribeToPresenter [
 		self updateLineNumbers ]
 ]
 
+{ #category : #protocol }
+SpToploCodeAdapter >> takeKeyboardFocus [
+	self flag: #toImplement
+]
+
 { #category : #'updating widget' }
 SpToploCodeAdapter >> updateAll [
 
