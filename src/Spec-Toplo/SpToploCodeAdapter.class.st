@@ -94,3 +94,9 @@ SpToploCodeAdapter >> updateStylerForScripting [
 
 	widget requestTextStyle
 ]
+
+{ #category : #protocol }
+SpToploCodeAdapter >> userActionDuring: aBlock [
+
+	aBlock value
+]

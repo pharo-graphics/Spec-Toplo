@@ -4,9 +4,8 @@ I'm a Spec adapter for `SpTreePresenter`.
 Class {
 	#name : #SpToploTreeAdapter,
 	#superclass : #SpToploWidgetAdapter,
-	#instVars : [
-		'suspendUpdateSelection'
-	],
+	#traits : 'SpToploTTreeHelper',
+	#classTraits : 'SpToploTTreeHelper classTrait',
 	#category : #'Spec-Toplo-Adapters'
 }
 
@@ -103,25 +102,6 @@ SpToploTreeAdapter >> newItemElementFor: item [
 	^ itemElement
 ]
 
-{ #category : #accessing }
-SpToploTreeAdapter >> selectPath: aPath [
-
-	| items index |
-	aPath ifEmpty: [ ^ widget selecter deselectAll ].
-
-	items := widget dataSource itemsAtPath: aPath.
-	index := items last position.
-	
-	widget selecter deselectAll; selectIndex: index
-]
-
-{ #category : #accessing }
-SpToploTreeAdapter >> selectedPaths [
-
-	^ widget selectionModel selectedIndexes collect: [ :each |
-		  widget dataSource pathOfIndex: each ]
-]
-
 { #category : #initialization }
 SpToploTreeAdapter >> subscribeToPresenter [
 
@@ -146,31 +126,16 @@ SpToploTreeAdapter >> subscribeToWidget [
 		do: [ :evt | self transferStrongSelection: evt ]
 ]
 
-{ #category : #private }
-SpToploTreeAdapter >> suspendUpdateSelectionDuring: aBlock [
-
-	suspendUpdateSelection := true.
-	aBlock ensure: [ suspendUpdateSelection := false ]
-]
-
-{ #category : #initialization }
-SpToploTreeAdapter >> transferSelectionChange: evt [
-
-	| currentPaths |
-	self suspendUpdateSelectionDuring: [
-		currentPaths := self selectedPaths.
-
-		currentPaths = model selection selectedPaths ifTrue: [ ^ self ].
-
-		model selection
-			clearSelection;
-			selectPaths: currentPaths ]
-]
-
 { #category : #initialization }
 SpToploTreeAdapter >> transferStrongSelection: evt [
 
 	model doActivateAtPath: model selection selectedPath.
+]
+
+{ #category : #initialization }
+SpToploTreeAdapter >> treeWidget [
+
+	^ self widget
 ]
 
 { #category : #initialization }

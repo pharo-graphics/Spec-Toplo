@@ -1,6 +1,8 @@
 Class {
 	#name : #SpToploTreeTableAdapter,
 	#superclass : #SpToploTableAdapter,
+	#traits : 'SpToploTTreeHelper',
+	#classTraits : 'SpToploTTreeHelper classTrait',
 	#category : #'Spec-Toplo-Adapters'
 }
 
@@ -19,13 +21,27 @@ SpToploTreeTableAdapter >> buildWidget [
 
 { #category : #'expanding-collapsing' }
 SpToploTreeTableAdapter >> expandAll [
+
 	widget list expandAll
+]
+
+{ #category : #initialization }
+SpToploTreeTableAdapter >> initialize [
+
+	super initialize.
+	
+	suspendUpdateSelection := false
 ]
 
 { #category : #factory }
 SpToploTreeTableAdapter >> itemAtPath: aPath [
 
-	^ (widget dataAccessor dataSource itemsAtPath: aPath) last
+	^ (widget dataAccessor dataSource itemsAtPath: aPath) last dataItem
+]
+
+{ #category : #accessing }
+SpToploTreeTableAdapter >> scrollToSelection [
+	self flag: #toImplement
 ]
 
 { #category : #initialization }
@@ -42,10 +58,16 @@ SpToploTreeTableAdapter >> subscribeToWidget [
 	widget list
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: [ :event |
-			model selection selectPath: widget list selecter selectedIndexes.
+			self transferSelectionChange: event
 			  ];
 		addEventHandlerOn: ToListStrongSelectionEvent
 		do: [ model doActivateAtPath: model selection selectedPath ]
+]
+
+{ #category : #initialization }
+SpToploTreeTableAdapter >> treeWidget [
+
+	^ self widget list
 ]
 
 { #category : #'updating widget' }
@@ -61,5 +83,5 @@ SpToploTreeTableAdapter >> updateSelection [
 
 	model selection selectedPaths ifEmpty: [
 		^ widget selecter deselectAll ].
-	widget selecter selectIndex: model selection selectedPaths
+	model selection selectedPaths do: [ :each | self selectPath: each ]
 ]
