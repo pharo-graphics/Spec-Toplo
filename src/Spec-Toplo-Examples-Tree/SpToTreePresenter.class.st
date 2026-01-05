@@ -1,14 +1,14 @@
 Class {
-	#name : #SpToTreeTablePresenter,
+	#name : #SpToTreePresenter,
 	#superclass : #SpPresenter,
 	#instVars : [
-		'treeTable'
+		'tree'
 	],
 	#category : #'Spec-Toplo-Examples-Tree'
 }
 
 { #category : #layout }
-SpToTreeTablePresenter class >> openInToplo [
+SpToTreePresenter class >> openInToplo [
 
 	<script>
 	| app chooser |
@@ -22,22 +22,17 @@ SpToTreeTablePresenter class >> openInToplo [
 ]
 
 { #category : #layout }
-SpToTreeTablePresenter >> defaultLayout [
+SpToTreePresenter >> defaultLayout [
 
 	^ SpBoxLayout newVertical
-		  add: #treeTable;
+		  add: #tree;
 		  yourself
 ]
 
-{ #category : #initialization }
-SpToTreeTablePresenter >> initializePresenters [
+{ #category : #layout }
+SpToTreePresenter >> initializePresenters [
 
-	treeTable := self newTreeTable
-		             addStyle: 'stTree';
-		             addColumn:
-			             (SpStringTableColumn
-				              title: 'Class hierarchy'
-				              evaluated: #name);
+	tree := self newTree
 		             roots: { SpPresenter };
 		             children: [ :aClass | aClass subclasses ];
 		             yourself

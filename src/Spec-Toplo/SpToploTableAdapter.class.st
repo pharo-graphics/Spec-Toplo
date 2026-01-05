@@ -92,6 +92,11 @@ SpToploTableAdapter >> subscribeToWidget [
 		do: [ model doActivateAtIndex: model selection selectedIndex ]
 ]
 
+{ #category : #protocol }
+SpToploTableAdapter >> takeKeyboardFocus [
+	self flag: #toImplement
+]
+
 { #category : #visiting }
 SpToploTableAdapter >> visitCheckboxColumn: aSpCheckBoxTableColumn [
 

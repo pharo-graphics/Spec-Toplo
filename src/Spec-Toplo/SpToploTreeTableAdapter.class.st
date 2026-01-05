@@ -9,9 +9,11 @@ SpToploTreeTableAdapter >> buildWidget [
 
 	widget := ToTreeTableElement new.
 	widget showHeader: self model isShowingColumnHeaders.
-	widget selecter multiple: self model selectionMode isMultipleSelection.
+	widget selecter multiple:
+		self model selectionMode isMultipleSelection.
 	widget columns: self buildColumns.
-	widget nodeManager childrenGetter: self model children.
+	widget nodeManager childrenGetter: [ :dataItem |
+		model childrenFor: dataItem ].
 	^ widget
 ]
 
