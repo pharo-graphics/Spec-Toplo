@@ -31,6 +31,6 @@ SpToploMillerAdapter >> newToploWidget [
 
 { #category : #adding }
 SpToploMillerAdapter >> remove: aStObjectInspectorPresenter [
-	self flag: #toImplement
-	"self widget removeChild: aStObjectInspectorPresenter adapter widget"
+
+	self widget removeChild: aStObjectInspectorPresenter adapter widget
 ]
