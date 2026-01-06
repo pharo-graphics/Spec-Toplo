@@ -12,3 +12,9 @@ SpToploWindowAdapter >> newRootElement [
 
 	^ SpToploWindowElement new
 ]
+
+{ #category : #announcer }
+SpToploWindowAdapter >> when: aClass do: aFullBlockClosure for: aMiModelsBrowser [
+
+	self widget addEventHandlerOn: aClass do: aFullBlockClosure
+]
