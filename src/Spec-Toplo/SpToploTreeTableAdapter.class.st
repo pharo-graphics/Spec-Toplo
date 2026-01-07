@@ -57,11 +57,15 @@ SpToploTreeTableAdapter >> subscribeToWidget [
 
 	widget list
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
-		do: [ :event |
-			self transferSelectionChange: event
-			  ];
+		do: [ :event | self transferSelectionChange: event ];
 		addEventHandlerOn: ToListStrongSelectionEvent
-		do: [ model doActivateAtPath: model selection selectedPath ]
+		do: [ :event | self transferStrongSelection: event ]
+]
+
+{ #category : #initialization }
+SpToploTreeTableAdapter >> transferStrongSelection: evt [
+
+	model doActivateAtPath: model selection selectedPath.
 ]
 
 { #category : #initialization }
@@ -80,6 +84,9 @@ SpToploTreeTableAdapter >> updateItems [
 
 { #category : #'updating widget' }
 SpToploTreeTableAdapter >> updateSelection [
+	
+	
+	suspendUpdateSelection ifTrue: [ ^ self ].
 
 	model selection selectedPaths ifEmpty: [
 		^ widget selecter deselectAll ].

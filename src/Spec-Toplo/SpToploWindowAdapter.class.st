@@ -7,6 +7,12 @@ Class {
 	#category : #'Spec-Toplo-Adapters'
 }
 
+{ #category : #testing }
+SpToploWindowAdapter >> isTopWindow [
+
+	^ self widget isFocused
+]
+
 { #category : #hook }
 SpToploWindowAdapter >> newRootElement [
 
