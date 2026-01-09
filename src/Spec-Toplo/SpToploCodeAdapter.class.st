@@ -77,7 +77,8 @@ SpToploCodeAdapter >> subscribeToPresenter [
 SpToploCodeAdapter >> subscribeToWidget [
 
 	super subscribeToWidget.
-	self addKeyBindingsFromGroup: self model actions.
+	self model actions ifNotNil: [ :actions |
+		self addKeyBindingsFromGroup: actions ].
 	self addKeyBindingsFromGroup: self model rootCommandsGroup
 ]
 
