@@ -66,6 +66,12 @@ SpToploBackend >> treeClass [
 	^ SpTreePresenter
 ]
 
+{ #category : #accessing }
+SpToploBackend >> treeTableClass [
+
+	^ SpTreeTablePresenter
+]
+
 { #category : #'as yet unclassified' }
 SpToploBackend >> useInnerWindowAdapter [
 	
