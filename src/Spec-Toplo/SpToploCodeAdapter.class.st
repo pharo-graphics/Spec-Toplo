@@ -10,6 +10,13 @@ Class {
 	#category : #'Spec-Toplo-Adapters'
 }
 
+{ #category : #initialization }
+SpToploCodeAdapter >> addKeyBindingsFromGroup: commandGroup [
+
+	commandGroup asKMCategory allEntries keymaps do: [ :each |
+		self bindKeyCombination: each shortcut toAction: each action ]
+]
+
 { #category : #accessing }
 SpToploCodeAdapter >> bindings [
 	"In scripting interaction model, I set myself as workspace. Responding to this message is needed in consequence."
@@ -43,6 +50,13 @@ SpToploCodeAdapter >> subscribeToPresenter [
 		self updateLineNumbers ]
 ]
 
+{ #category : #initialization }
+SpToploCodeAdapter >> subscribeToWidget [
+
+	super subscribeToWidget.
+	self addKeyBindingsFromGroup: self model rootCommandsGroup
+]
+
 { #category : #protocol }
 SpToploCodeAdapter >> takeKeyboardFocus [
 	self flag: #toImplement
@@ -60,7 +74,7 @@ SpToploCodeAdapter >> updateAll [
 
 { #category : #'updating widget' }
 SpToploCodeAdapter >> updateInteractionModel [
-
+	
 	model interactionModel isScripting
 		ifTrue: [ self updateStylerForScripting ]
 		ifFalse: [ self updateStylerFor: model interactionModel behavior ]

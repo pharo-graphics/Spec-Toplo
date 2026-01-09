@@ -24,9 +24,8 @@ SpToploKMVisitor >> visitKeyCombinationChoice: aKMKeyCombination [
 
 	| alternative |
 	alternative := BlAlternativeCombination new.
-
 	aKMKeyCombination combinationsDo: [ :each |
-		alternative with: (each acceptVisitor: self) ].
+		alternative with: (each shortcut acceptVisitor: self) ].
 
 	^ alternative
 ]
