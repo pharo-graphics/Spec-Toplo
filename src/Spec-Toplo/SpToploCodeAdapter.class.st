@@ -12,7 +12,7 @@ Class {
 
 { #category : #initialization }
 SpToploCodeAdapter >> addKeyBindingsFromGroup: commandGroup [
-
+ 
 	commandGroup asKMCategory allEntries keymaps do: [ :each |
 		self bindKeyCombination: each shortcut toAction: each action ]
 ]
@@ -30,6 +30,29 @@ SpToploCodeAdapter >> buildWidget [
 	^ super buildWidget
 		styler: BlPharoCodeStyler new;
 		yourself
+]
+
+{ #category : #'updating widget' }
+SpToploCodeAdapter >> insertPopoverAfterCurrentSelection: aPresenter style: styleName [
+
+	| popover |
+	self widgetDo: [ :w |
+			popover := self presenter newPopover
+				           presenter: aPresenter;
+				           yourself.
+			popover build.
+			styleName ifNotNil: [ popover addStyle: styleName ].
+			popover adapter popupWindowHandler placement:
+				(ToActionPlacement new action: [ :theWin :evt :aBoundsUpdater |
+						 | theElem theRoot |
+						 theElem := theWin anchorElement.
+						 theRoot := theWin anchorRoot.
+						 theWin position:
+							 theElem next beneathLayer children first bounds inSpace bounds
+								 right
+							 @
+							 theElem next beneathLayer children first bounds inSpace bounds
+								 top ]) ]
 ]
 
 { #category : #'updating widget' }
@@ -54,6 +77,7 @@ SpToploCodeAdapter >> subscribeToPresenter [
 SpToploCodeAdapter >> subscribeToWidget [
 
 	super subscribeToWidget.
+	self addKeyBindingsFromGroup: self model actions.
 	self addKeyBindingsFromGroup: self model rootCommandsGroup
 ]
 
