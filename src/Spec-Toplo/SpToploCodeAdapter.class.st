@@ -43,6 +43,11 @@ SpToploCodeAdapter >> subscribeToPresenter [
 		self updateLineNumbers ]
 ]
 
+{ #category : #protocol }
+SpToploCodeAdapter >> takeKeyboardFocus [
+	self flag: #toImplement
+]
+
 { #category : #'updating widget' }
 SpToploCodeAdapter >> updateAll [
 
@@ -88,4 +93,10 @@ SpToploCodeAdapter >> updateStylerForScripting [
 		workspace: self.
 
 	widget requestTextStyle
+]
+
+{ #category : #protocol }
+SpToploCodeAdapter >> userActionDuring: aBlock [
+
+	aBlock value
 ]

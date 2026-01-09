@@ -30,11 +30,13 @@ SpToDiffPresenter >> defaultLayout [
 		  yourself
 ]
 
-{ #category : #layout }
+{ #category : #initialization }
 SpToDiffPresenter >> initializePresenters [
 
 	diff := SpDiffPresenter new
-		           showOptions: false;
-		           leftText: 'Old text';
-		           rightText: 'New text'
+		        showOptions: false;
+		        leftText: 'Old text';
+		        rightText: 'New text';
+		        leftLabel: 'Source';
+		        rightLabel: 'Target'
 ]

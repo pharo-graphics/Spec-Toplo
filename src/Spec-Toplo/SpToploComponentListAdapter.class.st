@@ -9,3 +9,9 @@ SpToploComponentListAdapter >> newItemElementFor: itemPresenter [
 
 	^ itemPresenter build
 ]
+
+{ #category : #protocol }
+SpToploComponentListAdapter >> takeKeyboardFocus [
+
+	self flag: #toImplement
+]

@@ -86,10 +86,14 @@ SpToploTableAdapter >> subscribeToWidget [
 	widget list
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: [ :event |
-			model selection selectIndexes: widget list selecter selectedIndexes.
-			  ];
+			model selection selectIndexes: widget list selecter selectedIndexes ];
 		addEventHandlerOn: ToListStrongSelectionEvent
 		do: [ model doActivateAtIndex: model selection selectedIndex ]
+]
+
+{ #category : #protocol }
+SpToploTableAdapter >> takeKeyboardFocus [
+	self flag: #toImplement
 ]
 
 { #category : #visiting }

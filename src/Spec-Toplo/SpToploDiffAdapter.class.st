@@ -11,6 +11,8 @@ SpToploDiffAdapter >> buildWidget [
 		  from: self leftText
 		  to: self rightText
 		  contextClass: self contextClass;
+		  leftLabel: self model leftLabel;
+		  rightLabel: self model rightLabel;
 		  yourself
 ]
 
