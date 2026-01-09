@@ -25,7 +25,7 @@ SpToploNotebookAdapter >> buildWidget [
 	tabPanel := ToTabPaneElement new.
 	"default value in morphic"
 	tabPanel vertical: true.
-	tabPanel itemBuilder: [ :tabButton :aData :tabGroup |
+	tabPanel itemBuilder: [ :tabButton :aData :holder |
 			tabButton removable: aData isCloseable.
 			tabButton label: (ToLabel text: aData title asString).
 			self addModel: aData to: tabButton.
