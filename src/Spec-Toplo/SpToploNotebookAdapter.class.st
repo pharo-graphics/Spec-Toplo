@@ -48,7 +48,6 @@ SpToploNotebookAdapter >> buildWidget [
 SpToploNotebookAdapter >> ensurePage: aPage isBuiltWithPresenter: presenter [
 
 	"is already built *for this notebook (owner)*"
-
 	(presenter hasAdapter and: [ presenter owner = self presenter ]) 
 		ifTrue: [ ^ self ].
 
@@ -65,11 +64,34 @@ SpToploNotebookAdapter >> modelOfTab: tabButton [
 ]
 
 { #category : #factory }
+SpToploNotebookAdapter >> pageWithModel: anObject [
+	"an utility to easy find pages with a model"
+ 
+	^ self widget dataSource collection detect: [ :tabButton |
+			 (self modelOfTab: tabButton) = anObject ]
+]
+
+{ #category : #factory }
 SpToploNotebookAdapter >> selectPage: page [
 
 	self widget selectedAtPosition:
-		(self widget items collection detect: [ :tabButton |
+		(self widget dataSource collection detect: [ :tabButton |
 			 (self modelOfTab: tabButton) = page ]) holder position
+]
+
+{ #category : #updating }
+SpToploNotebookAdapter >> updatePageContent: aPage [ 
+
+	(self pageWithModel: aPage) invalidate.
+	"if we are updating the page being displayed, we need to trigger a refresh"
+	aPage = self presenter selectedPage ifTrue: [
+		self flag: #toBeImplemented.
+		self updatePageIndex: self model selectedPageIndex ]
+]
+
+{ #category : #private }
+SpToploNotebookAdapter >> updatePageIndex: anInteger [ 
+	self shouldBeImplemented.
 ]
 
 { #category : #factory }
