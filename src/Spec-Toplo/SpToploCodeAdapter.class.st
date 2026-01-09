@@ -127,7 +127,7 @@ SpToploCodeAdapter >> updateStylerFor: aBehavior [
 SpToploCodeAdapter >> updateStylerForScripting [
 
 	widget styler
-		isForWorkspace: true;
+		isScripting: true;
 		classOrMetaClass: nil;
 		workspace: self.
 
