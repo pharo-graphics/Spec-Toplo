@@ -31,6 +31,11 @@ SpToploToolbarAdapter >> subscribeToPresenter [
 	model whenItemsChangeDo: [ self updateItems ]
 ]
 
+{ #category : #protocol }
+SpToploToolbarAdapter >> takeKeyboardFocus [
+	self flag: #toBeImplemented
+]
+
 { #category : #initialization }
 SpToploToolbarAdapter >> updateAll [
 

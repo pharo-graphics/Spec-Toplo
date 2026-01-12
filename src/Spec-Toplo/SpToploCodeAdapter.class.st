@@ -64,6 +64,12 @@ SpToploCodeAdapter >> interactionModel: anInteractionModel [
 	self updateInteractionModel
 ]
 
+{ #category : #factory }
+SpToploCodeAdapter >> pasteText [
+
+	self widget editor paste
+]
+
 { #category : #initialization }
 SpToploCodeAdapter >> subscribeToPresenter [
 
