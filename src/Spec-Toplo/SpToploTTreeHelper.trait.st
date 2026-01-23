@@ -6,6 +6,12 @@ Trait {
 	#category : #'Spec-Toplo-Adapters'
 }
 
+{ #category : #'expanding-collapsing' }
+SpToploTTreeHelper >> expandRoots [
+
+	self treeWidget expandRoots
+]
+
 { #category : #initialization }
 SpToploTTreeHelper >> selectPath: aPath [
 
