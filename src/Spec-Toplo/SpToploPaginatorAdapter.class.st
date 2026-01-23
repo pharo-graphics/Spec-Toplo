@@ -7,11 +7,19 @@ Class {
 { #category : #factory }
 SpToploPaginatorAdapter >> buildWidget [
 
-	^ ToCheckableListElement new
-		  beHorizontal;
-		  addAllItems: (self model pages collect: [ :aPageDescription |
-					   self entryForPage: aPageDescription ]);
-		  yourself
+	| rootPane list |
+	rootPane := ToPane horizontal.
+	rootPane layout alignCenter.
+	rootPane matchParent.
+	list := ToCheckableListElement new
+		        beHorizontal;
+		        matchParent;
+		        addAllItems:
+			        (self model pages collect: [ :aPageDescription |
+					         self entryForPage: aPageDescription ]);
+		        yourself.
+	rootPane addChild: list.
+	^ rootPane
 ]
 
 { #category : #'as yet unclassified' }
@@ -23,12 +31,18 @@ SpToploPaginatorAdapter >> entryForPage: aPageDescription [
 ]
 
 { #category : #factory }
+SpToploPaginatorAdapter >> list [
+
+	^ widget childAt: 1
+]
+
+{ #category : #factory }
 SpToploPaginatorAdapter >> subscribeToPresenter [
 
 	super subscribeToPresenter.
 
 	model whenPageAddedDo: [ :anObject |
-		widget addItem: (self entryForPage: anObject) ].
+		self list addItem: (self entryForPage: anObject) ].
 	model whenPageRemovedDo: [ :anObject |
-		anObject ifNil: [ widget removeAllItems ] ifNotNil: [ self halt ] ]
+		anObject ifNil: [ self list removeAllItems ] ifNotNil: [ self halt ] ]
 ]
