@@ -28,7 +28,7 @@ SpToploTreeTableAdapter >> expandAll [
 { #category : #'expanding-collapsing' }
 SpToploTreeTableAdapter >> expandRoots [
 
-	self flag: #toImplement
+	widget expandRoots
 ]
 
 { #category : #initialization }
