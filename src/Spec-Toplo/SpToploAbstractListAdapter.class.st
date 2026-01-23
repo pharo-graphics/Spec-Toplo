@@ -9,23 +9,7 @@ Class {
 { #category : #factory }
 SpToploAbstractListAdapter >> addEventsToChild: child [
 
-	| space offset |
-	child addEventHandler: BlDragHandler new" addEventHandlerOn: BlDragStartEvent do: [ :event |
-			event consume.
-			space := child space.
-			offset := child positionInSpace - event position.
-			child constraintsDo: [ :c | c ignoreByLayout ].
-			child removeFromParent.
-			space root addChild: child.
-			child preventMeAndChildrenMouseEvents ].
-		
-	child addEventHandlerOn: BlDragEvent do: [ :event |
-			event consume.
-			child position: event position + offset ].
-		
-	child addEventHandlerOn: BlDragEndEvent do: [ :e |
-			child constraintsDo: [ :c | c accountByLayout ].
-			child allowMeAndChildrenMouseEvents ]"
+	child addEventHandler: BlDragHandler new
 ]
 
 { #category : #factory }
