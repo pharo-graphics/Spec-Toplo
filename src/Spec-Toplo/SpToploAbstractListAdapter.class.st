@@ -7,12 +7,44 @@ Class {
 }
 
 { #category : #factory }
+SpToploAbstractListAdapter >> addEventsToChild: child [
+
+	| space offset |
+	child addEventHandler: BlDragHandler new" addEventHandlerOn: BlDragStartEvent do: [ :event |
+			event consume.
+			space := child space.
+			offset := child positionInSpace - event position.
+			child constraintsDo: [ :c | c ignoreByLayout ].
+			child removeFromParent.
+			space root addChild: child.
+			child preventMeAndChildrenMouseEvents ].
+		
+	child addEventHandlerOn: BlDragEvent do: [ :event |
+			event consume.
+			child position: event position + offset ].
+		
+	child addEventHandlerOn: BlDragEndEvent do: [ :e |
+			child constraintsDo: [ :c | c accountByLayout ].
+			child allowMeAndChildrenMouseEvents ]"
+]
+
+{ #category : #factory }
 SpToploAbstractListAdapter >> buildWidget [
 
-	^ ToListElement new
-		nodeBuilder: [ :node :dataItem :holder |
-		  node addChild: (self newItemElementFor: dataItem) ];
-		yourself
+	| list |
+	list := ToListElement new
+		        nodeBuilder: [ :node :dataItem :holder |
+				        | child |
+				        child := self newItemElementFor: dataItem.
+				        model dragEnabled ifTrue: [ self addEventsToChild: child ].
+				        node addChild: child ];
+		        yourself.
+	list addEventHandlerOn: BlDropEvent do: [ :e |
+			| transferedModel |
+			transferedModel := e gestureSource userData at: #specModel.
+			self model acceptDrop cull:
+				(SpToploTransfer new passenger: {transferedModel}) ].
+	^ list
 ]
 
 { #category : #accessing }
@@ -68,7 +100,7 @@ SpToploAbstractListAdapter >> selectedIndexes [
 SpToploAbstractListAdapter >> subscribeToPresenter [
 
 	super subscribeToPresenter.
-
+	
 	model
 		whenModelChangedDo: [ self updateItems ];
 		whenSelectionChangedDo: [ self updateSelection ];

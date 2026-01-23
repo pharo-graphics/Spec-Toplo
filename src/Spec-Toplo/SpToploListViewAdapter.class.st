@@ -13,11 +13,11 @@ SpToploListViewAdapter >> newItemElementFor: anItem [
 
 	| contentPresenter toElement |
 	contentPresenter := self model setupAction value: self model.
-	self model bindAction 
-		value: contentPresenter
-		value: anItem.
+
+	self model bindAction value: contentPresenter value: anItem.
 
 	toElement := contentPresenter build.
+	toElement userData at: #specModel put: anItem.
 
 	^ toElement
 ]
