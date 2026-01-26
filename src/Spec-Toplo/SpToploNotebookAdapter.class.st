@@ -37,10 +37,11 @@ SpToploNotebookAdapter >> buildWidget [
 	self presenter selectedPageIndex ~= 0
 		ifTrue: [
 		tabPanel selectedAtPosition: self presenter selectedPageIndex ]
-		ifFalse: [ tabPanel selectedAtPosition: 1 ].
-	self presenter
-		whenPagesChangedDo: [ :pages | self updatePagesWith: pages ];
-		whenSelectedPageChangedDo: [ :page | self selectPage: page ].
+		ifFalse: [
+				tabPanel selectedAtPosition: 1.
+				self presenter selectPage:
+						self presenter pages first ].
+
 	^ tabPanel
 ]
 
@@ -79,19 +80,36 @@ SpToploNotebookAdapter >> selectPage: page [
 			 (self modelOfTab: tabButton) = page ]) holder position
 ]
 
+{ #category : #initialization }
+SpToploNotebookAdapter >> subscribeToPresenter [
+
+	super subscribeToPresenter.
+	model
+		whenPagesChangedDo: [ :pages | self updatePagesWith: pages ];
+		whenSelectedPageChangedDo: [ :page | self selectPage: page ]
+]
+
 { #category : #updating }
-SpToploNotebookAdapter >> updatePageContent: aPage [ 
+SpToploNotebookAdapter >> updatePageContent: aPage [
 
 	(self pageWithModel: aPage) invalidate.
-	"if we are updating the page being displayed, we need to trigger a refresh"
-	aPage = self presenter selectedPage ifTrue: [
-		self flag: #toBeImplemented.
-		self updatePageIndex: self model selectedPageIndex ]
+	aPage = self presenter selectedPage ifFalse: [ ^ self ].
+	self flag: #toBeImplemented.
+	self updatePageIndex: self model selectedPageIndex
 ]
 
 { #category : #private }
-SpToploNotebookAdapter >> updatePageIndex: anInteger [ 
-	self shouldBeImplemented.
+SpToploNotebookAdapter >> updatePageIndex: anInteger [
+
+	| newPage widgetPage |
+	newPage := self model pages at: anInteger.
+	widgetPage := self widgetPageAtIndex: anInteger.
+
+	widgetPage paneBuilder: [ :pane |
+		pane addChild: (self buildContentForPage: newPage) ].
+	widgetPage bodyPane: nil.
+	self widget itemList group notifyChanged.
+
 ]
 
 { #category : #factory }
@@ -109,4 +127,10 @@ SpToploNotebookAdapter >> updatePagesWith: aCollection [
 				self widget items collection anySatisfy: [ :p |
 					(self modelOfTab: p) = page ] ]
 		thenDo: [ :page | self widget addTabItemData: page ]
+]
+
+{ #category : #initialization }
+SpToploNotebookAdapter >> widgetPageAtIndex: anIndex [
+
+	^ self widget dataAccessor at: anIndex
 ]

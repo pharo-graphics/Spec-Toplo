@@ -43,12 +43,6 @@ SpToploTreeAdapter >> expandPath: aPath [
 	widget dataSource itemsAtPath: aPath
 ]
 
-{ #category : #'expanding-collapsing' }
-SpToploTreeAdapter >> expandRoots [
-
-	widget expandRoots
-]
-
 { #category : #initialization }
 SpToploTreeAdapter >> initialize [
 

@@ -18,6 +18,6 @@ SpToploActionBarAdapter >> updateItems [
 	(model items at: #start) do: [ :each |
 		widget addItem: (self newItemFor: each) ].
 	widget addFiller.
-	(model items at: #end) do: [ :each |
-		widget addItem: (self newItemFor: each) ]
+	model items at: #end ifPresent: [ :ends |
+		ends do: [ :each | widget addItem: (self newItemFor: each) ] ]
 ]

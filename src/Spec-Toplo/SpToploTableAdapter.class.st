@@ -120,13 +120,27 @@ SpToploTableAdapter >> visitCompositeColumn: spCollumn [
 	"In this case, consider that the table has a column with checkbox for selection"
 	column := self buildGenericToTableColumnFrom: spCollumn.
 	"Use yourself by default. It sometimes happen when user give a list of string as data"
-	(spCollumn columns first isKindOf: SpCheckBoxTableColumn) ifTrue: [
-			widget useCheckbox: true.
-			spCollumn columns first onActivation ifNotNil: [ :activationBlock |
-				additionnalActivationBlocks add: activationBlock ].
-			spCollumn columns first onDeactivation ifNotNil: [
-				:deactivationBlock |
-				additionnalDeactivationBlocks add: deactivationBlock ] ].
+	(spCollumn columns first isKindOf: SpCheckBoxTableColumn)
+		ifTrue: [
+				widget useCheckbox: true.
+				spCollumn columns first onActivation ifNotNil: [ :activationBlock |
+					additionnalActivationBlocks add: activationBlock ].
+				spCollumn columns first onDeactivation ifNotNil: [
+					:deactivationBlock |
+					additionnalDeactivationBlocks add: deactivationBlock ] ]
+		ifFalse: [
+				column cellBuilder: [ :element :dataItem :holder |
+						| pane |
+						pane := ToPane horizontal
+							        fitContent;
+							        yourself.
+						spCollumn columns do: [ :innerColumn |
+								(innerColumn acceptColumnVisitor: self) cellBuilder
+									value: pane
+									value: dataItem
+									value: holder ].
+						element addChild: pane.
+						 ] ].
 
 	^ column
 ]
@@ -137,7 +151,8 @@ SpToploTableAdapter >> visitImageColumn: aSpImageTableColumn [
 	| column |
 	column := self buildGenericToTableColumnFrom: aSpImageTableColumn.
 	column cellBuilder: [ :element :dataItem :holder |
-		element addChild: dataItem asElement ].
+			(aSpImageTableColumn readObject: holder dataItem) ifNotNil: [ :icon |
+				element addChild: icon asElement ] ].
 
 	^ column
 ]
@@ -149,7 +164,11 @@ SpToploTableAdapter >> visitStringColumn: spCollumn [
 	column := self buildGenericToTableColumnFrom: spCollumn.
 	column cellBuilder: [ :element :dataItem :holder |
 			| label |
-			label := ToAttributedLabel text: dataItem asString.
+			label := spCollumn evaluation
+				         ifNil: [ ToAttributedLabel text: dataItem asString ]
+				         ifNotNil: [ :evalBlock |
+					         ToAttributedLabel text:
+						         (evalBlock value: holder dataItem) ].
 			spCollumn displayColor ifNotNil: [ :displayColorBlock |
 				label foreground: (displayColorBlock value: holder dataItem) ].
 
