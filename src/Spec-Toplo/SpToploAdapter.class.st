@@ -63,7 +63,11 @@ SpToploAdapter >> addStyle: aString [
 { #category : #compatibility }
 SpToploAdapter >> bindKeyCombination: aKMKeyCombination toAction: aBlock [
 
-	self shouldBeImplemented.
+	widget addShortcut: 
+		(BlShortcutWithAction new
+			 combination: (aKMKeyCombination acceptVisitor: SpToploKMVisitor new);
+			 action: aBlock;
+			 yourself).
 ]
 
 { #category : #'deferred message' }
