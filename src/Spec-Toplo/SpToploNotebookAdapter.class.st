@@ -34,14 +34,11 @@ SpToploNotebookAdapter >> buildWidget [
 				pane addChild: (self buildContentForPage: aData) ] ].
 	self presenter pages do: [ :page | tabPanel addTabItemData: page ].
 
-	self presenter selectedPageIndex ~= 0
-		ifTrue: [
-		tabPanel selectedAtPosition: self presenter selectedPageIndex ]
-		ifFalse: [
-				tabPanel selectedAtPosition: 1.
-				self presenter selectPage:
-						self presenter pages first ].
-
+	"force first page to be drawn"
+	self presenter selectedPage ifNil: [
+		self presenter selectPageIndex: 1 ].
+	
+	tabPanel selecter selectIndex: self presenter selectedPageIndex.
 	^ tabPanel
 ]
 

@@ -19,6 +19,12 @@ SpToploWindowAdapter >> newRootElement [
 	^ SpToploWindowElement new
 ]
 
+{ #category : #'window management' }
+SpToploWindowAdapter >> restore [
+
+	self widget show
+]
+
 { #category : #announcer }
 SpToploWindowAdapter >> when: aClass do: aFullBlockClosure for: aMiModelsBrowser [
 
