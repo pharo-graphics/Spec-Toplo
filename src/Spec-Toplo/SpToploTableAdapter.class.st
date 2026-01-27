@@ -131,7 +131,8 @@ SpToploTableAdapter >> visitCompositeColumn: spCollumn [
 		ifFalse: [
 				column cellBuilder: [ :element :dataItem :holder |
 						| pane |
-						pane := ToPane horizontal
+						pane := ToElement new
+							        layout: BlLinearLayout horizontal;
 							        fitContent;
 							        yourself.
 						spCollumn columns do: [ :innerColumn |
@@ -139,8 +140,7 @@ SpToploTableAdapter >> visitCompositeColumn: spCollumn [
 									value: pane
 									value: dataItem
 									value: holder ].
-						element addChild: pane.
-						 ] ].
+						element addChild: pane ] ].
 
 	^ column
 ]
