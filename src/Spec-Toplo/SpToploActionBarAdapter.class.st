@@ -4,7 +4,7 @@ Class {
 	#category : #'Spec-Toplo-Adapters'
 }
 
-{ #category : #'updating widget' }
+{ #category : #initialization }
 SpToploActionBarAdapter >> subscribeToPresenter [
 
 	"super subscribeToPresenter."
