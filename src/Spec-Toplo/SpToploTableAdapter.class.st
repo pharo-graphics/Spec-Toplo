@@ -163,22 +163,22 @@ SpToploTableAdapter >> visitStringColumn: spCollumn [
 	| column |
 	column := self buildGenericToTableColumnFrom: spCollumn.
 	column cellBuilder: [ :element :dataItem :holder |
-			| label |
+			| label skin |
 			label := spCollumn evaluation
-				         ifNil: [ ToAttributedLabel text: dataItem asString ]
+				         ifNil: [ ToLabel text: dataItem asString ]
 				         ifNotNil: [ :evalBlock |
-					         ToAttributedLabel text:
-						         (evalBlock value: holder dataItem) ].
+				         ToLabel text: (evalBlock value: holder dataItem) ].
+			skin := SpToploTableColumnSkin new.
+			label defaultSkin: skin.
 			spCollumn displayColor ifNotNil: [ :displayColorBlock |
-				label foreground: (displayColorBlock value: holder dataItem) ].
+				skin foreground: (displayColorBlock value: holder dataItem) ].
 
 			spCollumn displayItalic ifNotNil: [ :displayItalicBlock |
 				(displayItalicBlock value: holder dataItem) ifTrue: [
-					label italic ] ].
+					skin italic: true ] ].
 
 			spCollumn displayBold ifNotNil: [ :displayBoldBlock |
-				(displayBoldBlock value: holder dataItem) ifTrue: [ label bold ] ].
-
+				(displayBoldBlock value: holder dataItem) ifTrue: [ skin bold: true ] ].
 			element addChild: label ].
 	^ column
 ]
