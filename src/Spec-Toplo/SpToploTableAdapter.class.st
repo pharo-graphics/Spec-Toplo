@@ -157,6 +157,23 @@ SpToploTableAdapter >> visitImageColumn: aSpImageTableColumn [
 	^ column
 ]
 
+{ #category : #visiting }
+SpToploTableAdapter >> visitLinkColumn: spCollumn [
+
+	| column |
+	column := self buildGenericToTableColumnFrom: spCollumn.
+	column cellBuilder: [ :element :dataItem :holder |
+			| label skin |
+			label := spCollumn evaluation
+				         ifNil: [ ToLabel text: dataItem asString ]
+				         ifNotNil: [ :evalBlock |
+				         ToLabel text: (evalBlock value: holder dataItem) ].
+			label clickAction: spCollumn action.
+			label addTokenNamed: #'color-text' withValue: self theme urlColor.
+			element addChild: label ].
+	^ column
+]
+
 { #category : #visitor }
 SpToploTableAdapter >> visitStringColumn: spCollumn [
 
