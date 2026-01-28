@@ -29,7 +29,19 @@ SpToploDiffAdapter >> leftText [
 ]
 
 { #category : #factory }
+SpToploDiffAdapter >> leftText: aLeftText [
+
+	^ self widget srcText: aLeftText
+]
+
+{ #category : #factory }
 SpToploDiffAdapter >> rightText [
 
 	^ self model rightText
+]
+
+{ #category : #factory }
+SpToploDiffAdapter >> rightText: aRightText [
+
+	^ self widget targetText: aRightText
 ]

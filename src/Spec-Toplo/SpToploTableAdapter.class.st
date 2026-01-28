@@ -152,7 +152,7 @@ SpToploTableAdapter >> visitImageColumn: aSpImageTableColumn [
 	column := self buildGenericToTableColumnFrom: aSpImageTableColumn.
 	column cellBuilder: [ :element :dataItem :holder |
 			(aSpImageTableColumn readObject: holder dataItem) ifNotNil: [ :icon |
-				element addChild: icon asElement ] ].
+				element addChild: icon asForm asElement ] ].
 
 	^ column
 ]
