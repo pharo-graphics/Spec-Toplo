@@ -16,9 +16,21 @@ SpToploExample class >> menuExamplesOn: aBuilder [
 		help: 'Open Spec-Toplo Browser.';
 		with: [
 				(aBuilder item: #toInspector) action: [ self openToInspector ].
-				(aBuilder item: #toPlayground)
-					action: [ self openToPlayground ];
+				(aBuilder item: #toPlayground) action: [ self openToPlayground ].
+				(aBuilder item: #toGitManager)
+					action: [ self openToIceberg ];
 					withSeparatorAfter ]
+]
+
+{ #category : #'user interface' }
+SpToploExample class >> openToIceberg [
+
+	| repositories app |
+	repositories := IceTipRepositoriesBrowser new.
+	app := StPharoApplication new.
+	app useBackend: #Toplo.
+	repositories application: app.
+	repositories open
 ]
 
 { #category : #'user interface' }

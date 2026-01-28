@@ -56,7 +56,7 @@ SpToploToolbarAdapter >> updateItems [
 		widget addItem: (self newItemFor: each) ]
 ]
 
-{ #category : #factory }
+{ #category : #initialization }
 SpToploToolbarAdapter >> updateLayout [
 
 	widget

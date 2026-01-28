@@ -39,6 +39,11 @@ SpToploTreeTableAdapter >> itemAtPath: aPath [
 	^ (widget dataAccessor dataSource itemsAtPath: aPath) last dataItem
 ]
 
+{ #category : #updating }
+SpToploTreeTableAdapter >> refreshTree [
+	self widget list notifyDataSourceChanged
+]
+
 { #category : #accessing }
 SpToploTreeTableAdapter >> scrollToSelection [
 	self flag: #toImplement

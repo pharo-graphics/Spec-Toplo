@@ -131,7 +131,8 @@ SpToploTableAdapter >> visitCompositeColumn: spCollumn [
 		ifFalse: [
 				column cellBuilder: [ :element :dataItem :holder |
 						| pane |
-						pane := ToPane horizontal
+						pane := ToElement new
+							        layout: BlLinearLayout horizontal;
 							        fitContent;
 							        yourself.
 						spCollumn columns do: [ :innerColumn |
@@ -139,8 +140,7 @@ SpToploTableAdapter >> visitCompositeColumn: spCollumn [
 									value: pane
 									value: dataItem
 									value: holder ].
-						element addChild: pane.
-						 ] ].
+						element addChild: pane ] ].
 
 	^ column
 ]
@@ -152,8 +152,25 @@ SpToploTableAdapter >> visitImageColumn: aSpImageTableColumn [
 	column := self buildGenericToTableColumnFrom: aSpImageTableColumn.
 	column cellBuilder: [ :element :dataItem :holder |
 			(aSpImageTableColumn readObject: holder dataItem) ifNotNil: [ :icon |
-				element addChild: icon asElement ] ].
+				element addChild: icon asForm asElement ] ].
 
+	^ column
+]
+
+{ #category : #visiting }
+SpToploTableAdapter >> visitLinkColumn: spCollumn [
+
+	| column |
+	column := self buildGenericToTableColumnFrom: spCollumn.
+	column cellBuilder: [ :element :dataItem :holder |
+			| label skin |
+			label := spCollumn evaluation
+				         ifNil: [ ToLabel text: dataItem asString ]
+				         ifNotNil: [ :evalBlock |
+				         ToLabel text: (evalBlock value: holder dataItem) ].
+			label clickAction: spCollumn action.
+			label addTokenNamed: #'color-text' withValue: self theme urlColor.
+			element addChild: label ].
 	^ column
 ]
 
@@ -163,22 +180,22 @@ SpToploTableAdapter >> visitStringColumn: spCollumn [
 	| column |
 	column := self buildGenericToTableColumnFrom: spCollumn.
 	column cellBuilder: [ :element :dataItem :holder |
-			| label |
+			| label skin |
 			label := spCollumn evaluation
-				         ifNil: [ ToAttributedLabel text: dataItem asString ]
+				         ifNil: [ ToLabel text: dataItem asString ]
 				         ifNotNil: [ :evalBlock |
-					         ToAttributedLabel text:
-						         (evalBlock value: holder dataItem) ].
+				         ToLabel text: (evalBlock value: holder dataItem) ].
+			skin := SpToploTableColumnSkin new.
+			label defaultSkin: skin.
 			spCollumn displayColor ifNotNil: [ :displayColorBlock |
-				label foreground: (displayColorBlock value: holder dataItem) ].
+				skin foreground: (displayColorBlock value: holder dataItem) ].
 
 			spCollumn displayItalic ifNotNil: [ :displayItalicBlock |
 				(displayItalicBlock value: holder dataItem) ifTrue: [
-					label italic ] ].
+					skin italic: true ] ].
 
 			spCollumn displayBold ifNotNil: [ :displayBoldBlock |
-				(displayBoldBlock value: holder dataItem) ifTrue: [ label bold ] ].
-
+				(displayBoldBlock value: holder dataItem) ifTrue: [ skin bold: true ] ].
 			element addChild: label ].
 	^ column
 ]
