@@ -118,8 +118,9 @@ SpToploWindowLikeAdapter >> openSync [
 ]
 
 { #category : #protocol }
-SpToploWindowLikeAdapter >> openWithDeferredAction: aBlockClosure [ 
+SpToploWindowLikeAdapter >> openWithDeferredAction: aBlockClosure [
 
+	self widget space toTheme: (Smalltalk ui theme toTheme).
 	self open.
 	self defer: aBlockClosure
 ]
