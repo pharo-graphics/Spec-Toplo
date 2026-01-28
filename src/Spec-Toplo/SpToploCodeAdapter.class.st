@@ -17,6 +17,18 @@ SpToploCodeAdapter >> addKeyBindingsFromGroup: commandGroup [
 		self bindKeyCombination: each shortcut toAction: each action ]
 ]
 
+{ #category : #adding }
+SpToploCodeAdapter >> addTextSegmentDecoration: aDecorationSegment [
+
+	self widgetDo: [ :w |
+			| deco |
+			deco := (AlbSubtextElement editorElement: w next)
+				        interval: aDecorationSegment interval;
+				        background: aDecorationSegment highlightColor;
+				        yourself.
+				w next frontLayer addChild: deco. ]
+]
+
 { #category : #accessing }
 SpToploCodeAdapter >> bindings [
 	"In scripting interaction model, I set myself as workspace. Responding to this message is needed in consequence."
@@ -68,6 +80,12 @@ SpToploCodeAdapter >> interactionModel: anInteractionModel [
 SpToploCodeAdapter >> pasteText [
 
 	self widget editor paste
+]
+
+{ #category : #removing }
+SpToploCodeAdapter >> removeAllTextSegmentDecorations [
+
+	self widgetDo: [ :w | w next frontLayer removeChildren ]
 ]
 
 { #category : #initialization }
