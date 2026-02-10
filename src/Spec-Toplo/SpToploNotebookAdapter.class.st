@@ -39,6 +39,7 @@ SpToploNotebookAdapter >> buildWidget [
 		self presenter selectPageIndex: 1 ].
 	
 	tabPanel selecter selectIndex: self presenter selectedPageIndex.
+	tabPanel requestFocus.
 	^ tabPanel
 ]
 
