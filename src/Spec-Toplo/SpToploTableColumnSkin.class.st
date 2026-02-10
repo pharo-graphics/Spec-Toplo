@@ -25,9 +25,7 @@ SpToploTableColumnSkin >> bold: anObject [
 SpToploTableColumnSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
-	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
-	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
-	anEvent elementDo: [ :e | "e text asString = 'Alaska' ifTrue: [ anEvent traceCr ]."
+	anEvent elementDo: [ :e | 
 			self foreground
 				ifNotNil: [ :f | e foreground: f ]
 				ifNil: [ e foreground: (e valueOfTokenNamed: #'color-text') ] ]
