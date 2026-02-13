@@ -30,8 +30,10 @@ SpToploMillerAdapter >> newToploWidget [
 		        beHorizontal;
 		        matchParent;
 		        yourself.
+	list selecter disable.
 	list nodeBuilder: [ :node :dataItem :holder |
 		node addChild: dataItem ].
+
 	^ list
 ]
 
