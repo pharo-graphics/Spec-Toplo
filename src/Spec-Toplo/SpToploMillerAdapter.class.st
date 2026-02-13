@@ -7,8 +7,10 @@ Class {
 { #category : #adding }
 SpToploMillerAdapter >> addChildElement: aWidget with: aSpGridConstraints [
 
-	aWidget matchParent.
-	widget dataAccessor add: aWidget
+	widget dataAccessor add: aWidget.
+	widget whenLayoutedDoOnce: [ :layout |
+		
+			aWidget width: widget width / 2  ].
 ]
 
 { #category : #adding }
@@ -27,12 +29,11 @@ SpToploMillerAdapter >> newToploWidget [
 
 	| list |
 	list := ToListElement finite
-		        layout: BlLinearLayout horizontal;
+		        beHorizontal;
 		        matchParent;
 		        yourself.
 	list nodeBuilder: [ :node :dataItem :holder |
-			dataItem matchParent.
-			node addChild: dataItem ].
+		node addChild: dataItem ].
 	^ list
 ]
 
