@@ -8,9 +8,7 @@ Class {
 SpToploMillerAdapter >> addChildElement: aWidget with: aSpGridConstraints [
 
 	widget dataAccessor add: aWidget.
-	widget whenLayoutedDoOnce: [ :layout |
-		
-			aWidget width: widget width / 2  ].
+	self recomputeAllWidth
 ]
 
 { #category : #adding }
@@ -38,11 +36,23 @@ SpToploMillerAdapter >> newToploWidget [
 ]
 
 { #category : #adding }
+SpToploMillerAdapter >> recomputeAllWidth [
+
+	widget whenLayoutedDoOnce: [ :layout |
+			widget dataAccessor size = 1
+				ifTrue: [ widget dataAccessor first width: widget width ]
+				ifFalse: [
+				widget dataAccessor do: [ :child | child width: widget width / 2 ] ] ]
+]
+
+{ #category : #adding }
 SpToploMillerAdapter >> remove: aStObjectInspectorPresenter [
 
 	self widget dataAccessor remove: aStObjectInspectorPresenter adapter widget
 ]
 
 { #category : #adding }
-SpToploMillerAdapter >> selectPage: aPage [
+SpToploMillerAdapter >> selectPage: aPosition [
+
+	widget scrollToDataSourcePosition: aPosition
 ]

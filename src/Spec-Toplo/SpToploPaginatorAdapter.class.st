@@ -56,5 +56,6 @@ SpToploPaginatorAdapter >> subscribeToWidget [
 	list
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: [ :event |
-		self presenter selectPage: event selectedIndexes anyOne ]
+				event selectedIndexes ifNotEmpty: [
+					self presenter selectPage: event selectedIndexes anyOne ] ]
 ]
