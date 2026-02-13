@@ -1,23 +1,25 @@
 Class {
 	#name : #SpToploPaginatorAdapter,
 	#superclass : #SpToploWidgetAdapter,
+	#instVars : [
+		'list'
+	],
 	#category : #'Spec-Toplo-Adapters'
 }
 
 { #category : #factory }
 SpToploPaginatorAdapter >> buildWidget [
 
-	| rootPane list |
+	| rootPane  |
 	rootPane := ToPane horizontal.
 	rootPane layout alignCenter.
 	rootPane matchParent.
-	list := ToCheckableListElement new
-		        beHorizontal;
-		        matchParent;
-		        addAllItems:
-			        (self model pages collect: [ :aPageDescription |
-					         self entryForPage: aPageDescription ]);
-		        yourself.
+	list := ToCheckableListElement finite.
+	list
+		beHorizontal;
+		matchParent;
+		addAllItems: (self model pages collect: [ :aPageDescription |
+					 self entryForPage: aPageDescription ]).
 	rootPane addChild: list.
 	^ rootPane
 ]
@@ -26,7 +28,7 @@ SpToploPaginatorAdapter >> buildWidget [
 SpToploPaginatorAdapter >> entryForPage: aPageDescription [
 
 	^ ToToggleButton new
-		  icon: (ToImage new innerImage: (self iconNamed: #solidMenu));
+		  iconImage: (self iconNamed: #solidMenu);
 		  yourself
 ]
 
@@ -45,4 +47,14 @@ SpToploPaginatorAdapter >> subscribeToPresenter [
 		self list addItem: (self entryForPage: anObject) ].
 	model whenPageRemovedDo: [ :anObject |
 		anObject ifNil: [ self list removeAllItems ] ifNotNil: [ self halt ] ]
+]
+
+{ #category : #factory }
+SpToploPaginatorAdapter >> subscribeToWidget [
+
+	super subscribeToWidget.
+	list
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :event |
+		self presenter selectPage: event selectedIndexes anyOne ]
 ]
