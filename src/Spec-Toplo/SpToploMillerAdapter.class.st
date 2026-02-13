@@ -7,10 +7,11 @@ Class {
 { #category : #adding }
 SpToploMillerAdapter >> addChildElement: aWidget with: aSpGridConstraints [
 
-	widget addChild: aWidget
+	aWidget matchParent.
+	widget dataAccessor add: aWidget
 ]
 
-{ #category : #'instance creation' }
+{ #category : #adding }
 SpToploMillerAdapter >> addConstraints: constraints toChild: childBlElement [
 
 	^ childBlElement
@@ -24,13 +25,23 @@ SpToploMillerAdapter >> newChildBlElement: aPresenter constrainedBy: constraints
 { #category : #'instance creation' }
 SpToploMillerAdapter >> newToploWidget [
 
-	^ ToPane horizontal
-		  matchParent;
-		  yourself
+	| list |
+	list := ToListElement finite
+		        layout: BlLinearLayout horizontal;
+		        matchParent;
+		        yourself.
+	list nodeBuilder: [ :node :dataItem :holder |
+			dataItem matchParent.
+			node addChild: dataItem ].
+	^ list
 ]
 
 { #category : #adding }
 SpToploMillerAdapter >> remove: aStObjectInspectorPresenter [
 
-	self widget removeChild: aStObjectInspectorPresenter adapter widget
+	self widget dataAccessor remove: aStObjectInspectorPresenter adapter widget
+]
+
+{ #category : #adding }
+SpToploMillerAdapter >> selectPage: aPage [
 ]
