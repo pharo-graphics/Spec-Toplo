@@ -84,7 +84,7 @@ SpToploMillerAdapter >> selectPage: aPosition [
 
 { #category : #initialization }
 SpToploMillerAdapter >> subscribeToWidget [
-
+	super subscribeToWidget.
 	self list whenLayoutedDoOnce: [ :layout |
 			self list space root
 				addEventHandlerOn: BlElementExtentChangedEvent
