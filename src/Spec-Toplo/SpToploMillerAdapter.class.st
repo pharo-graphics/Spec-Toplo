@@ -11,7 +11,7 @@ Class {
 SpToploMillerAdapter >> addChildElement: aWidget with: aSpGridConstraints [
 
 	self list dataAccessor add: aWidget.
-	self list whenLayoutedDoOnce: [ :layout | self recomputeAllWidth ]
+	self list whenLayoutedDoOnce: [ self recomputeAllWidth ]
 ]
 
 { #category : #adding }
@@ -28,6 +28,7 @@ SpToploMillerAdapter >> list [
 
 { #category : #'instance creation' }
 SpToploMillerAdapter >> newChildBlElement: aPresenter constrainedBy: constraints [
+
 	^ self newBlElementFrom: aPresenter constraints: constraints
 ]
 
@@ -84,8 +85,9 @@ SpToploMillerAdapter >> selectPage: aPosition [
 
 { #category : #initialization }
 SpToploMillerAdapter >> subscribeToWidget [
+
 	super subscribeToWidget.
-	self list whenLayoutedDoOnce: [ :layout |
+	self list whenLayoutedDoOnce: [
 			self list space root
 				addEventHandlerOn: BlElementExtentChangedEvent
 				do: [ :ann | self recomputeAllWidth ] ]
