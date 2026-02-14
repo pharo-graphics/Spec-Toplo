@@ -1,20 +1,29 @@
 Class {
 	#name : #SpToploMillerAdapter,
 	#superclass : #SpToploLayoutAdapter,
+	#instVars : [
+		'list'
+	],
 	#category : #'Spec-Toplo-Adapters'
 }
 
 { #category : #adding }
 SpToploMillerAdapter >> addChildElement: aWidget with: aSpGridConstraints [
 
-	widget dataAccessor add: aWidget.
-	self recomputeAllWidth
+	self list dataAccessor add: aWidget.
+	self list whenLayoutedDoOnce: [ :layout | self recomputeAllWidth ]
 ]
 
 { #category : #adding }
 SpToploMillerAdapter >> addConstraints: constraints toChild: childBlElement [
 
 	^ childBlElement
+]
+
+{ #category : #adding }
+SpToploMillerAdapter >> list [
+
+	^ list
 ]
 
 { #category : #'instance creation' }
@@ -25,36 +34,59 @@ SpToploMillerAdapter >> newChildBlElement: aPresenter constrainedBy: constraints
 { #category : #'instance creation' }
 SpToploMillerAdapter >> newToploWidget [
 
-	| list |
+	| hscrollBar element |
+	element := ToElement new.
 	list := ToListElement finite
 		        beHorizontal;
 		        matchParent;
 		        yourself.
 	list selecter disable.
+	hscrollBar := BlHorizontalScrollbarElement new.
+	hscrollBar constraintsDo: [ :c |
+			c ignoreByLayout.
+			c margin: (BlInsets right: 2).
+			c ignored horizontal alignRight.
+			c ignored vertical alignBottom ].
+	hscrollBar attachTo: list innerElement.
 	list nodeBuilder: [ :node :dataItem :holder |
 		node addChild: dataItem ].
 
-	^ list
+	element addChild: list.
+	element addChild: hscrollBar.
+
+	^ element
 ]
 
 { #category : #adding }
 SpToploMillerAdapter >> recomputeAllWidth [
 
-	widget whenLayoutedDoOnce: [ :layout |
-			widget dataAccessor size = 1
-				ifTrue: [ widget dataAccessor first width: widget width ]
-				ifFalse: [
-				widget dataAccessor do: [ :child | child width: widget width / 2 ] ] ]
+	self list dataAccessor size = 1
+		ifTrue: [
+			self list dataAccessor first width: self list width - 24 "magic number that should be retrieve somewhere" ]
+		ifFalse: [
+				self list dataAccessor do: [ :child |
+					child width: self list width / 2 - 16 "magic number that should be retrieve somewhere" ] ]
 ]
 
 { #category : #adding }
 SpToploMillerAdapter >> remove: aStObjectInspectorPresenter [
 
-	self widget dataAccessor remove: aStObjectInspectorPresenter adapter widget
+	self list dataAccessor remove:
+		aStObjectInspectorPresenter adapter widget.
+	self recomputeAllWidth
 ]
 
 { #category : #adding }
 SpToploMillerAdapter >> selectPage: aPosition [
 
-	widget scrollToDataSourcePosition: aPosition
+	self list scrollToDataSourcePosition: aPosition
+]
+
+{ #category : #initialization }
+SpToploMillerAdapter >> subscribeToWidget [
+
+	self list whenLayoutedDoOnce: [ :layout |
+			self list space root
+				addEventHandlerOn: BlElementExtentChangedEvent
+				do: [ :ann | self recomputeAllWidth ] ]
 ]
