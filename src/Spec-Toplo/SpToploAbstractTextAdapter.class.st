@@ -11,7 +11,14 @@ Class {
 	#category : #'Spec-Toplo-Adapters'
 }
 
-{ #category : #'accessing widget' }
+{ #category : #initialization }
+SpToploAbstractTextAdapter >> addKeyBindingsFromGroup: commandGroup [
+ 
+	commandGroup asKMCategory allEntries keymaps do: [ :each |
+		self bindKeyCombination: each shortcut toAction: each action ]
+]
+
+{ #category : #compatibility }
 SpToploAbstractTextAdapter >> bindKeyCombination: aKMKeyCombination toAction: aBlock [
 
 	widget editor addEditorShortcut: 
@@ -217,7 +224,12 @@ SpToploAbstractTextAdapter >> subscribeToWidget [
 
 	super subscribeToWidget.
 
-	widget addEventHandler: eventHandler
+	widget addEventHandler: eventHandler.
+	self model actions ifNotNil: [ :actions |
+		self addKeyBindingsFromGroup: actions ].
+	self model internalActions ifNotNil: [ :actions |
+		self addKeyBindingsFromGroup: actions ].
+	self addKeyBindingsFromGroup: self model rootCommandsGroup
 ]
 
 { #category : #'accessing widget' }

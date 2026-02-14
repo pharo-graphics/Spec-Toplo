@@ -10,13 +10,6 @@ Class {
 	#category : #'Spec-Toplo-Adapters'
 }
 
-{ #category : #initialization }
-SpToploCodeAdapter >> addKeyBindingsFromGroup: commandGroup [
- 
-	commandGroup asKMCategory allEntries keymaps do: [ :each |
-		self bindKeyCombination: each shortcut toAction: each action ]
-]
-
 { #category : #adding }
 SpToploCodeAdapter >> addTextSegmentDecoration: aDecorationSegment [
 
@@ -97,21 +90,12 @@ SpToploCodeAdapter >> subscribeToPresenter [
 		self updateLineNumbers ]
 ]
 
-{ #category : #initialization }
-SpToploCodeAdapter >> subscribeToWidget [
-
-	super subscribeToWidget.
-	self model actions ifNotNil: [ :actions |
-		self addKeyBindingsFromGroup: actions ].
-	self addKeyBindingsFromGroup: self model rootCommandsGroup
-]
-
 { #category : #protocol }
 SpToploCodeAdapter >> takeKeyboardFocus [
 	self flag: #toImplement
 ]
 
-{ #category : #'updating widget' }
+{ #category : #initialization }
 SpToploCodeAdapter >> updateAll [
 
 	super updateAll.
