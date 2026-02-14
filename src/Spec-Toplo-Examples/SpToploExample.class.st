@@ -17,9 +17,20 @@ SpToploExample class >> menuExamplesOn: aBuilder [
 		with: [
 				(aBuilder item: #toInspector) action: [ self openToInspector ].
 				(aBuilder item: #toPlayground) action: [ self openToPlayground ].
+				(aBuilder item: #toTests) action: [ self openToDrTests ].
 				(aBuilder item: #toGitManager)
 					action: [ self openToIceberg ];
 					withSeparatorAfter ]
+]
+
+{ #category : #'user interface' }
+SpToploExample class >> openToDrTests [
+
+	| drTest app |
+	app := StPharoApplication new.
+	app useBackend: #Toplo.
+	drTest := DrTests newApplication: app.
+	drTest open
 ]
 
 { #category : #'user interface' }
