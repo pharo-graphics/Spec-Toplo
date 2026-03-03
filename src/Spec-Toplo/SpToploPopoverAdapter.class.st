@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for `SpPopoverPresenter`.
+"
 Class {
 	#name : #SpToploPopoverAdapter,
 	#superclass : #SpToploWidgetAdapter,

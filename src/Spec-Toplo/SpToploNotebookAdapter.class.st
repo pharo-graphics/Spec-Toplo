@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for `SpNotebookPresenter`.
+"
 Class {
 	#name : #SpToploNotebookAdapter,
 	#superclass : #SpToploWidgetAdapter,
