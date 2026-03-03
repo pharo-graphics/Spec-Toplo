@@ -35,8 +35,8 @@ SpToDiffPresenter >> initializePresenters [
 
 	diff := SpDiffPresenter new
 		        showOptions: false;
-		        leftText: 'Old text';
-		        rightText: 'New text';
+		        leftText: (True >> #or:) sourceCode;
+		        rightText: (False >> #or:) sourceCode;
 		        leftLabel: 'Source';
 		        rightLabel: 'Target'
 ]
