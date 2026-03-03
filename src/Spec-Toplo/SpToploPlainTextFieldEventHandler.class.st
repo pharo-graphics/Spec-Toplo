@@ -27,7 +27,5 @@ SpToploPlainTextFieldEventHandler >> textReplacedEvent: evt [
 
 	isSuspended ifTrue: [ ^ self ].
 
-	{ #textReplacedEvent:. evt text } traceCr.
-
 	adapter setPresenterText: evt text
 ]

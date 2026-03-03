@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for `SpNumberInputFieldPresenter`.
+"
 Class {
 	#name : #SpToploNumberInputFieldAdapter,
 	#superclass : #SpToploTextInputFieldAdapter,

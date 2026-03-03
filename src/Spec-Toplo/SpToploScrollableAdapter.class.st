@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for `SpScrollableLayout`.
+"
 Class {
 	#name : #SpToploScrollableAdapter,
 	#superclass : #SpToploLayoutAdapter,

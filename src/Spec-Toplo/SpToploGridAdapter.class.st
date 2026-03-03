@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for `SpGridLayout`.
+"
 Class {
 	#name : #SpToploGridAdapter,
 	#superclass : #SpToploLayoutAdapter,
