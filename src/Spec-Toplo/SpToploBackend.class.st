@@ -44,7 +44,7 @@ SpToploBackend >> dropListClass [
 	^ SpDropListPresenter
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'ui - dialogs' }
 SpToploBackend >> inform: aMsg [
 ]
 
@@ -72,7 +72,7 @@ SpToploBackend >> treeTableClass [
 	^ SpTreeTablePresenter
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SpToploBackend >> useInnerWindowAdapter [
 	
 	adapterBindings useInnerWindowAdapter 

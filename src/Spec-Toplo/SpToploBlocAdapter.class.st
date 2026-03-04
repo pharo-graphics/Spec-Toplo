@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for `SpBlocPresenter`.
+"
 Class {
 	#name : #SpToploBlocAdapter,
 	#superclass : #SpToploWidgetAdapter,

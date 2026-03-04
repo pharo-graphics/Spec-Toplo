@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for `SpActionBarPresenter`.
+"
 Class {
 	#name : #SpToploActionBarAdapter,
 	#superclass : #SpToploToolbarAdapter,

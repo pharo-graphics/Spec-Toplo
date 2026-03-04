@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter that corresponds to `SpAbstractListPresenter`.
+"
 Class {
 	#name : #SpToploAbstractListAdapter,
 	#superclass : #SpToploWidgetAdapter,

@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for `SpLinkPresenter`.
+"
 Class {
 	#name : #SpToploLinkAdapter,
 	#superclass : #SpToploLabelAdapter,

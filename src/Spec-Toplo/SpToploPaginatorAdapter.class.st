@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for `SpPaginatorPresenter`.
+"
 Class {
 	#name : #SpToploPaginatorAdapter,
 	#superclass : #SpToploWidgetAdapter,

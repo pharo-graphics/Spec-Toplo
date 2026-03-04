@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for `SpToolbarPopoverButtonPresenter`.
+"
 Class {
 	#name : #SpToploToolbarPopoverButtonAdapter,
 	#superclass : #SpToploToolbarButtonAdapter,

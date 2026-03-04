@@ -1,3 +1,6 @@
+"
+I am an event handler that can be added to a `ToTextField`.
+"
 Class {
 	#name : #SpToploAbstractTextEventHandler,
 	#superclass : #BlCustomEventHandler,
@@ -22,15 +25,15 @@ SpToploAbstractTextEventHandler >> initialize [
 	isSuspended := false
 ]
 
-{ #category : #'as yet unclassified' }
-SpToploAbstractTextEventHandler >> presenterChanged: aString [ 
-	
-	isSuspended ifTrue: [ ^self ].
-	
+{ #category : #'event handling' }
+SpToploAbstractTextEventHandler >> presenterChanged: aString [
+
+	isSuspended ifTrue: [ ^ self ].
+
 	adapter updateText
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 SpToploAbstractTextEventHandler >> suspendEventHandlingDuring: aBlock [ 
 
 	| oldState |

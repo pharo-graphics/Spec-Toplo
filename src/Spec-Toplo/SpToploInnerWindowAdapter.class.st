@@ -1,3 +1,6 @@
+"
+I'm an alternative Spec adapter for `SpWindowPresenter` that uses a `ToInnerWindow`. Check class references.
+"
 Class {
 	#name : #SpToploInnerWindowAdapter,
 	#superclass : #SpToploWindowAdapter,

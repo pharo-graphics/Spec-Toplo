@@ -1,3 +1,6 @@
+"
+I'm a Spec adapter for `SpSearchInputFieldPresenter`.
+"
 Class {
 	#name : #SpToploSearchInputFieldAdapter,
 	#superclass : #SpToploTextInputFieldAdapter,

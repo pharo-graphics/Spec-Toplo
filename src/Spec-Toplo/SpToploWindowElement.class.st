@@ -48,8 +48,7 @@ SpToploWindowElement >> initialize [
 		addChild: menu as: #menu;
 		addChild: toolbar as: #toolbar;
 		addChild: content as: #content;
-		addChild: statusBar as: #statusBar.
-
+		addChild: statusBar as: #statusBar
 ]
 
 { #category : #accessing }
@@ -124,7 +123,6 @@ SpToploWindowElement >> toolbar: aBlElement [
 	aBlElement constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical fitContent ].
-
 
 	self replaceChild: toolbar with: aBlElement.
 	toolbar := aBlElement
