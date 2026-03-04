@@ -19,13 +19,19 @@ SpToploTextInputFieldEventHandler >> bePassword: aBoolean [
 
 	isPassword := aBoolean.
 
+	"Return early if the presenter wasn't opened."
+	textField ifNil: [ ^ self ].
+
+	"Update visible text in the widget preserving cursor position."
 	self suspendEventHandlingDuring: [
 		| cursorPosition |
 		cursorPosition := textField cursor position.
+
 		adapter setWidgetString:
 			(isPassword
 				ifTrue: [ self textAsAsterisks ]
 				ifFalse: [ text ]).
+
 		textField cursor position: cursorPosition ]
 ]
 
