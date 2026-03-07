@@ -3,9 +3,8 @@ I represent a window to add a `SpToDoTask` to a `SpToDoList`.
 "
 Class {
 	#name : #SpToDoTaskDialog,
-	#superclass : #SpDialogPresenter,
+	#superclass : #SpAbstractCancelableMessageDialog,
 	#instVars : [
-		'task',
 		'titleLabel',
 		'titleInput',
 		'descriptionLabel',
@@ -48,16 +47,29 @@ SpToDoTaskDialog >> accept [
 		do: [ :error | self showError: error ]
 ]
 
-{ #category : #initialization }
-SpToDoTaskDialog >> initializeDialogWindow: aDialogWindowPresenter [
+{ #category : #layout }
+SpToDoTaskDialog >> defaultLayout [
 
-	super initializeDialogWindow: aDialogWindowPresenter.
+	^ SpBoxLayout newVertical
+		  borderWidth: 5;
+		  spacing: 5;
+		  add: #titleLabel expand: false;
+		  add: #titleInput expand: false;
+		  add: (SpBoxLayout newHorizontal
+				add: #priorityLabel expand: false;
+				add: #priorityDropList;
+				yourself)
+				expand: false;
+		  add: #descriptionLabel expand: false;
+		  add: #descriptionTextArea;
+		  yourself
 
-	aDialogWindowPresenter
-		initialExtent: 300 @ 250;
-		title: 'Create a new task';
-		addDefaultButton: 'Add to List' do: [ :presenter | self accept ];
-		addButton: 'Cancel' do: [ :presenter | self cancel ]
+]
+
+{ #category : #accessing }
+SpToDoTaskDialog >> defaultTitle [
+
+	^ 'Create a new task'
 ]
 
 { #category : #initialization }
@@ -90,6 +102,12 @@ SpToDoTaskDialog >> initializePresenters [
 		                    yourself.
 
 	descriptionTextArea := self newText
+]
+
+{ #category : #accessing }
+SpToDoTaskDialog >> preferredExtent [
+
+	^ 300 @ 250
 ]
 
 { #category : #private }
