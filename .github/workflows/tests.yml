@@ -10,21 +10,22 @@ on:
 jobs:
   test:
     strategy:
-      # Default value (true) means that a failure in one setup, cancels other jobs.
+      # Default value means that a failure in one OS cancels all 
       fail-fast: false
       matrix:
-        smalltalk: [ Pharo64-12 ]
-        os: [ ubuntu-latest ]
-        ston: [ .ci.ston ]
+        smalltalk: [ Pharo64-13, Pharo64-14 ]
+        os: [ windows-latest ]
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.smalltalk }} on ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Setup smalltalkCI
         uses: hpi-swa/setup-smalltalkCI@v1
         with:
           smalltalk-image: ${{ matrix.smalltalk }}
       - name: Load in New Image and Run Tests
-        run: smalltalkci -s ${{ matrix.smalltalk }} ${{ matrix.ston }}
+        run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
         shell: bash
         timeout-minutes: 10
