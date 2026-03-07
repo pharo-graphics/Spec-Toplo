@@ -16,25 +16,6 @@ Class {
 	#category : #'Spec-Toplo-Examples-ToDoList-Presenters'
 }
 
-{ #category : #layout }
-SpToDoTaskDialog class >> defaultLayout [
-
-	^ SpBoxLayout newVertical
-		  borderWidth: 5;
-		  spacing: 5;
-		  add: #titleLabel expand: false;
-		  add: #titleInput expand: false;
-		  add: (SpBoxLayout newHorizontal
-				add: #priorityLabel expand: false;
-				add: #priorityDropList;
-				yourself)
-				expand: false;
-		  add: #descriptionLabel expand: false;
-		  add: #descriptionTextArea;
-		  yourself
-
-]
-
 { #category : #private }
 SpToDoTaskDialog >> accept [
 
