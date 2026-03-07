@@ -3,9 +3,8 @@ I represent a window to add a `SpToDoTask` to a `SpToDoList`.
 "
 Class {
 	#name : #SpToDoTaskDialog,
-	#superclass : #SpDialogPresenter,
+	#superclass : #SpAbstractCancelableMessageDialog,
 	#instVars : [
-		'task',
 		'titleLabel',
 		'titleInput',
 		'descriptionLabel',
@@ -17,8 +16,20 @@ Class {
 	#category : #'Spec-Toplo-Examples-ToDoList-Presenters'
 }
 
+{ #category : #private }
+SpToDoTaskDialog >> accept [
+
+	[ 	| newTask |
+		newTask := toDoList addNewTaskTitled: titleInput text described: descriptionTextArea text.
+		newTask priority: priorityDropList selectedItem.
+		titleInput text: ''.
+		super accept.
+	]	on: SpToDoListValidationError
+		do: [ :error | self showError: error ]
+]
+
 { #category : #layout }
-SpToDoTaskDialog class >> defaultLayout [
+SpToDoTaskDialog >> defaultLayout [
 
 	^ SpBoxLayout newVertical
 		  borderWidth: 5;
@@ -36,28 +47,10 @@ SpToDoTaskDialog class >> defaultLayout [
 
 ]
 
-{ #category : #private }
-SpToDoTaskDialog >> accept [
+{ #category : #accessing }
+SpToDoTaskDialog >> defaultTitle [
 
-	[ 	| newTask |
-		newTask := toDoList addNewTaskTitled: titleInput text described: descriptionTextArea text.
-		newTask priority: priorityDropList selectedItem.
-		titleInput text: ''.
-		super accept.
-	]	on: SpToDoListValidationError
-		do: [ :error | self showError: error ]
-]
-
-{ #category : #initialization }
-SpToDoTaskDialog >> initializeDialogWindow: aDialogWindowPresenter [
-
-	super initializeDialogWindow: aDialogWindowPresenter.
-
-	aDialogWindowPresenter
-		initialExtent: 300 @ 250;
-		title: 'Create a new task';
-		addDefaultButton: 'Add to List' do: [ :presenter | self accept ];
-		addButton: 'Cancel' do: [ :presenter | self cancel ]
+	^ 'Create a new task'
 ]
 
 { #category : #initialization }
@@ -90,6 +83,12 @@ SpToDoTaskDialog >> initializePresenters [
 		                    yourself.
 
 	descriptionTextArea := self newText
+]
+
+{ #category : #accessing }
+SpToDoTaskDialog >> preferredExtent [
+
+	^ 300 @ 250
 ]
 
 { #category : #private }
