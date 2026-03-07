@@ -34,48 +34,29 @@ Class {
 }
 
 { #category : #layout }
-SpToDoListPresenter class >> defaultLayout [
+SpToDoListPresenter class >> openIn: backendSymbol [
 
-	^ SpBoxLayout newTopToBottom
-		  borderWidth: 5;
-		  spacing: 5;
-		  add: (SpOverlayLayout new
-				   child: (SpPanedLayout newLeftToRight
-						    positionOfSlider: 60 percent;
-						    add: (SpScrollableLayout with: (SpBoxLayout newTopToBottom
-										      add: #listLabel expand: false;
-										      add: #list withConstraints: [ :c | c height: 200 ];
-										      add: (SpBoxLayout newLeftToRight
-												       add: #toggleCompletedButton;
-												       add: #deleteButton;
-												       yourself)
-										      expand: false;
-										      yourself));
-						    add: (SpBoxLayout newTopToBottom
-								     add: #descriptionLabel expand: false;
-								     add: #descriptionTextArea;
-								     yourself);
-						    yourself);
-				   addOverlay: #welcomeLabel withConstraints: [ :c |
-					   c
-						   vAlignCenter;
-						   hAlignCenter ]);
-		  yourself
-]
-
-{ #category : #layout }
-SpToDoListPresenter class >> openInToplo [
-
-	<script>
 	| app todo |
-	app := SpApplication new
-		       useBackend: #Toplo;
-		       yourself.
-
+	app := SpApplication new.
+	app useBackend: backendSymbol.
 
 	todo := self newApplication: app model: SpToDoList exampleWithSomeTasks.
 	todo open.
 	^ todo
+]
+
+{ #category : #layout }
+SpToDoListPresenter class >> openInMorphic [
+	<script>
+
+	^ self openIn: #Morphic
+]
+
+{ #category : #layout }
+SpToDoListPresenter class >> openInToplo [
+	<script>
+
+	^ self openIn: #Toplo
 ]
 
 { #category : #actions }
@@ -115,6 +96,36 @@ SpToDoListPresenter >> contextMenuForSelectedTask [
 					action: [ self deleteTask ] ] ].
 
 	^ menu
+]
+
+{ #category : #layout }
+SpToDoListPresenter >> defaultLayout [
+
+	^ SpBoxLayout newTopToBottom
+		  borderWidth: 5;
+		  spacing: 5;
+		  add: (SpOverlayLayout new
+				   child: (SpPanedLayout newLeftToRight
+						    positionOfSlider: 60 percent;
+						    add: (SpScrollableLayout with: (SpBoxLayout newTopToBottom
+										      add: #listLabel expand: false;
+										      add: #list withConstraints: [ :c | c height: 200 ];
+										      add: (SpBoxLayout newLeftToRight
+												       add: #toggleCompletedButton;
+												       add: #deleteButton;
+												       yourself)
+										      expand: false;
+										      yourself));
+						    add: (SpBoxLayout newTopToBottom
+								     add: #descriptionLabel expand: false;
+								     add: #descriptionTextArea;
+								     yourself);
+						    yourself);
+				   addOverlay: #welcomeLabel withConstraints: [ :c |
+					   c
+						   vAlignCenter;
+						   hAlignCenter ]);
+		  yourself
 ]
 
 { #category : #actions }
@@ -223,7 +234,7 @@ SpToDoListPresenter >> initializeWindow: aWindowPresenter [
 
 	aWindowPresenter
 		title: 'Demo @ ', aWindowPresenter application backend asString;
-		initialExtent: 600 @ 300;
+		initialExtent: 600 @ 400;
 		centered;
 		statusBar: statusBar;
 		menu: menuBar
