@@ -12,6 +12,7 @@ BaselineOfSpecToplo >> baseline: spec [
 		for: #common
 		do: [ 
 			self declareToploOn: spec.
+			self declareRoassalBlocGroupOn: spec.
 
 			spec
 				package: 'Spec-Toplo' with: [ spec requires: #('Toplo') ];
@@ -21,9 +22,27 @@ BaselineOfSpecToplo >> baseline: spec [
 				package: 'Spec-Toplo-Examples-Chooser' with: [ spec requires: #('Spec-Toplo') ];
 				package: 'Spec-Toplo-Examples-Diff' with: [ spec requires: #('Spec-Toplo') ];
 				package: 'Spec-Toplo-Examples-Tree' with: [ spec requires: #('Spec-Toplo') ];
-				package: 'Spec-Toplo-Roassal' with: [ spec requires: #('Spec-Toplo') ]
-				
+				package: 'Spec-Toplo-Roassal' with: [ spec requires: #('Spec-Toplo' 'Roassal') ]
 		]
+]
+
+{ #category : #'external projects' }
+BaselineOfSpecToplo >> declareRoassalBlocGroupOn: spec [
+
+	| branch |
+	SystemVersion current major = 13
+		ifTrue: [ branch := 'Pharo13' ]
+		ifFalse: [
+			SystemVersion current major = 14
+				ifTrue: [ branch := 'Pharo14' ]
+				ifFalse: [ self notYetImplemented ] ].
+
+	spec
+		baseline: 'Roassal'
+		with: [
+			spec
+				repository: 'github://pharo-graphics/Roassal:', branch, '/src';
+				loads: #(BlocFull) ]
 ]
 
 { #category : #'external projects' }
