@@ -47,5 +47,5 @@ BaselineOfSpecToplo >> declareToploOn: spec [
 
 	spec
 		baseline: 'Toplo'
-		with: [ spec repository: 'github://pharo-graphics/Toplo:dev/src' ]
+		with: [ spec repository: 'github://pharo-graphics/Toplo:master/src' ]
 ]
