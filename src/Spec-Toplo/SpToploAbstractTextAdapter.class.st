@@ -56,8 +56,8 @@ SpToploAbstractTextAdapter >> initialize [
 { #category : #'accessing widget' }
 SpToploAbstractTextAdapter >> keyDown: keyCharacter shift: shiftBoolean meta: metaBoolean control: controlBoolean option: optionBoolean [
 
-	| timestamp input key modifiers events |
-	timestamp := widget space time now.
+	| time input key modifiers events |
+	time := widget space time.
 
 	input := OrderedCollection new.
 
@@ -84,20 +84,20 @@ SpToploAbstractTextAdapter >> keyDown: keyCharacter shift: shiftBoolean meta: me
 				((BlKeyDownEvent target: widget)
 					key: eachKey;
 					scanCode: nil;
-					timestamp: timestamp;
+					fillFromTime: time;
 					yourself) ].
 
 			stream
 				nextPut: ((BlKeyDownEvent target: widget)
 					key: key;
 					modifiers: modifiers;
-					timestamp: timestamp;
+					fillFromTime: time;
 					scanCode: nil;
 					yourself);
 				nextPut: ((BlKeyDownEvent target: widget)
 					key: key;
 					modifiers: modifiers;
-					timestamp: timestamp;
+					fillFromTime: time;
 					scanCode: nil;
 					yourself).
 
@@ -105,7 +105,7 @@ SpToploAbstractTextAdapter >> keyDown: keyCharacter shift: shiftBoolean meta: me
 			stream nextPut:
 				((BlKeyUpEvent target: widget)
 					key: eachKey;
-					timestamp: timestamp;
+					fillFromTime: time;
 					scanCode: nil;
 					yourself) ] ].
 
