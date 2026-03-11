@@ -38,11 +38,8 @@ BaselineOfSpecToplo >> declareRoassalBlocGroupOn: spec [
 				ifFalse: [ self notYetImplemented ] ].
 
 	spec
-		baseline: 'Roassal'
-		with: [
-			spec
-				repository: 'github://pharo-graphics/Roassal:', branch, '/src';
-				loads: #(BlocFull) ]
+		package: 'Roassal-Bloc'
+		with: [ spec repository: 'github://pharo-graphics/Roassal:', branch, '/src' ]
 ]
 
 { #category : #'external projects' }
