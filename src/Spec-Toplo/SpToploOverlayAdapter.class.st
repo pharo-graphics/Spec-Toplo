@@ -62,6 +62,12 @@ SpToploOverlayAdapter >> addConstraints: aSpOverlayConstraints toChild: aToEleme
 		yourself
 ]
 
+{ #category : #accessing }
+SpToploOverlayAdapter >> children [
+
+	^ widget children
+]
+
 { #category : #'instance creation' }
 SpToploOverlayAdapter >> newChildBlElement: aPresenter constrainedBy: aSpOverlayConstraints [
 	"Inspired on SpMorphicOverlayAdapter>>#basicAdd:constraints:to:"
