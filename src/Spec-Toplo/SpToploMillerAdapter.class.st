@@ -23,6 +23,12 @@ SpToploMillerAdapter >> addConstraints: constraints toChild: childBlElement [
 	^ childBlElement
 ]
 
+{ #category : #accessing }
+SpToploMillerAdapter >> childrenWidgets [
+	
+	^ list dataAccessor
+]
+
 { #category : #adding }
 SpToploMillerAdapter >> list [
 
