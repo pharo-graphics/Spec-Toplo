@@ -69,7 +69,7 @@ SpToploButtonAdapter >> updateAll [
 SpToploButtonAdapter >> updateIcon [
 
 	widget userData at: #specIcon put: model icon.
-	widget iconImage: model icon
+	widget iconImage: (model icon ifNotNil: [ :icon | icon form ])
 ]
 
 { #category : #'updating widget' }
