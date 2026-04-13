@@ -6,3 +6,8 @@ Class {
 	#superclass : #SpApplicationConfiguration,
 	#category : #'Spec-Toplo-Base'
 }
+
+{ #category : #adding }
+SpToploApplicationConfiguration >> addStyleSheetFromString: aString [ 
+	
+]
