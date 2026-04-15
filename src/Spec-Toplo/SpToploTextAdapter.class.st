@@ -12,3 +12,9 @@ SpToploTextAdapter >> buildWidget [
 
 	^ ToAlbum new
 ]
+
+{ #category : #protocol }
+SpToploTextAdapter >> takeKeyboardFocus [
+
+	self flag: #toBeImplemented
+]

@@ -25,7 +25,7 @@ SpToploBoxAdapter >> addConstraints: aSpBoxConstraints toChild: childBlElement [
 	"Inspired on SpMorphicBoxAdapter>>#addConstraints:toChild:"
 
 	layout isHomogeneous 
-		ifTrue: [ 1halt. "self addHomogeneousToMorph: childMorph" ].
+		ifTrue: [" 1halt." "self addHomogeneousToMorph: childMorph" ].
 	
 	self updateChildPadding: childBlElement with: aSpBoxConstraints.
 
@@ -157,7 +157,7 @@ SpToploBoxAdapter >> updateAsExpandedChild: childBlElement with: aSpBoxConstrain
 	
 	"If is not 'fill', we need to pad it with another (since it 'expands', but does not 'fill')"
 	aSpBoxConstraints isFill ifFalse: [ 
-		1halt.
+		"1halt."
 		"wrappedChild
 			hResizing: #rigid;
 			vResizing: #rigid.
