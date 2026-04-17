@@ -100,10 +100,13 @@ SpToploAbstractListAdapter >> subscribeToWidget [
 	super subscribeToWidget.
 
 	widget
-		addEventHandlerOn: ToListPrimarySelectionChangedEvent
-			do: [ model selection selectIndexes: widget selecter selectedIndexes ];
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :evt |
+				| selectedIndexes |
+				selectedIndexes := evt selectedIndexes asArray.
+				selectedIndexes = model selection selectedIndexes asArray
+					ifFalse: [ model selection selectIndexes: selectedIndexes ] ];
 		addEventHandlerOn: ToListStrongSelectionEvent
-			do: [ model doActivateAtIndex: model selection selectedIndex ]
+		do: [ model doActivateAtIndex: model selection selectedIndex ]
 ]
 
 { #category : #initialization }
@@ -128,9 +131,12 @@ SpToploAbstractListAdapter >> updateItems [
 { #category : #'updating widget' }
 SpToploAbstractListAdapter >> updateSelection [
 
-	model selection selectedIndexes ifEmpty: [
-		^ widget selecter deselectAll ].
-	widget selecter selectIndexes: model selection selectedIndexes
+	| selectedIndexes |
+	selectedIndexes := model selection selectedIndexes asArray.
+	selectedIndexes = widget selecter selectedIndexes asArray ifTrue: [
+		^ self ].
+	selectedIndexes ifEmpty: [ ^ widget selecter deselectAll ].
+	widget selecter selectOnlyIndexes: selectedIndexes
 ]
 
 { #category : #'updating widget' }
