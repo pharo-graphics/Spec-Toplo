@@ -92,11 +92,20 @@ SpToploTreeTableAdapter >> updateItems [
 
 { #category : #'updating widget' }
 SpToploTreeTableAdapter >> updateSelection [
-	
-	
+
 	suspendUpdateSelection ifTrue: [ ^ self ].
 
 	model selection selectedPaths ifEmpty: [
 		^ widget selecter deselectAll ].
+
+	widget selecter deselectAll.
 	model selection selectedPaths do: [ :each | self selectPath: each ]
+]
+
+{ #category : #'updating widget' }
+SpToploTreeTableAdapter >> updateSelectionMode [
+
+	widget ifNil: [ ^ self ].
+	widget selecter multiple:
+		self model selectionMode isMultipleSelection
 ]

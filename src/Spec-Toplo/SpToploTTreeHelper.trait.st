@@ -21,15 +21,15 @@ SpToploTTreeHelper >> selectPath: aPath [
 	items := self treeWidget dataSource itemsAtPath: aPath.
 	index := items last position.
 
-	self widget selecter
-		deselectAll;
-		selectIndex: index
+	self model selection isMultipleSelection
+		ifTrue: [ self treeWidget selecter selectIndex: index ]
+		ifFalse: [ self treeWidget selecter selectOnlyIndex: index ]
 ]
 
 { #category : #accessing }
 SpToploTTreeHelper >> selectedPaths [
 
-	^ self treeWidget selectionModel selectedIndexes collect: [ :each |
+	^ self treeWidget selecter selectedIndexes collect: [ :each |
 		  self treeWidget dataSource pathOfIndex: each ]
 ]
 
@@ -43,15 +43,20 @@ SpToploTTreeHelper >> suspendUpdateSelectionDuring: aBlock [
 { #category : #initialization }
 SpToploTTreeHelper >> transferSelectionChange: evt [
 
-	| currentPaths |
+	| currentPaths selectedIndex |
 	self suspendUpdateSelectionDuring: [
-		currentPaths := self selectedPaths.
+			evt selectedIndexes ifEmpty: [ "UI is not ready?" ^ self ].
+			selectedIndex := evt selectedIndexes first.
 
-		currentPaths = self model selection selectedPaths ifTrue: [ ^ self ].
+			selectedIndex > evt currentTarget dataSource size ifTrue: [
+				^ self flag: #'might be a bug' ].
+			currentPaths := (evt currentTarget dataSource pathOfIndex:
+				                 selectedIndex) asArray.
+			currentPaths = self model selection selectedPaths ifTrue: [ ^ self ].
 
-		self model selection
-			clearSelection;
-			selectPaths: currentPaths ]
+			self model selection
+				clearSelection;
+				selectPaths: { currentPaths } ]
 ]
 
 { #category : #initialization }

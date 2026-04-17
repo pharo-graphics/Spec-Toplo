@@ -14,11 +14,12 @@ SpToploTreeAdapter >> buildWidget [
 
 	| tree |
 	tree := ToTreeElement new.
-"	tree withRowNumbers. USEFUL TO DEBUG"
-	
+	"tree withRowNumbers. USEFUL TO DEBUG"
+
+	tree selecter multiple: self model selectionMode isMultipleSelection.
 	tree nodeManager childrenGetter: [ :dataItem |
 		model childrenFor: dataItem ].
-	
+
 	tree nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (self newItemElementFor: dataItem) ].
 
@@ -96,6 +97,12 @@ SpToploTreeAdapter >> newItemElementFor: item [
 	^ itemElement
 ]
 
+{ #category : #accessing }
+SpToploTreeAdapter >> scrollToSelection [
+
+	self flag: #toImplement
+]
+
 { #category : #initialization }
 SpToploTreeAdapter >> subscribeToPresenter [
 
@@ -158,4 +165,12 @@ SpToploTreeAdapter >> updateSelection [
 
 	widget selecter deselectAll.
 	model selection selectedPaths do: [ :each | self selectPath: each ]
+]
+
+{ #category : #'updating widget' }
+SpToploTreeAdapter >> updateSelectionMode [
+
+	widget ifNil: [ ^ self ].
+	widget selecter multiple:
+		self model selectionMode isMultipleSelection
 ]

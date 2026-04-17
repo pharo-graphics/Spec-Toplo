@@ -10,7 +10,9 @@ Class {
 { #category : #activation }
 SpToploWindowAdapter >> activate [
 	"self widget toFront"
-	self flag: #'toImplement - seem to have missing stuff in BlOSWindowSDL2HostSpace'
+
+	self flag: 
+		#'toImplement - seem to have missing stuff in BlOSWindowSDL2HostSpace'
 ]
 
 { #category : #testing }
