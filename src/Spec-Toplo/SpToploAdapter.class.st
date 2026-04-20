@@ -136,5 +136,5 @@ SpToploAdapter >> updateVisible [
 	widget visibility:
 		(model isVisible
 			ifTrue: [ BlVisibility visible ]
-			ifFalse: [ BlVisibility hidden ])
+			ifFalse: [ BlVisibility gone ])
 ]
