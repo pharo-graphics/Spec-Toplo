@@ -32,3 +32,8 @@ SpToploListAdapter >> subscribeToPresenter [
 
 	model whenIconsChangedDo: [ self refreshWidgetList ]
 ]
+
+{ #category : #protocol }
+SpToploListAdapter >> takeKeyboardFocus [
+	self flag: 'toBeImplemented'
+]
