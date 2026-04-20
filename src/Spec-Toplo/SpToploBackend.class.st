@@ -55,6 +55,12 @@ SpToploBackend >> listClass [
 ]
 
 { #category : #accessing }
+SpToploBackend >> runOn: anApplication [
+	"this is an adpater coming from recent version of Spec (> pharo 13)"
+	^ anApplication start
+]
+
+{ #category : #accessing }
 SpToploBackend >> tableClass [
 
 	^ SpTablePresenter
