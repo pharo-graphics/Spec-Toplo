@@ -28,9 +28,7 @@ SpToploImageAdapter >> image [
 { #category : #initialization }
 SpToploImageAdapter >> subscribeToPresenter [
 
-	model
-		whenImageChangeDo: [ self updateImage ];
-		whenAutoScaleChangeDo: [ self updateAutoScale ]
+	model whenImageChangeDo: [ self updateImage ]
 ]
 
 { #category : #initialization }
@@ -38,15 +36,7 @@ SpToploImageAdapter >> updateAll [
 
 	super updateAll.
 
-	self
-		updateImage;
-		updateAutoScale
-]
-
-{ #category : #'updating widget' }
-SpToploImageAdapter >> updateAutoScale [
-
-	self flag: #todo
+	self updateImage
 ]
 
 { #category : #'updating widget' }

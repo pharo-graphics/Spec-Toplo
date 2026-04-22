@@ -9,6 +9,11 @@ Class {
 	#category : #'Spec-Toplo-Adapters'
 }
 
+{ #category : #accessing }
+SpToploLabelAdapter >> beWrap [
+	self shouldBeImplemented.
+]
+
 { #category : #factory }
 SpToploLabelAdapter >> buildWidget [
 

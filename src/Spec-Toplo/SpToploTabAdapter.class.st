@@ -8,6 +8,19 @@ Class {
 	#category : #'Spec-Toplo-Adapters'
 }
 
+{ #category : #factory }
+SpToploTabAdapter >> adapterWasBuilt [
+
+	| initialPageIndex presenterToSelect |
+	super adapterWasBuilt.
+	initialPageIndex := layout initialPageIndex.
+	(initialPageIndex between: 1 and: layout children size) ifFalse: [ ^ self ].
+	presenterToSelect := layout children at: initialPageIndex.
+	lastPresenter := presenterToSelect.
+	layout announce: (SpTabSelected newPresenter: presenterToSelect).
+	self selectIndex: initialPageIndex
+]
+
 { #category : #adding }
 SpToploTabAdapter >> add: aPresenter constraints: constraints [
 
@@ -56,18 +69,8 @@ SpToploTabAdapter >> ensurePresenterBuilt: aPresenter withConstraints: constrain
 { #category : #protocol }
 SpToploTabAdapter >> layout: aLayout [
 
-	| aPresenter |
 	super layout: aLayout.
-	constraintsByPresenter := IdentityDictionary new.
-	aLayout children do: [ :each |
-		self add: each constraints: (aLayout constraintsFor: each) ].
-
-	(aLayout initialPageIndex between: 1 and: aLayout children size)
-		ifFalse: [ ^ self ].
-	aPresenter := aLayout children at: aLayout initialPageIndex.
-	lastPresenter := aPresenter.
-	aLayout announce: (SpTabSelected newPresenter: aPresenter).
-	self selectIndex: aLayout initialPageIndex
+	constraintsByPresenter := IdentityDictionary new
 ]
 
 { #category : #'instance creation' }
