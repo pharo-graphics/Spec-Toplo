@@ -12,3 +12,9 @@ SpToploSearchInputFieldAdapter >> buildWidget [
 
 	^ super buildWidget
 ]
+
+{ #category : #protocol }
+SpToploSearchInputFieldAdapter >> takeKeyboardFocus [
+
+	self flag: #toImplement
+]
