@@ -21,3 +21,7 @@ SpToploListViewAdapter >> newItemElementFor: anItem [
 
 	^ toElement
 ]
+
+{ #category : #protocol }
+SpToploListViewAdapter >> takeKeyboardFocus [
+]
