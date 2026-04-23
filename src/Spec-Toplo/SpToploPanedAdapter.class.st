@@ -9,21 +9,14 @@ Class {
 
 { #category : #adding }
 SpToploPanedAdapter >> addChildElement: aBlElement with: aSpPanedConstraints [
+	"self halt. "
 
 	widget childrenCount = 1
 		ifTrue: [
-			widget addDividers.
-
-"			aBlElement constraintsDo: [ :c |
-				c linear weight: layout positionOfSlider ].
-"			
-			widget addChild: aBlElement as: #firstPaned  ]
-		ifFalse: [ 
-"			aBlElement constraintsDo: [ :c |
-				c linear weight: (1 - layout positionOfSlider) ]."
-
-			widget addChild: aBlElement as: #secondPaned ]
-
+				| dividers |
+				widget addChild: aBlElement as: #firstPaned.
+				dividers := widget addDividers "dividers do: [ :d | d weight: layout positionOfSlider]" ]
+		ifFalse: [ widget addChild: aBlElement as: #secondPaned ]
 ]
 
 { #category : #adding }
