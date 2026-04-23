@@ -192,7 +192,7 @@ SpToploWindowLikeAdapter >> updateStatusBar [
 	"Inspired on SpAbstractMorphicWindowAdapter>>#addStatusBarTo:"
 
 	model hasStatusbar ifFalse: [ ^ widget root removeStatusBar ].
-	widget root statusBar: model statusBar build
+	widget root statusBar: model statusbar build
 ]
 
 { #category : #'widget creation' }

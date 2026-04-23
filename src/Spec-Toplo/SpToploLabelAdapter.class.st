@@ -10,8 +10,13 @@ Class {
 }
 
 { #category : #accessing }
+SpToploLabelAdapter >> beJustifyCenter [
+	"not implemented yet"
+]
+
+{ #category : #accessing }
 SpToploLabelAdapter >> beWrap [
-	self shouldBeImplemented.
+	self widget beMultiLine
 ]
 
 { #category : #factory }
