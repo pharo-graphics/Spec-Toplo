@@ -17,6 +17,13 @@ SpToploToolbarButtonAdapter >> buildWidget [
 	^ menu
 ]
 
+{ #category : #'private - icon' }
+SpToploToolbarButtonAdapter >> iconSourceForWidgetFrom: anIcon [
+
+	(anIcon isKindOf: ToImage) ifFalse: [ ^ anIcon ].
+	^ anIcon sourceImage
+]
+
 { #category : #initialization }
 SpToploToolbarButtonAdapter >> subscribeToPresenter [
 
@@ -44,7 +51,7 @@ SpToploToolbarButtonAdapter >> updateAll [
 { #category : #updating }
 SpToploToolbarButtonAdapter >> updateIcon [
 
-	model icon ifNotNil: [ widget iconImage: model icon ]
+	model icon ifNotNil: [ widget iconImage: (self iconSourceForWidgetFrom: model icon) ]
 ]
 
 { #category : #updating }
