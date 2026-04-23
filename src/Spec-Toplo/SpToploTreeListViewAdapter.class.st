@@ -17,3 +17,8 @@ SpToploTreeListViewAdapter >> newItemElementFor: anItem [
 
 	^ toElement
 ]
+
+{ #category : #protocol }
+SpToploTreeListViewAdapter >> takeKeyboardFocus [
+	self widget requestFocus
+]
