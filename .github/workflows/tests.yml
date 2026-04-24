@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         smalltalk: [ Pharo64-13, Pharo64-14 ]
-        os: [ windows-latest ]
+        os: [ windows-latest, ubuntu-latest ]
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.smalltalk }} on ${{ matrix.os }}
     steps:
