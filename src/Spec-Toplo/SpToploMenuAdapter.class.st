@@ -22,3 +22,8 @@ SpToploMenuAdapter >> openAt: aPoint [
 		extent: widget size;
 		position: aPoint
 ]
+
+{ #category : #protocol }
+SpToploMenuAdapter >> takeKeyboardFocus [
+	
+]
