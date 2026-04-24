@@ -4,8 +4,8 @@ I'm a Spec adapter that corresponds to `SpAbstractListPresenter`.
 Class {
 	#name : #SpToploAbstractListAdapter,
 	#superclass : #SpToploWidgetAdapter,
-	#traits : 'SpToploTWithContextMenu',
-	#classTraits : 'SpToploTWithContextMenu classTrait',
+	#traits : 'SpToploTWithContextMenu + SpToploTWithEmbeddedListItem',
+	#classTraits : 'SpToploTWithContextMenu classTrait + SpToploTWithEmbeddedListItem classTrait',
 	#category : #'Spec-Toplo-Adapters'
 }
 

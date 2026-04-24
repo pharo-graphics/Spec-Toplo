@@ -4,8 +4,8 @@ I'm a Spec adapter for `SpTreePresenter`.
 Class {
 	#name : #SpToploTreeAdapter,
 	#superclass : #SpToploWidgetAdapter,
-	#traits : 'SpToploTTreeHelper',
-	#classTraits : 'SpToploTTreeHelper classTrait',
+	#traits : 'SpToploTTreeHelper + SpToploTWithEmbeddedListItem',
+	#classTraits : 'SpToploTTreeHelper classTrait + SpToploTWithEmbeddedListItem classTrait',
 	#category : #'Spec-Toplo-Adapters'
 }
 
