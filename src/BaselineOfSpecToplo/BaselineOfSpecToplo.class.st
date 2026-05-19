@@ -6,24 +6,30 @@ Class {
 
 { #category : #baselines }
 BaselineOfSpecToplo >> baseline: spec [
+
 	<baseline>
-	
-	spec
-		for: #common
-		do: [ 
+	spec for: #common do: [
 			self declareToploOn: spec.
 			self declareRoassalBlocPackageOn: spec.
 
 			spec
-				package: 'Spec-Toplo' with: [ spec requires: #('Toplo') ];
-				package: 'Spec-Toplo-Tests' with: [ spec requires: #('Spec-Toplo') ];
-				package: 'Spec-Toplo-Examples' with: [ spec requires: #('Spec-Toplo') ];
-				package: 'Spec-Toplo-Examples-ToDoList' with: [ spec requires: #('Spec-Toplo') ];
-				package: 'Spec-Toplo-Examples-Chooser' with: [ spec requires: #('Spec-Toplo') ];
-				package: 'Spec-Toplo-Examples-Diff' with: [ spec requires: #('Spec-Toplo') ];
-				package: 'Spec-Toplo-Examples-Tree' with: [ spec requires: #('Spec-Toplo') ];
-				package: 'Spec-Toplo-Roassal' with: [ spec requires: #('Spec-Toplo' 'Roassal-Bloc') ]
-		]
+				package: 'Spec-Toplo' with: [ spec requires: #( 'Toplo' ) ];
+				package: 'Spec-Toplo-Tests'
+				with: [ spec requires: #( 'Spec-Toplo' ) ];
+				package: 'Spec-Toplo-Examples'
+				with: [ spec requires: #( 'Spec-Toplo' ) ];
+				package: 'Spec-Toplo-Examples-ToDoList'
+				with: [ spec requires: #( 'Spec-Toplo' ) ];
+				package: 'Spec-Toplo-Examples-Chooser'
+				with: [ spec requires: #( 'Spec-Toplo' ) ];
+				package: 'Spec-Toplo-Examples-Diff'
+				with: [ spec requires: #( 'Spec-Toplo' ) ];
+				package: 'Spec-Toplo-Examples-Tree'
+				with: [ spec requires: #( 'Spec-Toplo' ) ];
+				package: 'Spec-Toplo-Examples-MiniBrowser'
+				with: [ spec requires: #( 'Spec-Toplo' ) ];
+				package: 'Spec-Toplo-Roassal'
+				with: [ spec requires: #( 'Spec-Toplo' 'Roassal-Bloc' ) ] ]
 ]
 
 { #category : #'external projects' }
