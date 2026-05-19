@@ -11,7 +11,8 @@ Class {
 SpToploTabAdapterTest >> newTabPresenterWithInitialPageIndex: anInteger [
 
 	| presenter instanceLabel classLabel traitLabel |
-	presenter := application instantiate: SpPresenter.
+	presenter := SpPresenter new.
+	presenter application: application.
 	instanceLabel := presenter newLabel
 		                 label: 'Instance body';
 		                 yourself.

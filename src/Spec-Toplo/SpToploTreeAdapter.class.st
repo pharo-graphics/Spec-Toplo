@@ -47,7 +47,6 @@ SpToploTreeAdapter >> expandPath: aPath [
 SpToploTreeAdapter >> initialize [
 
 	super initialize.
-	
 	suspendUpdateSelection := false
 ]
 

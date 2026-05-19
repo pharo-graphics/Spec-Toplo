@@ -32,7 +32,6 @@ SpToploPopoverAdapterTest >> buildPopoverRelativeTo: aPresenter [
 	popover := aPresenter newPopover.
 	popover relativeTo: aPresenter.
 	popover presenter: content.
-	popover doNotTransferFocus.
 	popover build.
 	^ popover
 ]

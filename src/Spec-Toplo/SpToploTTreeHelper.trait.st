@@ -54,9 +54,7 @@ SpToploTTreeHelper >> transferSelectionChange: evt [
 				                 selectedIndex) asArray.
 			currentPaths = self model selection selectedPaths ifTrue: [ ^ self ].
 
-			self model selection
-				clearSelection;
-				selectPaths: { currentPaths } ]
+			self model selection selectPaths: { currentPaths } ]
 ]
 
 { #category : #initialization }
