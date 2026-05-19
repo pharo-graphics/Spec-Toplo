@@ -318,7 +318,7 @@ SpToMiniBrowserPresenter >> refreshStatus [
 	selectedClass := classTree
 		                 ifNil: [ nil ]
 		                 ifNotNil: [ classTree selectedItem ].
-	sideLabel := classSide = true
+	sideLabel := classSide
 		             ifTrue: [ 'class side' ]
 		             ifFalse: [ 'instance side' ].
 	classLabel := selectedClass

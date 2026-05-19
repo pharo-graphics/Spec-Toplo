@@ -22,7 +22,6 @@ SpToploTreeAdapter >> buildWidget [
 
 	tree nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (self newItemElementFor: dataItem) ].
-
 	^ tree
 ]
 
