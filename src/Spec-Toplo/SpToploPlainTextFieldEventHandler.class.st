@@ -14,6 +14,11 @@ SpToploPlainTextFieldEventHandler >> eventsToHandle [
 		  AlbTextReplacedEvent }
 ]
 
+{ #category : #accessing }
+SpToploPlainTextFieldEventHandler >> isSuspended [
+	^ isSuspended 
+]
+
 { #category : #'event handling' }
 SpToploPlainTextFieldEventHandler >> textEditedEvent: evt [
 

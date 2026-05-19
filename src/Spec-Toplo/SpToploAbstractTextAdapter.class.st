@@ -234,8 +234,9 @@ SpToploAbstractTextAdapter >> subscribeToWidget [
 
 { #category : #'accessing widget' }
 SpToploAbstractTextAdapter >> text: aString [
+	"avoid text refresh if already in a text refresh situation (coming from widget to presenter and back to widdget)"
 
-	self setWidgetString: aString
+	eventHandler isSuspended ifFalse: [ self setWidgetString: aString ]
 ]
 
 { #category : #'accessing widget' }
