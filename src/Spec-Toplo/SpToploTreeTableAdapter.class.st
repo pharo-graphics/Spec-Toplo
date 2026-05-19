@@ -13,6 +13,7 @@ Class {
 SpToploTreeTableAdapter >> buildWidget [
 
 	widget := ToTreeTableElement new.
+	widget useScrollbar: true.
 	widget showHeader: self model isShowingColumnHeaders.
 	widget selecter multiple:
 		self model selectionMode isMultipleSelection.
@@ -63,6 +64,7 @@ SpToploTreeTableAdapter >> subscribeToPresenter [
 { #category : #initialization }
 SpToploTreeTableAdapter >> subscribeToWidget [
 
+	super subscribeToWidget.
 	widget list
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: [ :event | self transferSelectionChange: event ];

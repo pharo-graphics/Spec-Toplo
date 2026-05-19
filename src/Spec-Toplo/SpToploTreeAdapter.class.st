@@ -14,6 +14,7 @@ SpToploTreeAdapter >> buildWidget [
 
 	| tree |
 	tree := ToTreeElement new.
+	tree useScrollbar: true.
 	"tree withRowNumbers. USEFUL TO DEBUG"
 
 	tree selecter multiple: self model selectionMode isMultipleSelection.
@@ -144,8 +145,7 @@ SpToploTreeAdapter >> updateAll [
 
 	self
 		updateRoots;
-		updateSelection";
-		updateMenu"
+		updateSelection
 ]
 
 { #category : #'updating widget' }
