@@ -81,8 +81,6 @@ SpToploTableAdapter >> subscribeToPresenter [
 { #category : #initialization }
 SpToploTableAdapter >> subscribeToWidget [
 
-	super subscribeToWidget.
-
 	widget list
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: [ :event |

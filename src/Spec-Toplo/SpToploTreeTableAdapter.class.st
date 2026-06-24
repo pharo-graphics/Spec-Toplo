@@ -64,7 +64,6 @@ SpToploTreeTableAdapter >> subscribeToPresenter [
 { #category : #initialization }
 SpToploTreeTableAdapter >> subscribeToWidget [
 
-	super subscribeToWidget.
 	widget list
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: [ :event | self transferSelectionChange: event ];

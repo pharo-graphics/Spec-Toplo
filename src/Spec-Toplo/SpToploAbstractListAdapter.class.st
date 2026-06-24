@@ -97,8 +97,6 @@ SpToploAbstractListAdapter >> subscribeToPresenter [
 { #category : #initialization }
 SpToploAbstractListAdapter >> subscribeToWidget [
 
-	super subscribeToWidget.
-
 	widget
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :evt |
 				| selectedIndexes |
