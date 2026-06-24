@@ -32,6 +32,12 @@ SpToploTreeAdapter >> collapseAll [
 	widget collapseAll
 ]
 
+{ #category : #private }
+SpToploTreeAdapter >> collapsePath: aPath [
+
+	(self widget dataSource itemsAtPath: aPath) last collapse
+]
+
 { #category : #'expanding-collapsing' }
 SpToploTreeAdapter >> expandAll [
 
@@ -40,8 +46,9 @@ SpToploTreeAdapter >> expandAll [
 
 { #category : #accessing }
 SpToploTreeAdapter >> expandPath: aPath [
+	"Benoit Verhaeghe: when I created this method, widget datasource has no API to expand path. So I rely on previous itemsAtPath: that expand all except the last element to avoid rewritting logic"
 
-	widget dataSource itemsAtPath: aPath
+	(widget dataSource itemsAtPath: aPath) last expand
 ]
 
 { #category : #initialization }
