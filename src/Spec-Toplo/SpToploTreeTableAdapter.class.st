@@ -53,6 +53,13 @@ SpToploTreeTableAdapter >> scrollToSelection [
 	self flag: #toImplement
 ]
 
+{ #category : #accessing }
+SpToploTreeTableAdapter >> selectedItem [
+
+	^ (self widget dataSource at: self widget selecter selectedIndex)
+		  dataItem
+]
+
 { #category : #initialization }
 SpToploTreeTableAdapter >> subscribeToPresenter [
 
