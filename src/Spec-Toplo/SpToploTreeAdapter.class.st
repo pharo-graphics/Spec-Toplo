@@ -69,31 +69,23 @@ SpToploTreeAdapter >> itemAtPath: aPath [
 { #category : #factory }
 SpToploTreeAdapter >> newItemElementFor: item [
 
-	| text itemElement |
-	text := (model display cull: item) asString.
-
-	itemElement := model displayIcon
-		ifNil: [
-			ToLabel new
-				text: text;
-				yourself ]
-		ifNotNil: [
-			 ToLabeledIcon new
-				labelText: text;
-				iconImage: (model displayIcon cull: item);
-				startInterspace: 10;
-				yourself ].
+	| labeledIcon |
+	labeledIcon := ToLabeledIcon new
+		               startInterspace: 10;
+		               hMatchParent;
+		               yourself.
+	labeledIcon labelText: (model display cull: item) asRopedText.
+	model displayIcon ifNotNil: [
+		labeledIcon iconImage: (model displayIcon cull: item) ].
 
 	model displayColor ifNotNil: [ :block |
-		(block cull: item) ifNotNil: [ :aColor |
-			itemElement addTokenNamed: #'color-text' withValue: aColor ] ].
+			(block cull: item) ifNotNil: [ :aColor |
+				labeledIcon addTokenNamed: #'color-text' withValue: aColor ] ].
 
 	model displayItalic ifNotNil: [ :block |
-		(block cull: item) ifTrue: [ itemElement label italic ] ].
+		(block cull: item) ifTrue: [ labeledIcon label italic ] ].
 
-	itemElement hMatchParent.
-
-	^ itemElement
+	^ labeledIcon
 ]
 
 { #category : #accessing }
