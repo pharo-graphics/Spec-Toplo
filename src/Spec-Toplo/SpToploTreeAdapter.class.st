@@ -55,7 +55,7 @@ SpToploTreeAdapter >> initialize [
 SpToploTreeAdapter >> isExpanded: item [
 
 	^ widget dataSource collection
-		detect: [ :each | each unwrapped = item ]
+		detect: [ :each | each dataItem = item ]
 		ifFound: [ :dataItem | dataItem isExpanded ]
 		ifNone: [ false ]
 ]
