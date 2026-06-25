@@ -63,7 +63,7 @@ SpToploLayoutAdapter >> buildWithSelector: aSelector [
 SpToploLayoutAdapter >> children [
 	"Debug API. Answer the widgets added to this layout."
 
-	^ self subclassResponsibility
+	^ self widget children
 ]
 
 { #category : #testing }
