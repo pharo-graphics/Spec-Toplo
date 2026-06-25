@@ -39,6 +39,18 @@ SpToploScrollableAdapter >> addConstraints: aSpBoxConstraints toChild: childBlEl
 	^ childBlElement
 ]
 
+{ #category : #'test support' }
+SpToploScrollableAdapter >> childWidget [
+	^ self children first
+]
+
+{ #category : #accessing }
+SpToploScrollableAdapter >> children [
+	"Debug API. Answer the widgets added to this layout."
+
+	^ self widget children first children
+]
+
 { #category : #'instance creation' }
 SpToploScrollableAdapter >> newChildBlElement: aPresenter constrainedBy: aSpBoxConstraints [
 
