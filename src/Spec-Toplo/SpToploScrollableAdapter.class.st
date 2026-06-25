@@ -48,7 +48,7 @@ SpToploScrollableAdapter >> childWidget [
 SpToploScrollableAdapter >> children [
 	"Debug API. Answer the widgets added to this layout."
 
-	^ self widget children first children
+	^ self scrollableElement children
 ]
 
 { #category : #'instance creation' }
@@ -92,6 +92,18 @@ SpToploScrollableAdapter >> newToploWidget [
 		              yourself.
 
 	^ scrollPane
+]
+
+{ #category : #adding }
+SpToploScrollableAdapter >> remove: aPresenter [
+
+	self scrollableElement removeChild: aPresenter adapter widget
+]
+
+{ #category : #accessing }
+SpToploScrollableAdapter >> scrollableElement [
+
+	^ self widget children first
 ]
 
 { #category : #adding }
