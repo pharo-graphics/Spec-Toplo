@@ -119,7 +119,7 @@ SpToploLayoutAdapter >> newToploWidget [
 { #category : #adding }
 SpToploLayoutAdapter >> remove: aPresenter [
 
-	self subclassResponsibility
+	self widget removeChild: aPresenter adapter widget
 ]
 
 { #category : #initialization }
