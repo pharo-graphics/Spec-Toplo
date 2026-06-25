@@ -51,6 +51,12 @@ SpToploNotebookAdapter >> buildWidget [
 	^ tabPanel
 ]
 
+{ #category : #test }
+SpToploNotebookAdapter >> clickTab: anInteger [
+
+	BlSpace simulateClickOn: (self widget dataSource at: anInteger)
+]
+
 { #category : #factory }
 SpToploNotebookAdapter >> ensurePage: aPage isBuiltWithPresenter: presenter [
 
