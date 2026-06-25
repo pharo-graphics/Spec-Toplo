@@ -23,6 +23,13 @@ SpToploDropListAdapter >> buildWidget [
 ]
 
 { #category : #accessing }
+SpToploDropListAdapter >> displayedIcon [
+
+	self model hasIcons ifFalse: [ ^ nil ].
+	^ self widget icon
+]
+
+{ #category : #accessing }
 SpToploDropListAdapter >> elementAt: index [
 
 	^ model getList at: index
@@ -78,7 +85,7 @@ SpToploDropListAdapter >> subscribeToWidget [
 			model selectIndex: selection selectedIndex ]
 ]
 
-{ #category : #'updating widget' }
+{ #category : #initialization }
 SpToploDropListAdapter >> updateAll [
 
 	super updateAll.
