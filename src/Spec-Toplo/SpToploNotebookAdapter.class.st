@@ -42,8 +42,9 @@ SpToploNotebookAdapter >> buildWidget [
 	self presenter pages do: [ :page | tabPanel addTabItemData: page ].
 
 	"force first page to be drawn"
-	self presenter selectedPage ifNil: [
-		self presenter selectPageIndex: 1 ].
+	self presenter selectedPage ifNil: [ "cannot select a page if there is not"
+		self presenter pages ifNotEmpty: [
+			self presenter selectPageIndex: 1 ] ].
 
 	tabPanel selecter selectIndex: self presenter selectedPageIndex.
 	tabPanel requestFocus.
