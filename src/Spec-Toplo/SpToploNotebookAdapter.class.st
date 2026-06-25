@@ -65,6 +65,11 @@ SpToploNotebookAdapter >> modelOfTab: tabButton [
 	^ tabButton userData at: #adapterTabModel ifAbsent: [ nil ]
 ]
 
+{ #category : #'as yet unclassified' }
+SpToploNotebookAdapter >> numberOfTabs [
+	^ self widget dataSource size
+]
+
 { #category : #factory }
 SpToploNotebookAdapter >> pageWithModel: anObject [
 	"an utility to easy find pages with a model"
@@ -79,6 +84,13 @@ SpToploNotebookAdapter >> selectPage: page [
 	self widget selectedAtPosition:
 		(self widget dataSource collection detect: [ :tabButton |
 			 (self modelOfTab: tabButton) = page ]) holder position
+]
+
+{ #category : #'inspector compatibility' }
+SpToploNotebookAdapter >> selectedPageName [
+
+	^ (self widget dataSource at: self widget selecter selectedIndex)
+		  labelText
 ]
 
 { #category : #initialization }
