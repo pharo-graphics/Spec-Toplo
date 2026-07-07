@@ -23,6 +23,12 @@ SpToploTreeTableAdapter >> buildWidget [
 	^ widget
 ]
 
+{ #category : #testing }
+SpToploTreeTableAdapter >> columnCount [
+
+	^ self widget columns size
+]
+
 { #category : #'expanding-collapsing' }
 SpToploTreeTableAdapter >> expandAll [
 
