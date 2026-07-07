@@ -9,6 +9,13 @@ Class {
 }
 
 { #category : #asserting }
+SpToploBackendForTest >> assertHasHeader: anAdapter [ 
+	self waitUntilUIRedrawed.
+	
+	self assert: (anAdapter widget instVarNamed: #showHeader)
+]
+
+{ #category : #asserting }
 SpToploBackendForTest >> assertIcon: aForm equals: anotherForm [
 
 	self assert: anotherForm = aForm
