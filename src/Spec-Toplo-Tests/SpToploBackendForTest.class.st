@@ -33,6 +33,12 @@ SpToploBackendForTest >> assertImage: actual equals: expected [
 	self assert: actual bits = expected bits
 ]
 
+{ #category : #simulating }
+SpToploBackendForTest >> doubleClickFirstRowAndColumn: aSpToploListAdapter [
+	 
+	BlSpace simulateDoubleClickOn: aSpToploListAdapter widget nodes first
+]
+
 { #category : #opening }
 SpToploBackendForTest >> openInstanceOf: aTest [
 

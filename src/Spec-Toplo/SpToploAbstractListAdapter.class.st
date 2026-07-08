@@ -110,7 +110,6 @@ SpToploAbstractListAdapter >> subscribeToWidget [
 				selectedIndexes = model selection selectedIndexes asArray
 					ifFalse: [ model selection selectIndexes: selectedIndexes ] ];
 		addEventHandlerOn: ToListStrongSelectionEvent do: [
-				self halt.
 				model doActivateAtIndex: model selection selectedIndex ]
 ]
 
