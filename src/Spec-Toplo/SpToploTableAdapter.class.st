@@ -12,6 +12,12 @@ Class {
 	#category : #'Spec-Toplo-Adapters'
 }
 
+{ #category : #api }
+SpToploTableAdapter >> alternateRowsColor [
+
+	self flag: #shouldWeKeepThis
+]
+
 { #category : #factory }
 SpToploTableAdapter >> buildColumns [
 
