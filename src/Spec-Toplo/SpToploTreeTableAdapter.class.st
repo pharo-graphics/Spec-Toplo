@@ -62,8 +62,11 @@ SpToploTreeTableAdapter >> scrollToSelection [
 { #category : #accessing }
 SpToploTreeTableAdapter >> selectedItem [
 
-	^ (self widget dataSource at: self widget selecter selectedIndex)
-		  dataItem
+	| selectedIndex |
+	selectedIndex := self widget selecter selectedIndex.
+	selectedIndex = 0 ifTrue: [ ^ nil ].
+
+	^ (self widget dataSource at: selectedIndex) dataItem
 ]
 
 { #category : #initialization }
