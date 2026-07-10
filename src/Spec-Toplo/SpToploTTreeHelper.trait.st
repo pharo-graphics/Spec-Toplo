@@ -30,7 +30,7 @@ SpToploTTreeHelper >> selectPath: aPath [
 SpToploTTreeHelper >> selectedPaths [
 
 	^ self treeWidget selecter selectedIndexes collect: [ :each |
-		  self treeWidget dataSource pathOfIndex: each ]
+		  (self treeWidget dataSource pathOfIndex: each) asArray ]
 ]
 
 { #category : #initialization }
