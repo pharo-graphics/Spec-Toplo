@@ -33,6 +33,23 @@ SpToploBackendForTest >> assertImage: actual equals: expected [
 	self assert: actual bits = expected bits
 ]
 
+{ #category : #asserting }
+SpToploBackendForTest >> assertList: anAdapter displayItems: aCollection [ 
+	| tableContainer tableRowContents |
+	
+	self waitUntilUIRedrawed.
+	
+	tableContainer := anAdapter widget list innerElement.
+	tableRowContents := tableContainer children collect: [ :row | 
+		| cell |
+		cell := (row node childWithId: #Value) cell.
+		cell children anyOne text asString ].
+	
+	self assert: tableRowContents first = aCollection first.
+	self assert: tableRowContents second = aCollection second.
+	self assert: tableRowContents third = aCollection third.
+]
+
 { #category : #simulating }
 SpToploBackendForTest >> doubleClickFirstRowAndColumn: aSpToploListAdapter [
 	 
