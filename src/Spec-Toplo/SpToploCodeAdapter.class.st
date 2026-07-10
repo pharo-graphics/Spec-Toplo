@@ -125,7 +125,7 @@ SpToploCodeAdapter >> updateLineNumbers [
 SpToploCodeAdapter >> updateStylerFor: aBehavior [
 
 	widget styler
-		isForWorkspace: false;
+		isScripting: false;
 		classOrMetaClass: aBehavior.
 
 	widget requestTextStyle
