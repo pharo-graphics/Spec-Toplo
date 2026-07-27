@@ -23,6 +23,13 @@ SpToploDropListAdapter >> buildWidget [
 ]
 
 { #category : #accessing }
+SpToploDropListAdapter >> displayedIcon [
+
+	self model hasIcons ifFalse: [ ^ nil ].
+	^ self widget icon
+]
+
+{ #category : #accessing }
 SpToploDropListAdapter >> elementAt: index [
 
 	^ model getList at: index
@@ -45,6 +52,12 @@ SpToploDropListAdapter >> newItemElementFor: aSpDropListItem [
 		yourself
 ]
 
+{ #category : #'api - selection' }
+SpToploDropListAdapter >> selectIndex: anInteger [
+
+	self widget selecter selectIndex: anInteger
+]
+
 { #category : #accessing }
 SpToploDropListAdapter >> selectedIndexes [
 
@@ -63,7 +76,16 @@ SpToploDropListAdapter >> subscribeToPresenter [
 	model selection whenChangedDo: [ self updateSelection ]
 ]
 
-{ #category : #'updating widget' }
+{ #category : #initialization }
+SpToploDropListAdapter >> subscribeToWidget [
+
+	super subscribeToWidget.
+	widget addEventHandlerOn: ToSelectChangedEvent do: [ :selection |
+			model selectedIndex = selection selectedIndex ifFalse: [
+				model selectIndex: selection selectedIndex ] ]
+]
+
+{ #category : #initialization }
 SpToploDropListAdapter >> updateAll [
 
 	super updateAll.

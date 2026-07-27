@@ -17,10 +17,27 @@ SpToploToolbarAdapter >> buildWidget [
 	^ menu
 ]
 
+{ #category : #testing }
+SpToploToolbarAdapter >> hasButtonWithLabel: aString [
+
+	^ self widget dataSource collection
+		  detect: [ :element |
+				  (element isKindOf: ToMenuItem) and: [
+					  element label text asString = aString ] ]
+		  ifFound: [ true ]
+		  ifNone: [ false ]
+]
+
 { #category : #'instance creation' }
 SpToploToolbarAdapter >> newItemFor: aSpToolbarButtonPresenter [
 
 	^ aSpToolbarButtonPresenter build
+]
+
+{ #category : #testing }
+SpToploToolbarAdapter >> numberOfItems [
+
+	^ self widget dataSource size
 ]
 
 { #category : #initialization }

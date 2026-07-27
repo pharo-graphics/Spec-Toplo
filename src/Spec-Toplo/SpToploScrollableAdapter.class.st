@@ -39,6 +39,18 @@ SpToploScrollableAdapter >> addConstraints: aSpBoxConstraints toChild: childBlEl
 	^ childBlElement
 ]
 
+{ #category : #'test support' }
+SpToploScrollableAdapter >> childWidget [
+	^ self children first
+]
+
+{ #category : #accessing }
+SpToploScrollableAdapter >> children [
+	"Debug API. Answer the widgets added to this layout."
+
+	^ self scrollableElement children
+]
+
 { #category : #'instance creation' }
 SpToploScrollableAdapter >> newChildBlElement: aPresenter constrainedBy: aSpBoxConstraints [
 
@@ -80,6 +92,18 @@ SpToploScrollableAdapter >> newToploWidget [
 		              yourself.
 
 	^ scrollPane
+]
+
+{ #category : #adding }
+SpToploScrollableAdapter >> remove: aPresenter [
+
+	self scrollableElement removeChild: aPresenter adapter widget
+]
+
+{ #category : #accessing }
+SpToploScrollableAdapter >> scrollableElement [
+
+	^ self widget children first
 ]
 
 { #category : #adding }

@@ -35,6 +35,12 @@ SpToploAbstractListAdapter >> buildWidget [
 ]
 
 { #category : #accessing }
+SpToploAbstractListAdapter >> children [
+
+	^ self widget dataSource
+]
+
+{ #category : #accessing }
 SpToploAbstractListAdapter >> elementAt: anInteger [ 
 	
 	^ widget dataAccessor at: anInteger
@@ -103,8 +109,8 @@ SpToploAbstractListAdapter >> subscribeToWidget [
 				selectedIndexes := evt selectedIndexes asArray.
 				selectedIndexes = model selection selectedIndexes asArray
 					ifFalse: [ model selection selectIndexes: selectedIndexes ] ];
-		addEventHandlerOn: ToListStrongSelectionEvent
-		do: [ model doActivateAtIndex: model selection selectedIndex ]
+		addEventHandlerOn: ToListStrongSelectionEvent do: [
+				model doActivateAtIndex: model selection selectedIndex ]
 ]
 
 { #category : #initialization }

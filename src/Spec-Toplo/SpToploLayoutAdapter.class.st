@@ -63,7 +63,7 @@ SpToploLayoutAdapter >> buildWithSelector: aSelector [
 SpToploLayoutAdapter >> children [
 	"Debug API. Answer the widgets added to this layout."
 
-	^ self subclassResponsibility
+	^ self widget children
 ]
 
 { #category : #testing }
@@ -119,7 +119,7 @@ SpToploLayoutAdapter >> newToploWidget [
 { #category : #adding }
 SpToploLayoutAdapter >> remove: aPresenter [
 
-	self subclassResponsibility
+	self widget removeChild: aPresenter adapter widget
 ]
 
 { #category : #initialization }
