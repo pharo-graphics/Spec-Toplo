@@ -157,35 +157,29 @@ SpToMiniBrowserPresenter >> initializePresenters [
 
 	super initializePresenters.
 	classSide := false.
-	
+
 
 	packageTree := self newTree
 		               roots: self sortedPackages;
-		               children: [ :anItem |
-			               self childrenOfPackageTreeItem: anItem ];
-		               display: [ :anItem |
-			               self displayNameOfPackageTreeItem: anItem ];
+		               children: [ :anItem | self childrenOfPackageTreeItem: anItem ];
+		               display: [ :anItem | self displayNameOfPackageTreeItem: anItem ];
 		               yourself.
 
 	classTree := self newTree
 		             children: [ :aClass | self sortedSubclassesOf: aClass ];
 		             display: [ :aClass | aClass name ];
-		             displayIcon: [ :aClass |
-			             self iconNamed: aClass systemIconName ];
+		             displayIcon: [ :aClass | self iconNamed: aClass systemIconName ];
 		             yourself.
 
 	protocolList := self newList
-		                display: [ :anAssociation |
-			                anAssociation value name ];
+		                display: [ :anAssociation | anAssociation value name ];
 		                yourself.
 
 	selectorList := self newList
-		                display: [ :anAssociation |
-			                anAssociation value asString ];
+		                display: [ :anAssociation | anAssociation value asString ];
 		                yourself.
 
 	codePresenter := self newCode
-		                 beNotEditable;
 		                 text: '';
 		                 yourself.
 
