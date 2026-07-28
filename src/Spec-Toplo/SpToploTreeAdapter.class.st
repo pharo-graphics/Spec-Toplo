@@ -59,12 +59,9 @@ SpToploTreeAdapter >> initialize [
 ]
 
 { #category : #testing }
-SpToploTreeAdapter >> isExpanded: item [
+SpToploTreeAdapter >> isExpanded: aPath [
 
-	^ widget dataSource collection
-		detect: [ :each | each dataItem = item ]
-		ifFound: [ :dataItem | dataItem isExpanded ]
-		ifNone: [ false ]
+	^ (widget dataSource itemsAtPath: aPath) first isExpanded
 ]
 
 { #category : #private }
