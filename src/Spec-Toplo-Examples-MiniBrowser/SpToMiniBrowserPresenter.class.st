@@ -95,10 +95,7 @@ SpToMiniBrowserPresenter >> classSelectionChanged [
 SpToMiniBrowserPresenter >> clearCodePresenter [
 
 	codePresenter ifNil: [ ^ self ].
-	codePresenter userActionDuring: [
-			codePresenter
-				clearInteractionModel;
-				text: '' ]
+	codePresenter text: ''
 ]
 
 { #category : #'private - refreshing' }
@@ -179,8 +176,9 @@ SpToMiniBrowserPresenter >> initializePresenters [
 		                display: [ :anAssociation | anAssociation value asString ];
 		                yourself.
 
-	codePresenter := self newCode
+	codePresenter := self newCodeEditor
 		                 text: '';
+		                 whenSubmitDo: [ :text | codePresenter interactionModel behavior compile: text ];
 		                 yourself.
 
 	classSideCheckBox := self newCheckBox
@@ -352,13 +350,11 @@ SpToMiniBrowserPresenter >> selectorSelectionChanged [
 { #category : #'private - refreshing' }
 SpToMiniBrowserPresenter >> showSourceForSelectorAssociation: anAssociation [
 
-	| behavior selector sourceText |
+	| behavior selector |
 	behavior := anAssociation key.
 	selector := anAssociation value.
-	sourceText := behavior sourceCodeAt: selector ifAbsent: [ '' ].
-	codePresenter userActionDuring: [
-			codePresenter beForBehavior: behavior.
-			codePresenter text: sourceText copy ]
+	codePresenter beForMethod: behavior >> selector.
+	codePresenter text: (behavior >> selector) sourceCode
 ]
 
 { #category : #'private - packages' }
