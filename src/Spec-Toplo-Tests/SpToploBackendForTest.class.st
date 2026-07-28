@@ -71,6 +71,7 @@ SpToploBackendForTest >> runTest: aBlock [
 
 	app := SpApplication new.
 	app useBackend: #Toplo.
+	app propertyAt: #testBackend put: self.
 	aBlock value
 ]
 
