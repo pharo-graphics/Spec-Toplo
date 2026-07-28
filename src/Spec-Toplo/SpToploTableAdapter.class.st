@@ -58,6 +58,12 @@ SpToploTableAdapter >> buildWidget [
 	^ widget
 ]
 
+{ #category : #accessing }
+SpToploTableAdapter >> columns [
+
+	^ self widget columns
+]
+
 { #category : #initialization }
 SpToploTableAdapter >> initialize [
 
