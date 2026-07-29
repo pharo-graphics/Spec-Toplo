@@ -30,9 +30,9 @@ SpToploGridAdapter >> newToploWidget [
 	| gridLayout |
 	gridLayout := BlGridLayout horizontal.
 	gridLayout columnCount:
-		(layout children values collect: [ :value | value position x ]) max.
+		((layout children values collect: [ :value | value position x ]) ifNotEmpty: [ :col | col max ] ifEmpty: [ 0 ]).
 	gridLayout rowCount:
-		(layout children values collect: [ :value | value position y ]) max.
+		((layout children values collect: [ :value | value position y ]) ifNotEmpty: [ :col | col max ] ifEmpty: [ 0 ]).
 	^ ToPane new
 		  layout: gridLayout;
 		  yourself
