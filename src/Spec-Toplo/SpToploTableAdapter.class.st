@@ -73,6 +73,12 @@ SpToploTableAdapter >> initialize [
 	activatedList := Set new
 ]
 
+{ #category : #testing }
+SpToploTableAdapter >> isShowColumnHeaders [
+	
+	^ self widget showHeader
+]
+
 { #category : #initialization }
 SpToploTableAdapter >> subscribeToPresenter [
 
