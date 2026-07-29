@@ -131,12 +131,12 @@ SpToploTextInputFieldEventHandler >> textInsertedEvent: evt [
 SpToploTextInputFieldEventHandler >> textReplacedEvent: evt [
 
 	isSuspended ifTrue: [ ^ self ].
-	
-	text := evt text copy.
 
-	self
-		updateWidgetWithAsterisks;
-		setPresenterText
+	text := evt text copy.
+	self isPassword
+		ifTrue: [ self updateWidgetWithAsterisks ]
+		ifFalse: [ adapter setWidgetString: text ].
+	self setPresenterText
 ]
 
 { #category : #private }
