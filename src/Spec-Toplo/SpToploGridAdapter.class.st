@@ -13,7 +13,7 @@ SpToploGridAdapter >> addChildElement: aToLabel with: aSpGridConstraints [
 	widget addChild: aToLabel
 ]
 
-{ #category : #'instance creation' }
+{ #category : #adding }
 SpToploGridAdapter >> addConstraints: constraints toChild: childBlElement [
 
 	childBlElement constraintsDo: [ :c |
