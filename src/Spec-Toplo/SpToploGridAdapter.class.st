@@ -16,6 +16,10 @@ SpToploGridAdapter >> addChildElement: aToLabel with: aSpGridConstraints [
 { #category : #'instance creation' }
 SpToploGridAdapter >> addConstraints: constraints toChild: childBlElement [
 
+	childBlElement constraintsDo: [ :c |
+			constraints span ifNotNil: [
+					c grid horizontal span: constraints span x.
+					c grid vertical span: constraints span y ] ].
 	^ childBlElement
 ]
 
