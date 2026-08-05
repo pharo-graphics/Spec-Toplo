@@ -90,6 +90,14 @@ SpToploCodeAdapter >> subscribeToPresenter [
 		self updateLineNumbers ]
 ]
 
+{ #category : #initialization }
+SpToploCodeAdapter >> subscribeToWidget [
+
+	super subscribeToWidget.
+
+	widget addEventHandlerOn: ToAlbumSaveAcceptedEvent do: [ :event | self model triggerSubmitAction ]
+]
+
 { #category : #protocol }
 SpToploCodeAdapter >> takeKeyboardFocus [
 	self flag: #toImplement
@@ -107,10 +115,15 @@ SpToploCodeAdapter >> updateAll [
 
 { #category : #'updating widget' }
 SpToploCodeAdapter >> updateInteractionModel [
-	
+
 	model interactionModel isScripting
 		ifTrue: [ self updateStylerForScripting ]
-		ifFalse: [ self updateStylerFor: model interactionModel behavior ]
+		ifFalse: [
+				self updateStylerFor: model interactionModel behavior.
+				self widgetDo: [ :w |
+						w
+							withSaveCapability;
+							whenSaveRequestedDo: [ :saveRequested | saveRequested accepted: true ] ] ]
 ]
 
 { #category : #'updating widget' }
