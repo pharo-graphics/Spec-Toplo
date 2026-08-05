@@ -88,17 +88,16 @@ SpToMiniBrowserPresenter >> classColumnLayout [
 { #category : #selection }
 SpToMiniBrowserPresenter >> classSelectionChanged [
 
-	self refreshProtocolListFromSelectedClass
+	self refreshProtocolListFromSelectedClass.
+	codePresenter model selectedBehavior: classTree selectedItem
 ]
 
 { #category : #'private - refreshing' }
 SpToMiniBrowserPresenter >> clearCodePresenter [
 
 	codePresenter ifNil: [ ^ self ].
-	codePresenter userActionDuring: [
-			codePresenter
-				clearInteractionModel;
-				text: '' ]
+	codePresenter
+				clearInteractionModel
 ]
 
 { #category : #'private - refreshing' }
@@ -179,9 +178,7 @@ SpToMiniBrowserPresenter >> initializePresenters [
 		                display: [ :anAssociation | anAssociation value asString ];
 		                yourself.
 
-	codePresenter := self newCode
-		                 text: '';
-		                 yourself.
+	codePresenter := SpToMiniBrowserEditorPresenter on: SpToMiniBrowserEditorModel new.
 
 	classSideCheckBox := self newCheckBox
 		                     label: 'Class side';
@@ -352,13 +349,7 @@ SpToMiniBrowserPresenter >> selectorSelectionChanged [
 { #category : #'private - refreshing' }
 SpToMiniBrowserPresenter >> showSourceForSelectorAssociation: anAssociation [
 
-	| behavior selector sourceText |
-	behavior := anAssociation key.
-	selector := anAssociation value.
-	sourceText := behavior sourceCodeAt: selector ifAbsent: [ '' ].
-	codePresenter userActionDuring: [
-			codePresenter beForBehavior: behavior.
-			codePresenter text: sourceText copy ]
+	codePresenter setMethod: anAssociation
 ]
 
 { #category : #'private - packages' }
