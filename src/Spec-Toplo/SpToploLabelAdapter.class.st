@@ -10,6 +10,15 @@ Class {
 }
 
 { #category : #accessing }
+SpToploLabelAdapter >> backgroundColor [
+
+	^ self widget attributesBuilder attributes
+		  detect: [ :att | att isKindOf: BlTextBackgroundAttribute ]
+		  ifFound: [ :attribute | attribute paint ]
+		  ifNone: [ ^ nil ]
+]
+
+{ #category : #accessing }
 SpToploLabelAdapter >> beJustifyCenter [
 	"not implemented yet"
 ]
@@ -45,14 +54,22 @@ SpToploLabelAdapter >> subscribeToPresenter [
 	model whenLabelChangedDo: [ self updateLabel ]
 ]
 
-{ #category : #'updating widget' }
+{ #category : #initialization }
 SpToploLabelAdapter >> updateAll [
 
 	super updateAll.
 
 	self
 		updateLabel;
-		updateMenu
+		updateMenu;
+		updateBackgroundColor
+]
+
+{ #category : #'updating widget' }
+SpToploLabelAdapter >> updateBackgroundColor [
+
+	self model displayBackgroundColor ifNotNil: [ :backgroundColorAction |
+		self widget attributesBuilder background: backgroundColorAction value ]
 ]
 
 { #category : #'updating widget' }

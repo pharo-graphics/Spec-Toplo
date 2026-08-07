@@ -114,7 +114,19 @@ SpToploNotebookAdapter >> subscribeToPresenter [
 	super subscribeToPresenter.
 	model
 		whenPagesChangedDo: [ :pages | self updatePagesWith: pages ];
-		whenSelectedPageChangedDo: [ :page | self selectPage: page ]
+		whenSelectedPageChangedDo: [ :page | self selectPage: page ];
+		whenPageRemovedDo: [ :page | "" ]
+]
+
+{ #category : #initialization }
+SpToploNotebookAdapter >> subscribeToWidget [
+
+	super subscribeToWidget.
+
+	widget itemList addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :event |
+			event selectedIndexes
+				ifEmpty: [ self model selectPage: nil ]
+				ifNotEmpty: [ self model selectPage: (self model pages at: event selectedIndexes first) ] ]
 ]
 
 { #category : #updating }
@@ -122,7 +134,6 @@ SpToploNotebookAdapter >> updatePageContent: aPage [
 
 	(self pageWithModel: aPage) invalidate.
 	aPage = self presenter selectedPage ifFalse: [ ^ self ].
-	self flag: #toBeImplemented.
 	self updatePageIndex: self model selectedPageIndex
 ]
 
@@ -130,14 +141,15 @@ SpToploNotebookAdapter >> updatePageContent: aPage [
 SpToploNotebookAdapter >> updatePageIndex: anInteger [
 
 	| newPage widgetPage |
+
 	newPage := self model pages at: anInteger.
 	widgetPage := self widgetPageAtIndex: anInteger.
-
-	widgetPage paneBuilder: [ :pane |
-		pane addChild: (self buildContentForPage: newPage) ].
+	widgetPage paneBuilder: [ :pane | pane addChild: (self buildContentForPage: newPage) ].
 	widgetPage bodyPane: nil.
-	self widget itemList group notifyChanged.
-
+	self widget itemList dataSource notifyChanged.
+	(self widget itemList isSelectedAtPosition: anInteger) ifFalse: [ ^ self ].
+	self widget body removeChildren.
+	(widgetPage paneBuilder value: self widget body)
 ]
 
 { #category : #factory }
@@ -147,13 +159,10 @@ SpToploNotebookAdapter >> updatePagesWith: aCollection [
 	self widget ifNil: [ ^ self ].
 
 	pagesToRemove := self widget dataAccessor reject: [ :tabButton |
-		                 aCollection anySatisfy: [ :page |
-			                 page = (self modelOfTab: tabButton) ] ].
+		                 aCollection anySatisfy: [ :page | page = (self modelOfTab: tabButton) ] ].
 	pagesToRemove do: [ :tabButton | self widget removeItem: tabButton ].
 	aCollection
-		reject: [ :page |
-				self widget dataAccessor anySatisfy: [ :p |
-					(self modelOfTab: p) = page ] ]
+		reject: [ :page | self widget dataAccessor anySatisfy: [ :p | (self modelOfTab: p) = page ] ]
 		thenDo: [ :page | self widget addTabItemData: page ]
 ]
 

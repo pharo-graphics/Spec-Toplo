@@ -13,9 +13,15 @@ SpToploGridAdapter >> addChildElement: aToLabel with: aSpGridConstraints [
 	widget addChild: aToLabel
 ]
 
-{ #category : #'instance creation' }
+{ #category : #adding }
 SpToploGridAdapter >> addConstraints: constraints toChild: childBlElement [
 
+	childBlElement constraintsDo: [ :c |
+			(self model layout isKindOf: SpGridLayout) ifTrue: [
+				self model layout isColumnHomogeneous ifFalse: [ childBlElement fitContent ] ].
+			constraints span ifNotNil: [
+					c grid horizontal span: constraints span x.
+					c grid vertical span: constraints span y ] ].
 	^ childBlElement
 ]
 
@@ -30,9 +36,9 @@ SpToploGridAdapter >> newToploWidget [
 	| gridLayout |
 	gridLayout := BlGridLayout horizontal.
 	gridLayout columnCount:
-		(layout children values collect: [ :value | value position x ]) max.
+		((layout children values collect: [ :value | value position x ]) ifNotEmpty: [ :col | col max ] ifEmpty: [ 0 ]).
 	gridLayout rowCount:
-		(layout children values collect: [ :value | value position y ]) max.
+		((layout children values collect: [ :value | value position y ]) ifNotEmpty: [ :col | col max ] ifEmpty: [ 0 ]).
 	^ ToPane new
 		  layout: gridLayout;
 		  yourself

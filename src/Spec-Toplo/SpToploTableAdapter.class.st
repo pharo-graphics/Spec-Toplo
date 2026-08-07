@@ -58,6 +58,12 @@ SpToploTableAdapter >> buildWidget [
 	^ widget
 ]
 
+{ #category : #accessing }
+SpToploTableAdapter >> columns [
+
+	^ self widget columns
+]
+
 { #category : #initialization }
 SpToploTableAdapter >> initialize [
 
@@ -65,6 +71,12 @@ SpToploTableAdapter >> initialize [
 	additionnalActivationBlocks := OrderedCollection new.
 	additionnalDeactivationBlocks := OrderedCollection new.
 	activatedList := Set new
+]
+
+{ #category : #testing }
+SpToploTableAdapter >> isShowColumnHeaders [
+	
+	^ self widget showHeader
 ]
 
 { #category : #initialization }

@@ -45,13 +45,13 @@ SpToploTTreeHelper >> transferSelectionChange: evt [
 
 	| currentPaths selectedIndex |
 	self suspendUpdateSelectionDuring: [
-			evt selectedIndexes ifEmpty: [ "UI is not ready?" ^ self ].
+			evt selectedIndexes ifEmpty: [ "The user unselect everything"
+					self model selection selectPaths: {  }.
+					^ self ].
 			selectedIndex := evt selectedIndexes first.
 
-			selectedIndex > evt currentTarget dataSource size ifTrue: [
-				^ self flag: #'might be a bug' ].
-			currentPaths := (evt currentTarget dataSource pathOfIndex:
-				                 selectedIndex) asArray.
+			selectedIndex > evt currentTarget dataSource size ifTrue: [ ^ self flag: #'might be a bug' ].
+			currentPaths := (evt currentTarget dataSource pathOfIndex: selectedIndex) asArray.
 			currentPaths = self model selection selectedPaths ifTrue: [ ^ self ].
 
 			self model selection selectPaths: { currentPaths } ]
