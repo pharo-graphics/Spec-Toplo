@@ -192,8 +192,8 @@ SpToploWindowLikeAdapter >> updateMenu [
 SpToploWindowLikeAdapter >> updateStatusBar [
 	"Inspired on SpAbstractMorphicWindowAdapter>>#addStatusBarTo:"
 
-	model statusBar ifNil: [ ^ widget root removeStatusBar ].
-	widget root statusBar: model statusBar build
+	model statusbar ifNil: [ ^ widget root removeStatusBar ].
+	widget root statusBar: model statusbar build
 ]
 
 { #category : #'widget creation' }
