@@ -28,15 +28,14 @@ SpToMiniBrowserEditorPresenter >> initializeClassCodePage [
 
 	behaviorCodePage presenterProvider: [
 			| codePresenter |
-			codePresenter := self newCode.
+			codePresenter := self newCodeEditor.
 			self model whenSelectedBehaviorChangedDo: [ :behavior |
 					behavior
 						ifNil: [
 								behaviorCodePage title: 'New Class'.
-								codePresenter userActionDuring: [
-										codePresenter text: 'Object << #MyClass
+								codePresenter text: 'Object << #MyClass
 	slots: {};
-	package: ''_Unpackaged''' ] ]
+	package: ''_Unpackaged''' ]
 						ifNotNil: [
 								behaviorCodePage title: behavior printString.
 								codePresenter text: behavior definitionString copy ] ].
@@ -59,18 +58,18 @@ SpToMiniBrowserEditorPresenter >> initializeMethodCodePage [
 
 						(notebook pages includes: methodCodePage)
 							ifFalse: [ notebook addPage: methodCodePage ]
-							ifTrue: [  methodCodePage resetContent ].
+							ifTrue: [ methodCodePage resetContent ].
 						notebook selectPage: methodCodePage ] ].
 
 
 	methodCodePage presenterProvider: [
 			| sourceText codePresenter |
-			codePresenter := self newCode.
+			codePresenter := self newCodeEditor.
 			sourceText := self model selectedBehavior sourceCodeAt: self model selectedMethod selector ifAbsent: [ '' ].
 
-			codePresenter userActionDuring: [
-					codePresenter beForBehavior: self model selectedBehavior.
-					codePresenter text: sourceText copy ].
+			codePresenter beForBehavior: self model selectedBehavior.
+			codePresenter text: sourceText copy.
+			codePresenter whenSubmitDo: [ :text | codePresenter interactionModel behavior compile: text ].
 			codePresenter ].
 	^ methodCodePage
 ]
