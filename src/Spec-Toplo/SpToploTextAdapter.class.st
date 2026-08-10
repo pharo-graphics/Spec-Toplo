@@ -7,6 +7,12 @@ Class {
 	#category : #'Spec-Toplo-Adapters'
 }
 
+{ #category : #'accessing - text' }
+SpToploTextAdapter >> appendText: aString [
+
+	self widget text append: aString asRopedText
+]
+
 { #category : #factory }
 SpToploTextAdapter >> buildWidget [
 
