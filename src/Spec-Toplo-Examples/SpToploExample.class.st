@@ -21,7 +21,27 @@ SpToploExample class >> menuExamplesOn: aBuilder [
 				(aBuilder item: #toFinder) action: [ self openToFinder ].
 				(aBuilder item: #toGitManager)
 					action: [ self openToIceberg ];
+					withSeparatorAfter.
+					(aBuilder item: #toDebugger)
+					action: [ self openToDebugger ];
 					withSeparatorAfter ]
+]
+
+{ #category : #'user interface' }
+SpToploExample class >> openToDebugger [
+
+	| app aDebugSession debugger |
+	app := StPharoApplication new.
+	app useBackend: #Toplo.
+
+	aDebugSession := StTestDebuggerProvider new sessionForDebuggerTests.
+	debugger := StDebugger basicNew
+		            session: aDebugSession;
+		            application: app;
+		            initialize;
+		            yourself.
+
+	debugger open
 ]
 
 { #category : #'user interface' }
