@@ -32,13 +32,13 @@ SpToploColumnViewAdapter >> buildGenericToTableColumnFrom: spCollumn [
 	column := ToTableColumn new
 		          title: spCollumn title;
 		          key: spCollumn title;
-		          "Use yourself by default. It sometimes happen when user give a list of string as data"
-		          dataIndex: (spCollumn evaluation ifNil: [ #yourself ]);
-		          yourself.
+		          "Use yourself by default. It sometimes happen when user give a list of string as data"yourself.
+	(spCollumn respondsTo: #evaluation)
+		ifTrue: [ "check from Pharo 13 and inferior" column dataIndex: (spCollumn evaluation ifNil: [ #yourself ]) ]
+		ifFalse: [ column dataIndex: #yourself ].
 	column width: spCollumn width.
 	column resizable: spCollumn isExpandable.
-	spCollumn isSortable ifTrue: [
-		column sorterBlock: spCollumn sortFunction ].
+	spCollumn isSortable ifTrue: [ column sorterBlock: spCollumn sortFunction ].
 	^ column
 ]
 
@@ -138,15 +138,11 @@ SpToploColumnViewAdapter >> visitCheckboxColumn: aSpCheckBoxTableColumn [
 SpToploColumnViewAdapter >> visitColumnViewColumn: spCollumn [
 
 	| column |
-	column := ToTableColumn new
-		          title: spCollumn title;
-		          key: spCollumn title;
-		          dataIndex: #yourself;
-		          yourself.
+	column := self buildGenericToTableColumnFrom: spCollumn.
 	"Use yourself by default. It sometimes happen when user give a list of string as data"
 	"dataIndex: [:val | spCollumn bindAction value: self model value: val ];"
 	column cellBuilder: [ :element :dataItem :holder |
-			| pane child contentPresenter toElement |
+			| pane contentPresenter toElement |
 			pane := ToElement new
 				        layout: BlLinearLayout horizontal;
 				        fitContent;
