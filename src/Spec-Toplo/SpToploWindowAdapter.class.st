@@ -15,6 +15,12 @@ SpToploWindowAdapter >> activate [
 		#'toImplement - seem to have missing stuff in BlOSWindowSDL2HostSpace'
 ]
 
+{ #category : #activation }
+SpToploWindowAdapter >> isDisplayed [
+
+	^ self widget isVisible
+]
+
 { #category : #testing }
 SpToploWindowAdapter >> isTopWindow [
 
