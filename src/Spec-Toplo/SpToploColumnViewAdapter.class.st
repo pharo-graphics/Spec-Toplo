@@ -143,19 +143,25 @@ SpToploColumnViewAdapter >> visitColumnViewColumn: spCollumn [
 	"dataIndex: [:val | spCollumn bindAction value: self model value: val ];"
 	column cellBuilder: [ :element :dataItem :holder |
 			| pane contentPresenter toElement |
-			element fitContent.
+			element hMatchParent.
+			element vFitContent.
 			pane := ToElement new
 				        layout: BlLinearLayout horizontal;
-				        fitContent;
 				        yourself.
+			pane hMatchParent.
+			pane vFitContent.
+			
 
 			contentPresenter := spCollumn setupAction value: self model.
 			spCollumn bindAction value: contentPresenter value: dataItem.
 
 			toElement := contentPresenter build.
 			toElement userData at: #specModel put: dataItem.
-
+			toElement fitContent.
 			self prepareEmbeddedItemPanesIn: toElement.
+			toElement hMatchParent.
+			toElement vFitContent.
+
 			pane addChild: toElement.
 			element addChild: pane ].
 	column width: spCollumn width.
