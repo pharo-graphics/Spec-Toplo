@@ -143,6 +143,7 @@ SpToploColumnViewAdapter >> visitColumnViewColumn: spCollumn [
 	"dataIndex: [:val | spCollumn bindAction value: self model value: val ];"
 	column cellBuilder: [ :element :dataItem :holder |
 			| pane contentPresenter toElement |
+			element fitContent.
 			pane := ToElement new
 				        layout: BlLinearLayout horizontal;
 				        fitContent;
@@ -154,7 +155,9 @@ SpToploColumnViewAdapter >> visitColumnViewColumn: spCollumn [
 			toElement := contentPresenter build.
 			toElement userData at: #specModel put: dataItem.
 
-			self prepareEmbeddedItemPanesIn: toElement. element addChild: pane ].
+			self prepareEmbeddedItemPanesIn: toElement.
+			pane addChild: toElement.
+			element addChild: pane ].
 	column width: spCollumn width.
 	column resizable: spCollumn isExpandable.
 	spCollumn isSortable ifTrue: [ column sorterBlock: spCollumn sortFunction ].

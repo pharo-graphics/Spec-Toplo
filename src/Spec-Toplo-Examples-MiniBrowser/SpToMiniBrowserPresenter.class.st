@@ -196,7 +196,7 @@ SpToMiniBrowserPresenter >> initializeWindow: aWindowPresenter [
 		title: 'Spec-Toplo Mini Browser';
 		initialExtent: 1000 @ 650;
 		centered;
-		statusBar: statusBar
+		statusbar: statusBar
 ]
 
 { #category : #layout }

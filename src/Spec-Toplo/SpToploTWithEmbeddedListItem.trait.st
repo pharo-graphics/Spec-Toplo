@@ -24,5 +24,5 @@ SpToploTWithEmbeddedListItem >> prepareEmbeddedItemPanesIn: aBlElement [
 			aBlElement background: BlBackground transparent.
 			aBlElement addEventHandlerOn: ToInstallSkinEvent do: [ :event | event currentTarget background: BlBackground transparent ] ].
 	aBlElement childrenDo: [ :child | self prepareEmbeddedItemPanesIn: child ].
-	^ aBlElement 
+	^ aBlElement
 ]
