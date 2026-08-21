@@ -1,7 +1,7 @@
-Extension { #name : #SpToploTreeTableAdapter }
+Extension { #name : #SpToploTreeColumnViewAdapter }
 
 { #category : #'*Spec-Toplo-Backend-Tests' }
-SpToploTreeTableAdapter >> isRowMorphExpandableAt: anInteger [
+SpToploTreeColumnViewAdapter >> isRowMorphExpandableAt: anInteger [
 
 	(self model application propertyAt: #testBackend) waitUntilUIRedrawed.
 	^ (((self widget list nodeContainers at: anInteger) childWithId: #'start-container') childWithId: #arrowButton)

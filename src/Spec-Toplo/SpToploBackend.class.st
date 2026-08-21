@@ -39,6 +39,12 @@ SpToploBackend >> defer: aBlockClosure [
 ]
 
 { #category : #accessing }
+SpToploBackend >> diffClass [
+
+	^ SpDiffPresenter
+]
+
+{ #category : #accessing }
 SpToploBackend >> dropListClass [
 
 	^ SpDropListPresenter

@@ -24,3 +24,9 @@ SpToploTreeListViewAdapter >> newItemElementFor: anItem [
 SpToploTreeListViewAdapter >> takeKeyboardFocus [
 	self widget requestFocus
 ]
+
+{ #category : #enumerating }
+SpToploTreeListViewAdapter >> traversePresentersDo: aFullBlockClosure excluding: aCollection [ 
+	
+	self flag: #toImplement
+]

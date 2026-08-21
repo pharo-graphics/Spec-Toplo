@@ -48,3 +48,15 @@ SpToploDiffAdapter >> rightText: aRightText [
 
 	^ self widget targetText: aRightText
 ]
+
+{ #category : #factory }
+SpToploDiffAdapter >> showOnlyDestination: aBoolean [
+
+	self widgetDo: [ :wid | wid showOnlyDestination: aBoolean ]
+]
+
+{ #category : #factory }
+SpToploDiffAdapter >> showOnlySource: aBoolean [
+
+	self widgetDo: [ :wid | wid showOnlySource: aBoolean ]
+]

@@ -53,13 +53,6 @@ SpToploAbstractListAdapter >> isNonEditableRow: aRow column: aColumn [
 	^ true
 ]
 
-{ #category : #'instance creation' }
-SpToploAbstractListAdapter >> newItemElementFor: anItem [
-	"Answer a new `BlElement` to represent the received item. In the case of the SpListPresenter, the item is one of the objects set in the collection via `SpAbstractListPresenter>>#items:` (so, it's not a wrapper)."
-
-	^ self subclassResponsibility
-]
-
 { #category : #refreshing }
 SpToploAbstractListAdapter >> refreshList [
 

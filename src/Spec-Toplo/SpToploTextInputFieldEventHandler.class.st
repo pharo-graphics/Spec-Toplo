@@ -131,7 +131,7 @@ SpToploTextInputFieldEventHandler >> textInsertedEvent: evt [
 SpToploTextInputFieldEventHandler >> textReplacedEvent: evt [
 
 	isSuspended ifTrue: [ ^ self ].
-
+	(self text equals: evt text) ifTrue: [ ^ self ].
 	text := evt text copy.
 	self isPassword
 		ifTrue: [ self updateWidgetWithAsterisks ]

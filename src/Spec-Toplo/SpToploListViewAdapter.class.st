@@ -12,3 +12,8 @@ Class {
 { #category : #protocol }
 SpToploListViewAdapter >> takeKeyboardFocus [
 ]
+
+{ #category : #enumerating }
+SpToploListViewAdapter >> traversePresentersDo: aFullBlockClosure excluding: aCollection [ 
+	self flag: #toImplement
+]

@@ -65,7 +65,7 @@ SpToploInnerWindowAdapter >> updateMenu [
 { #category : #'widget creation' }
 SpToploInnerWindowAdapter >> updateStatusBar [
 
-	model hasStatusBar ifFalse: [ ^ self container removeStatusBar ].
+	model hasStatusbar ifFalse: [ ^ self container removeStatusBar ].
 
 	"Build new Toplo status bar from presenter spec and set it."
 	self container statusBar: model statusBar build
