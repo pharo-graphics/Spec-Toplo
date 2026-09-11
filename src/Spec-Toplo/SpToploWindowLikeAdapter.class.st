@@ -20,12 +20,11 @@ SpToploWindowLikeAdapter >> addPresenterIn: aBlSpace withSpecLayout: aSpExecutab
 		updateStatusBar
 ]
 
-{ #category : #'widget creation' }
+{ #category : #factory }
 SpToploWindowLikeAdapter >> buildWidget [
 
 	^ BlSpace new
 		  root: self newRootElement;
-"		  host: self blocHost;"
 		  yourself
 ]
 
@@ -126,7 +125,7 @@ SpToploWindowLikeAdapter >> openWithDeferredAction: aBlockClosure [
 	self defer: aBlockClosure
 ]
 
-{ #category : #'widget creation' }
+{ #category : #initialization }
 SpToploWindowLikeAdapter >> subscribeToPresenter [
 
 	super subscribeToPresenter.
@@ -151,7 +150,7 @@ SpToploWindowLikeAdapter >> title: aString [
 	widget title: aString
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 SpToploWindowLikeAdapter >> updateAll [
 	"Important: this update is done BEFORE window's initializeWindow:"
 
@@ -207,7 +206,7 @@ SpToploWindowLikeAdapter >> updateToolbar [
 	widget root toolbar: model toolbar build
 ]
 
-{ #category : #updating }
+{ #category : #'updating widget' }
 SpToploWindowLikeAdapter >> updateVisible [
 
 	model isVisible

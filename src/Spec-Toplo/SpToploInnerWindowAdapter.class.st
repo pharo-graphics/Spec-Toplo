@@ -10,7 +10,7 @@ Class {
 	#category : #'Spec-Toplo-Adapters'
 }
 
-{ #category : #'widget creation' }
+{ #category : #factory }
 SpToploInnerWindowAdapter >> buildWidget [
 
 	| w root |
@@ -51,7 +51,7 @@ SpToploInnerWindowAdapter >> updateDecorationsAsBorderless [
 	
 ]
 
-{ #category : #accessing }
+{ #category : #'widget creation' }
 SpToploInnerWindowAdapter >> updateMenu [
 
 	model hasMenu ifFalse: [
@@ -71,7 +71,7 @@ SpToploInnerWindowAdapter >> updateStatusBar [
 	self container statusBar: model statusBar build
 ]
 
-{ #category : #accessing }
+{ #category : #'widget creation' }
 SpToploInnerWindowAdapter >> updateToolbar [
 
 	"Inspired on SpAbstractMorphicWindowAdapter>>#setToolbarTo:"
