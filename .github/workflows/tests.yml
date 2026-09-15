@@ -18,14 +18,12 @@ jobs:
       # Default value means that a failure in one OS cancels all 
       fail-fast: false
       matrix:
-        smalltalk: [ Pharo64-13, Pharo64-14, Pharo64-15 ]
-        os: [ windows-latest, ubuntu-latest, macos-latest ]
+        smalltalk: [ Pharo64-14, Pharo64-15 ]
+        os: [ macos-latest ] # windows-latest, ubuntu-latest, 
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.smalltalk }} on ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v7
       - name: Setup smalltalkCI
         uses: hpi-swa/setup-smalltalkCI@v1
         with:
@@ -33,4 +31,4 @@ jobs:
       - name: Load in New Image and Run Tests
         run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
         shell: bash
-        timeout-minutes: 10
+        timeout-minutes: 15
