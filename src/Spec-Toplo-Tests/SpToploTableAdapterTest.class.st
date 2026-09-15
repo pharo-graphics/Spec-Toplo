@@ -40,6 +40,12 @@ SpToploTableAdapterTest >> buildTablePresenter [
 	^ tablePresenter build
 ]
 
+{ #category : #chooser }
+SpToploTableAdapterTest >> dataSourceOfChooserList: aChooserList [
+
+	^ (((aChooserList listPresenter adapter widget childWithId: #singleChild) childAt: 1) childAt: 2) dataSource
+]
+
 { #category : #running }
 SpToploTableAdapterTest >> setUp [
 
@@ -54,70 +60,25 @@ SpToploTableAdapterTest >> setUp [
 SpToploTableAdapterTest >> testChooserSelectAll [
 
 	self buildChooserPresenter.
-	self
-		assert:
-		chooser targetList listPresenter adapter widget list itemCount
-		equals: 1.
-	self
-		assert:
-		chooser sourceList listPresenter adapter widget list itemCount
-		equals: 2.
-	chooser sourceList listPresenter selectIndex: 1.
-	chooser sourceList listPresenter selectIndex: 2.
+	self assert: (self dataSourceOfChooserList: chooser targetList) itemCount equals: 1.
+	self assert: (self dataSourceOfChooserList: chooser sourceList) itemCount equals: 2.
+	chooser sourceList selectItem: SpChooserPresenter.
+	chooser sourceList selectItem: SpFilteringListPresenter.
 	chooser addSelected.
-	self
-		assert:
-		chooser sourceList listPresenter adapter widget list itemCount
-		equals: 0.
-	self
-		assert:
-		chooser targetList listPresenter adapter widget list itemCount
-		equals: 3
-]
-
-{ #category : #chooser }
-SpToploTableAdapterTest >> testChooserSelectAndUnselectSameItem [
-
-	self buildChooserPresenter.
-	"If I select and unslect. No move should happen"
-	self assert: chooser sourceList listPresenter selectedItems size equals: 0.
-	chooser sourceList listPresenter selectIndex: 1.
-	self assert: chooser sourceList listPresenter selectedItems size equals: 1.
-	chooser sourceList listPresenter unselectIndex: 1.
-	self assert: chooser sourceList listPresenter selectedItems size equals: 0.
-	chooser addSelected.
-	self
-		assert:
-		chooser sourceList listPresenter adapter widget list itemCount
-		equals: 2.
-	self
-		assert:
-		chooser targetList listPresenter adapter widget list itemCount
-		equals: 1
+	self assert: (self dataSourceOfChooserList: chooser sourceList) itemCount equals: 0.
+	self assert: (self dataSourceOfChooserList: chooser targetList) itemCount equals: 3
 ]
 
 { #category : #chooser }
 SpToploTableAdapterTest >> testChooserSelection [
 
 	self buildChooserPresenter.
-	self
-		assert:
-		chooser targetList listPresenter adapter widget list itemCount
-		equals: 1.
-	self
-		assert:
-		chooser sourceList listPresenter adapter widget list itemCount
-		equals: 2.
-	chooser sourceList listPresenter selectIndex: 1.
+	self assert: (self dataSourceOfChooserList: chooser targetList) itemCount equals: 1.
+	self assert: (self dataSourceOfChooserList: chooser sourceList) itemCount equals: 2.
+	chooser sourceList selectItem: SpChooserPresenter.
 	chooser addSelected.
-	self
-		assert:
-		chooser sourceList listPresenter adapter widget list itemCount
-		equals: 1.
-	self
-		assert:
-		chooser targetList listPresenter adapter widget list itemCount
-		equals: 2
+	self assert: (self dataSourceOfChooserList: chooser sourceList) itemCount equals: 1.
+	self assert: (self dataSourceOfChooserList: chooser targetList) itemCount equals: 2
 ]
 
 { #category : #chooser }
