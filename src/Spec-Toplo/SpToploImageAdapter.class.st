@@ -21,8 +21,8 @@ SpToploImageAdapter >> hasImageAutoscaled [
 
 { #category : #accessing }
 SpToploImageAdapter >> image [
-	
-	^ widget innerForm
+
+	^ widget innerFormImage
 ]
 
 { #category : #initialization }

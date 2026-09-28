@@ -85,7 +85,5 @@ SpToploBackendForTest >> waitUntilUIRedrawed [
 	| aSpace |
 	app windows ifNotEmpty: [
 			aSpace := app windows anyOne adapter widget.
-			BlSpace
-				pulseUntilSpaceOpenedAndEmptyTaskQueue: aSpace
-				timeout: 200 milliSeconds ]
+			aSpace settleForDuration: 200 milliSeconds ]
 ]

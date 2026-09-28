@@ -7,7 +7,7 @@ SpToploTreeAdapter >> sendClickEventToRowAtPath: aCollection [
 	position := (widget dataSource itemsAtPath: aCollection) anyOne position.
 	listItemElement := widget nodes at: position.
 	BlSpace simulateClickOn: listItemElement.
-	BlSpace pulseUntilEmptyTaskQueue: listItemElement space timeout: 200 milliSeconds
+	listItemElement space settleForDuration: 200 milliSeconds
 ]
 
 { #category : #'*Spec-Toplo-Backend-Tests' }
