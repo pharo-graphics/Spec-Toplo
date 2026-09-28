@@ -55,7 +55,5 @@ SpToploListAdapterTest >> waitUntilUIRedrawed [
 
 	| aSpace |
 	aSpace := application windows anyOne adapter widget.
-	BlSpace
-		pulseUntilSpaceOpenedAndEmptyTaskQueue: aSpace
-		timeout: 200 milliSeconds
+	aSpace settleForDuration: 200 milliSeconds
 ]
