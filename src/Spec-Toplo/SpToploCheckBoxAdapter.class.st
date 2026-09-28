@@ -45,6 +45,11 @@ SpToploCheckBoxAdapter >> subscribeToWidget [
 		do: [ :event | model state: widget checked ]
 ]
 
+{ #category : #protocol }
+SpToploCheckBoxAdapter >> takeKeyboardFocus [
+	self flag: #todo
+]
+
 { #category : #'updating widget' }
 SpToploCheckBoxAdapter >> updateAll [
 
