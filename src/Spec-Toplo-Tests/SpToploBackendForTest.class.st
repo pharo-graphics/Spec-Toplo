@@ -69,10 +69,14 @@ SpToploBackendForTest >> openInstanceOf: aTest [
 { #category : #actions }
 SpToploBackendForTest >> runTest: aBlock [
 
-	app := SpApplication new.
-	app useBackend: #Toplo.
-	app propertyAt: #testBackend put: self.
-	aBlock value
+	| previousPreferredHost |
+	previousPreferredHost := BlHostRegistry default preferredHost.
+	BlHostRegistry default preferredHost: BlHeadlessHost default.
+	[
+		app := SpApplication new.
+		app useBackend: #Toplo.
+		app propertyAt: #testBackend put: self.
+		aBlock value ] ensure: [ BlHostRegistry default preferredHost: previousPreferredHost ]
 ]
 
 { #category : #testing }
