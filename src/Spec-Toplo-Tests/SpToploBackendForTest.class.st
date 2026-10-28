@@ -50,6 +50,25 @@ SpToploBackendForTest >> assertList: anAdapter displayItems: aCollection [
 	self assert: tableRowContents third = aCollection third.
 ]
 
+{ #category : #running }
+SpToploBackendForTest >> closeAllWindows [
+	"Close every window opened by the test and wait (at most 2 seconds) for the headless host to process the closes.
+	While the host is not settled, a pulse is requested again on each check: the test environment terminates processes forked during a test, so the pulse loop started by a close sent from #tearDown (`window delete`) is killed before running and leaves that close queued with no loop running. #requestPulse restarts the loop when it is not running and only wakes it up otherwise."
+
+	| host deadline |
+	app ifNil: [ ^ self ].
+	app windows copy do: [ :each | each isWindowPresenter ifTrue: [ each close ] ].
+	host := BlHeadlessHost default.
+	deadline := DateAndTime now + 2 seconds.
+	host
+		waitUntil: [
+				host isSettled ifFalse: [ host requestPulse ].
+				host isSettled ]
+		timeOutIf: [ DateAndTime now > deadline ]
+		onCompletion: [ ]
+		onTimeout: [ ]
+]
+
 { #category : #simulating }
 SpToploBackendForTest >> doubleClickFirstRowAndColumn: aSpToploListAdapter [
 	 
@@ -76,7 +95,7 @@ SpToploBackendForTest >> runTest: aBlock [
 		app := SpApplication new.
 		app useBackend: #Toplo.
 		app propertyAt: #testBackend put: self.
-		aBlock value ] ensure: [ BlHostRegistry default preferredHost: previousPreferredHost ]
+		aBlock value ] ensure: [ [ self closeAllWindows ] ensure: [ BlHostRegistry default preferredHost: previousPreferredHost ] ]
 ]
 
 { #category : #testing }
