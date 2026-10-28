@@ -110,7 +110,7 @@ SpToploAbstractTextAdapter >> keyDown: keyCharacter shift: shiftBoolean meta: me
 					yourself) ] ].
 
 	widget requestFocus.
-	BlSpace simulateEvents: events on: widget
+	widget eventSimulator events: events
 ]
 
 { #category : #'accessing widget' }
@@ -240,10 +240,10 @@ SpToploAbstractTextAdapter >> text: aString [
 ]
 
 { #category : #'accessing widget' }
-SpToploAbstractTextAdapter >> typeByChar: aString [ 
-	
+SpToploAbstractTextAdapter >> typeByChar: aString [
+
 	widget requestFocus.
-	BlSpace simulateTextInput: aString on: widget
+	widget eventSimulator textInput: aString
 ]
 
 { #category : #initialization }
