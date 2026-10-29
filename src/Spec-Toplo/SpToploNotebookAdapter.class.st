@@ -54,7 +54,7 @@ SpToploNotebookAdapter >> buildWidget [
 { #category : #test }
 SpToploNotebookAdapter >> clickTab: anInteger [
 
-	BlSpace simulateClickOn: (self widget dataSource at: anInteger)
+	(self widget dataSource at: anInteger) eventSimulator click
 ]
 
 { #category : #factory }

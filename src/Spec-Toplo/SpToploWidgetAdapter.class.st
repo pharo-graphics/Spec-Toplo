@@ -9,8 +9,8 @@ Class {
 
 { #category : #emulating }
 SpToploWidgetAdapter >> clicked [
-	
-	BlSpace simulateClickOn: widget
+
+	widget eventSimulator click
 ]
 
 { #category : #accessing }
@@ -34,7 +34,7 @@ SpToploWidgetAdapter >> helpText [
 { #category : #emulating }
 SpToploWidgetAdapter >> sendRightClickEvent [
 
-	BlSpace simulateSecondaryClickOn: widget
+	widget eventSimulator secondaryClick
 ]
 
 { #category : #initialization }
