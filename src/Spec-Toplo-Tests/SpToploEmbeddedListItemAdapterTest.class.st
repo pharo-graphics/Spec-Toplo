@@ -1,9 +1,6 @@
 Class {
 	#name : #SpToploEmbeddedListItemAdapterTest,
-	#superclass : #TestCase,
-	#instVars : [
-		'application'
-	],
+	#superclass : #SpToploHeadlessTestCase,
 	#category : #'Spec-Toplo-Tests-Adapters'
 }
 
@@ -50,21 +47,6 @@ SpToploEmbeddedListItemAdapterTest >> newNestedRowPresenterFrom: aPresenter [
 	^ row
 ]
 
-{ #category : #running }
-SpToploEmbeddedListItemAdapterTest >> setUp [
-
-	super setUp.
-	application := SpApplication new.
-	application useBackend: #Toplo
-]
-
-{ #category : #running }
-SpToploEmbeddedListItemAdapterTest >> tearDown [
-
-	application ifNotNil: [ application windows do: [ :each | each delete ] ].
-	super tearDown
-]
-
 { #category : #tests }
 SpToploEmbeddedListItemAdapterTest >> testEasyListViewPresenterRowsKeepEmbeddedPanesTransparent [
 
@@ -109,12 +91,4 @@ SpToploEmbeddedListItemAdapterTest >> testTreeListViewPresenterRowsKeepEmbeddedP
 	presenter open.
 	self waitUntilUIRedrawed.
 	self assertEmbeddedPanesTransparentInFirstNodeOf: presenter adapter widget
-]
-
-{ #category : #running }
-SpToploEmbeddedListItemAdapterTest >> waitUntilUIRedrawed [
-
-	| aSpace |
-	aSpace := application windows anyOne adapter widget.
-	aSpace settleForDuration: 500 milliSeconds
 ]
