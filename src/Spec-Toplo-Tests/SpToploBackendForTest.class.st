@@ -94,17 +94,30 @@ SpToploBackendForTest >> openInstanceOf: aTest [
 	self waitUntilUIRedrawed
 ]
 
+{ #category : #running }
+SpToploBackendForTest >> runBelowPulseLoopPriority: aBlock [
+	"Toplo postpones commands (e.g. list selection) to the next pulse of the Bloc pulse loop, and tests assert without waiting.
+	Run the test just below the pulse loop priority so that the pulse loop preempts it as soon as it is woken up."
+
+	| process previousPriority |
+	process := Processor activeProcess.
+	previousPriority := process priority.
+	process priority: (previousPriority min: BlHeadlessHost default pulseLoop processPriority - 1).
+	^ aBlock ensure: [ process priority: previousPriority ]
+]
+
 { #category : #actions }
 SpToploBackendForTest >> runTest: aBlock [
 
 	| previousPreferredHost |
 	previousPreferredHost := BlHostRegistry default preferredHost.
 	BlHostRegistry default preferredHost: BlHeadlessHost default.
-	[
-		app := SpApplication new.
-		app useBackend: #Toplo.
-		app propertyAt: #testBackend put: self.
-		aBlock value ] ensure: [ [ self closeAllWindows ] ensure: [ BlHostRegistry default preferredHost: previousPreferredHost ] ]
+	self runBelowPulseLoopPriority: [
+			[
+				app := SpApplication new.
+				app useBackend: #Toplo.
+				app propertyAt: #testBackend put: self.
+				aBlock value ] ensure: [ [ self closeAllWindows ] ensure: [ BlHostRegistry default preferredHost: previousPreferredHost ] ] ]
 ]
 
 { #category : #running }
