@@ -38,7 +38,8 @@ SpToploColumnViewAdapter >> buildGenericToTableColumnFrom: spCollumn [
 		ifFalse: [ column dataIndex: #yourself ].
 	column width: spCollumn width.
 	column resizable: spCollumn isExpandable.
-	spCollumn isSortable ifTrue: [
+	"A string column derives its default sort function from its evaluation, so it cannot provide one without it"
+	(spCollumn isSortable and: [ (spCollumn isKindOf: SpStringTableColumn) not or: [ spCollumn evaluation isNotNil ] ]) ifTrue: [
 			| sortFunction |
 			sortFunction := spCollumn sortFunction.
 			sortFunction ifNotNil: [ :existingSortFunction | column sorterBlock: existingSortFunction ] ].
