@@ -64,6 +64,13 @@ SpToploTreeAdapter >> isExpanded: aPath [
 	^ (widget dataSource itemsAtPath: aPath) first isExpanded
 ]
 
+{ #category : #testing }
+SpToploTreeAdapter >> isNonEditableRow: aRow column: aColumn [
+	"A tree presenter displays its items without editable columns"
+
+	^ true
+]
+
 { #category : #private }
 SpToploTreeAdapter >> itemAtPath: aPath [
 
@@ -157,8 +164,9 @@ SpToploTreeAdapter >> updateSelection [
 
 	suspendUpdateSelection ifTrue: [ ^ self ].
 
-	widget selecter deselectAll.
-	model selection selectedPaths do: [ :each | self selectPath: each ]
+	self suspendUpdateSelectionDuring: [
+			widget selecter deselectAll.
+			model selection selectedPaths do: [ :each | self selectPath: each ] ]
 ]
 
 { #category : #'updating widget' }

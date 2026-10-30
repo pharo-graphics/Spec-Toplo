@@ -31,8 +31,9 @@ SpToploPanedAdapter >> addConstraints: aSpPanedConstraints toChild: childBlEleme
 
 { #category : #accessing }
 SpToploPanedAdapter >> children [
+	"Answer the pane contents only, not the dividers added between them."
 
-	^ widget children
+	^ widget children copyWithoutAll: widget dividers
 ]
 
 { #category : #'instance creation' }
