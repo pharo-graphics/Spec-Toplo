@@ -26,11 +26,11 @@ SpToploAbstractListAdapter >> buildWidget [
 				        model dragEnabled ifTrue: [ self addEventsToChild: child ].
 				        node addChild: child ];
 		        yourself.
+	list selecter multiple: self model isMultipleSelection.
 	list addEventHandlerOn: BlDropEvent do: [ :e |
 			| transferedModel |
 			transferedModel := e gestureSource userData at: #specModel.
-			self model acceptDrop cull:
-				(SpToploTransfer new passenger: {transferedModel}) ].
+			self model acceptDrop cull: (SpToploTransfer new passenger: { transferedModel }) ].
 	^ list
 ]
 
