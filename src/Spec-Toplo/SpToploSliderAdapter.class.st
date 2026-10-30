@@ -6,23 +6,50 @@ Class {
 
 { #category : #factory }
 SpToploSliderAdapter >> buildWidget [
-	
-	^ ToBasicHorizontalSlider new
-		  minValue: self model min;
-		  maxValue: self model max;
-		  yourself
+
+	| slider |
+	slider := ToBasicHorizontalSlider new
+		          minValue: self model min;
+		          maxValue: self model max;
+		          quantum: self model quantum;
+		          newValueCallback: [ :newValue | self presenter value: newValue ];
+		          yourself.
+	slider setValue: self scaledPresenterValue.
+	slider userData at: #label put: self model label.
+	^ slider
+]
+
+{ #category : #updating }
+SpToploSliderAdapter >> scaledPresenterValue [
+	"Answer the presenter position (absolute value, 0 to 1) in the min..max range, rounded to the quantum"
+
+	| scaledValue |
+	scaledValue := self presenter min + (self presenter absoluteValue * (self presenter max - self presenter min)).
+	self presenter quantum ifNotNil: [ :quantum | scaledValue := scaledValue roundTo: quantum ].
+	^ scaledValue
 ]
 
 { #category : #initialization }
 SpToploSliderAdapter >> subscribeToPresenter [
 
 	super subscribeToPresenter.
-	self presenter whenValueChangedDo: [ :newValue | self widget setValue: newValue ].
-	self presenter whenMinChangedDo: [ :newValue | self widget minValue: newValue ].
-	self presenter whenMaxChangedDo: [ :newValue | self widget maxValue: newValue ].
-	self presenter whenQuantumChangedDo: [ :newValue | self widget quantum: newValue ].
-	self presenter whenLabelChangedDo: [ :newLabel | self widget label: newLabel ].
-	self presenter whenAbsoluteValueChangedDo: [ :newValue | self widget setValue: newValue ]
+	self presenter whenMinChangedDo: [ :newValue |
+			self widget minValue: newValue.
+			self updateWidgetValue ].
+	self presenter whenMaxChangedDo: [ :newValue |
+			self widget maxValue: newValue.
+			self updateWidgetValue ].
+	self presenter whenQuantumChangedDo: [ :newValue |
+			self widget quantum: newValue.
+			self updateWidgetValue ].
+	self presenter whenLabelChangedDo: [ :newLabel | self widget userData at: #label put: newLabel ].
+	self presenter whenAbsoluteValueChangedDo: [ self updateWidgetValue ]
+]
+
+{ #category : #updating }
+SpToploSliderAdapter >> updateWidgetValue [
+
+	self widget setValue: self scaledPresenterValue
 ]
 
 { #category : #debug }
@@ -35,6 +62,21 @@ SpToploSliderAdapter >> widgetAbsoluteValue [
 ]
 
 { #category : #debug }
+SpToploSliderAdapter >> widgetLabel [
+
+	^ self widget userData at: #label ifAbsent: [ '' ]
+]
+
+{ #category : #debug }
 SpToploSliderAdapter >> widgetValue [
 	^ self widget currentValue
+]
+
+{ #category : #debug }
+SpToploSliderAdapter >> widgetValue: aNumber [
+	"Emulate a change in the widget value, as if the user moved the knob"
+
+	| newValue |
+	newValue := self widget quantum ifNil: [ aNumber ] ifNotNil: [ :quantum | aNumber roundTo: quantum ].
+	self widget currentValue: newValue
 ]
