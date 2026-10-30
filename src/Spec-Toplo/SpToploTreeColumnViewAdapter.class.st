@@ -112,11 +112,11 @@ SpToploTreeColumnViewAdapter >> updateSelection [
 
 	suspendUpdateSelection ifTrue: [ ^ self ].
 
-	model selection selectedPaths ifEmpty: [
-		^ widget selecter deselectAll ].
+	self suspendUpdateSelectionDuring: [
+			model selection selectedPaths ifEmpty: [ ^ widget selecter deselectAll ].
 
-	widget selecter deselectAll.
-	model selection selectedPaths do: [ :each | self selectPath: each ]
+			widget selecter deselectAll.
+			model selection selectedPaths do: [ :each | self selectPath: each ] ]
 ]
 
 { #category : #'updating widget' }
