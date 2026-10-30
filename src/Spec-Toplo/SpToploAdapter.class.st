@@ -21,6 +21,14 @@ SpToploAdapter class >> allAdapters [
 	^ self allSubclasses
 ]
 
+{ #category : #styling }
+SpToploAdapter class >> stampForStyle: aString [
+	"Answer the Toplo stamp standing for the Spec style class aString.
+	The prefix keeps Spec styles apart from the stamps used by Toplo themes, such as #default or #text."
+
+	^ ('spec-' , aString) asSymbol
+]
+
 { #category : #initialization }
 SpToploAdapter >> adapt: aPresenter [
 
@@ -36,6 +44,7 @@ SpToploAdapter >> adaptToploWidget [
 	self
 		updateLayout;
 		updateAll;
+		updateStyle;
 		addShortcuts;
 		subscribeToPresenter;
 		subscribeToWidget
@@ -53,11 +62,9 @@ SpToploAdapter >> addShortcuts [
 
 { #category : #adding }
 SpToploAdapter >> addStyle: aString [
-	"Ignore style and just apply it again (the new style will not there).
-	
-	Inspired on SpAbstractMorphicAdapter>>#addStyle:"
+	"Stamp my element with the style class; Toplo re-skins it when its stamps change."
 
-	self updateStyle
+	self styledElement ifNotNil: [ :anElement | anElement addStamp: (self class stampForStyle: aString) ]
 ]
 
 { #category : #compatibility }
@@ -86,12 +93,16 @@ SpToploAdapter >> isVisible [
 ]
 
 { #category : #accessing }
-SpToploAdapter >> removeStyle: aString [ 
-	"ignore style and just apply it again (the removed style will not be there).
-	
-	Inspired on: SpAbstractMorphicAdapter>>#removeStyle:"
+SpToploAdapter >> removeStyle: aString [
 
-	self updateStyle
+	self styledElement ifNotNil: [ :anElement | anElement removeStamp: (self class stampForStyle: aString) ]
+]
+
+{ #category : #styling }
+SpToploAdapter >> styledElement [
+	"Answer the element that carries the stamps of the presenter styles, nil while the widget is not built."
+
+	^ widget
 ]
 
 { #category : #initialization }
@@ -126,8 +137,9 @@ SpToploAdapter >> updateLayout [
 
 { #category : #adding }
 SpToploAdapter >> updateStyle [
+	"Stamp my element with every style class of the presenter, including those added before it was built."
 
-	self flag: #todo
+	self presenter styles do: [ :aString | self addStyle: aString ]
 ]
 
 { #category : #'updating widget' }

@@ -16,6 +16,12 @@ SpToploBackendForTest >> app [
 ]
 
 { #category : #asserting }
+SpToploBackendForTest >> assertAdapter: anAdapter hasStyle: aString [
+
+	self assert: (anAdapter widget hasStamp: (SpToploAdapter stampForStyle: aString))
+]
+
+{ #category : #asserting }
 SpToploBackendForTest >> assertHasHeader: anAdapter [ 
 	self waitUntilUIRedrawed.
 	

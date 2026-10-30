@@ -125,6 +125,13 @@ SpToploWindowLikeAdapter >> openWithDeferredAction: aBlockClosure [
 	self defer: aBlockClosure
 ]
 
+{ #category : #styling }
+SpToploWindowLikeAdapter >> styledElement [
+	"My widget is a space, not an element: styles go on its root."
+
+	^ widget root
+]
+
 { #category : #initialization }
 SpToploWindowLikeAdapter >> subscribeToPresenter [
 

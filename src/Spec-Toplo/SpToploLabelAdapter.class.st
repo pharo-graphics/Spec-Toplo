@@ -35,12 +35,6 @@ SpToploLabelAdapter >> buildWidget [
 ]
 
 { #category : #accessing }
-SpToploLabelAdapter >> font [
-	
-	^ self notYetImplemented
-]
-
-{ #category : #accessing }
 SpToploLabelAdapter >> label [
 	
 	^ widget text asString
