@@ -50,6 +50,13 @@ SpToploBackendForTest >> assertList: anAdapter displayItems: aCollection [
 	self assert: tableRowContents third = aCollection third.
 ]
 
+{ #category : #simulating }
+SpToploBackendForTest >> clickFirstRowAndColumn: aSpToploListAdapter [
+
+	self waitUntilUIRedrawed.
+	(self firstRowNodeOf: aSpToploListAdapter) eventSimulator click
+]
+
 { #category : #running }
 SpToploBackendForTest >> closeAllWindows [
 	"Close every window opened by the test and wait (at most 2 seconds) for the headless host to process the closes."
@@ -61,8 +68,20 @@ SpToploBackendForTest >> closeAllWindows [
 
 { #category : #simulating }
 SpToploBackendForTest >> doubleClickFirstRowAndColumn: aSpToploListAdapter [
-	 
-	BlSpace simulateDoubleClickOn: aSpToploListAdapter widget nodes first
+
+	self waitUntilUIRedrawed.
+	(self firstRowNodeOf: aSpToploListAdapter) eventSimulator doubleClick
+]
+
+{ #category : #simulating }
+SpToploBackendForTest >> firstRowNodeOf: aSpToploListAdapter [
+	"Answer the node of the first row of the adapted list or table. A ToTableElement holds its rows in its inner list element."
+
+	| listElement |
+	listElement := (aSpToploListAdapter widget isKindOf: ToTableElement)
+		               ifTrue: [ aSpToploListAdapter widget list ]
+		               ifFalse: [ aSpToploListAdapter widget ].
+	^ listElement nodes first
 ]
 
 { #category : #opening }
