@@ -1,8 +1,7 @@
 Class {
 	#name : #SpToploPopoverAdapterTest,
-	#superclass : #TestCase,
+	#superclass : #SpToploHeadlessTestCase,
 	#instVars : [
-		'application',
 		'anchorPresenter',
 		'popover'
 	],
@@ -36,6 +35,14 @@ SpToploPopoverAdapterTest >> buildPopoverRelativeTo: aPresenter [
 	^ popover
 ]
 
+{ #category : #running }
+SpToploPopoverAdapterTest >> closeNonWindowPresenters [
+
+	popover ifNotNil: [
+			popover withAdapterDo: [ :adapter |
+				adapter popupWindowHandler currentWindowDo: [ :aWindow | aWindow isOpened ifTrue: [ aWindow close ] ] ] ]
+]
+
 { #category : #'test - building' }
 SpToploPopoverAdapterTest >> newFakeWindowMeasuredWidth: aWidth height: aHeight [
 
@@ -48,24 +55,6 @@ SpToploPopoverAdapterTest >> newFakeWindowMeasuredWidth: aWidth height: aHeight 
 		  measuredWidth: aWidth
 		  measuredHeight: aHeight;
 		  yourself
-]
-
-{ #category : #running }
-SpToploPopoverAdapterTest >> setUp [
-
-	super setUp.
-	application := SpApplication new.
-	application useBackend: #Toplo
-]
-
-{ #category : #running }
-SpToploPopoverAdapterTest >> tearDown [
-
-	popover ifNotNil: [
-			popover withAdapterDo: [ :adapter |
-				adapter popupWindowHandler currentWindowDo: [ :aWindow | aWindow isOpened ifTrue: [ aWindow close ] ] ] ].
-	application ifNotNil: [ application windows do: [ :each | each delete ] ].
-	super tearDown
 ]
 
 { #category : #tests }
@@ -92,12 +81,4 @@ SpToploPopoverAdapterTest >> testPopupModalWithoutRectangleUsesAnchorBoundsForBo
 	anchorBounds := (fakeWindow anchorElement bounds inParent: fakeWindow anchorRoot) bounds.
 	centeredX := anchorBounds topCenter x - (fakeWindow measuredWidth / 2.0).
 	self assert: (popover adapter popupPositionFor: fakeWindow pointingTo: nil) equals: centeredX @ anchorBounds bottom
-]
-
-{ #category : #running }
-SpToploPopoverAdapterTest >> waitUntilUIRedrawed [
-
-	| aSpace |
-	aSpace := application windows anyOne adapter widget.
-	aSpace settleForDuration: 200 milliSeconds
 ]

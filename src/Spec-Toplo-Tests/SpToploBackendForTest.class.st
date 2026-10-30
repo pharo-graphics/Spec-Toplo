@@ -8,6 +8,13 @@ Class {
 	#category : #'Spec-Toplo-Tests'
 }
 
+{ #category : #accessing }
+SpToploBackendForTest >> app [
+	"Answer the Toplo application of the test being run by #runTest:."
+
+	^ app
+]
+
 { #category : #asserting }
 SpToploBackendForTest >> assertHasHeader: anAdapter [ 
 	self waitUntilUIRedrawed.

@@ -15,8 +15,16 @@ SpToploSliderAdapter >> buildWidget [
 		          newValueCallback: [ :newValue | self presenter value: newValue ];
 		          yourself.
 	slider setValue: self scaledPresenterValue.
-	slider userData at: #label put: self model label.
+	slider labelText: self model label.
 	^ slider
+]
+
+{ #category : #updating }
+SpToploSliderAdapter >> round: aNumber toQuantum: aQuantum [
+	"Answer aNumber rounded to aQuantum. A nil or zero quantum means no rounding"
+
+	(aQuantum isNil or: [ aQuantum isZero ]) ifTrue: [ ^ aNumber ].
+	^ aNumber roundTo: aQuantum
 ]
 
 { #category : #updating }
@@ -25,8 +33,7 @@ SpToploSliderAdapter >> scaledPresenterValue [
 
 	| scaledValue |
 	scaledValue := self presenter min + (self presenter absoluteValue * (self presenter max - self presenter min)).
-	self presenter quantum ifNotNil: [ :quantum | scaledValue := scaledValue roundTo: quantum ].
-	^ scaledValue
+	^ self round: scaledValue toQuantum: self presenter quantum
 ]
 
 { #category : #initialization }
@@ -42,7 +49,7 @@ SpToploSliderAdapter >> subscribeToPresenter [
 	self presenter whenQuantumChangedDo: [ :newValue |
 			self widget quantum: newValue.
 			self updateWidgetValue ].
-	self presenter whenLabelChangedDo: [ :newLabel | self widget userData at: #label put: newLabel ].
+	self presenter whenLabelChangedDo: [ :newLabel | self widget labelText: newLabel ].
 	self presenter whenAbsoluteValueChangedDo: [ self updateWidgetValue ]
 ]
 
@@ -64,7 +71,7 @@ SpToploSliderAdapter >> widgetAbsoluteValue [
 { #category : #debug }
 SpToploSliderAdapter >> widgetLabel [
 
-	^ self widget userData at: #label ifAbsent: [ '' ]
+	^ self widget labelText ifNil: [ '' ]
 ]
 
 { #category : #debug }
@@ -76,7 +83,5 @@ SpToploSliderAdapter >> widgetValue [
 SpToploSliderAdapter >> widgetValue: aNumber [
 	"Emulate a change in the widget value, as if the user moved the knob"
 
-	| newValue |
-	newValue := self widget quantum ifNil: [ aNumber ] ifNotNil: [ :quantum | aNumber roundTo: quantum ].
-	self widget currentValue: newValue
+	self widget currentValue: (self round: aNumber toQuantum: self widget quantum)
 ]
