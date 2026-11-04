@@ -144,3 +144,17 @@ SpToploLayoutAdapter >> takeKeyboardFocus [
 	model presentersInFocusOrder ifNotEmpty: [ :presenters |
 		presenters first takeKeyboardFocus ]
 ]
+
+{ #category : #updating }
+SpToploLayoutAdapter >> updateBorderWidth [
+	"Hook for subclasses."
+
+	^ self
+]
+
+{ #category : #updating }
+SpToploLayoutAdapter >> updateSpacing [
+	"Hook for subclasses."
+
+	^ self
+]
