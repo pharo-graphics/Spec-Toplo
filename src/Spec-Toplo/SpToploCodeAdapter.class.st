@@ -37,6 +37,12 @@ SpToploCodeAdapter >> buildWidget [
 		yourself
 ]
 
+{ #category : #testing }
+SpToploCodeAdapter >> hasSyntaxHighlightEnabled [
+
+	^ self widget styler hasSyntaxHighlightEnabled
+]
+
 { #category : #'updating widget' }
 SpToploCodeAdapter >> insertPopoverAfterCurrentSelection: aPresenter style: styleName [
 

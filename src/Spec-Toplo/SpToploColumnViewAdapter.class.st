@@ -21,35 +21,40 @@ SpToploColumnViewAdapter >> alternateRowsColor [
 { #category : #factory }
 SpToploColumnViewAdapter >> buildColumns [
 
-	^ self model columns collect: [ :spCollumn |
-		  self buildToploColumnFrom: spCollumn ]
+	^ self model columns collect: [ :aSpTableColumn |
+		self buildToploColumnFrom: aSpTableColumn ]
 ]
 
 { #category : #factory }
-SpToploColumnViewAdapter >> buildGenericToTableColumnFrom: spCollumn [
+SpToploColumnViewAdapter >> buildGenericToTableColumnFrom: aSpTableColumn [
 
 	| column |
-	column := ToTableColumn new
-		          title: spCollumn title;
-		          key: spCollumn title;
-		          "Use yourself by default. It sometimes happen when user give a list of string as data"yourself.
-	(spCollumn respondsTo: #evaluation)
-		ifTrue: [ "check from Pharo 13 and inferior" column dataIndex: (spCollumn evaluation ifNil: [ #yourself ]) ]
-		ifFalse: [ column dataIndex: #yourself ].
-	column width: spCollumn width.
-	column resizable: spCollumn isExpandable.
+	column := ToTableColumn new.
+	column
+		title: aSpTableColumn title;
+		key: aSpTableColumn title;
+		"Use yourself by default. It sometimes happen when user give a list of string as data"
+		yourself.
+	(aSpTableColumn respondsTo: #evaluation)
+		ifTrue: [ "check from Pharo 13 and inferior"
+			column dataIndex: (aSpTableColumn evaluation ifNil: [ #yourself ]) ]
+		ifFalse: [
+			column dataIndex: #yourself ].
+	column width: aSpTableColumn width.
+	column resizable: aSpTableColumn isExpandable.
 	"A string column derives its default sort function from its evaluation, so it cannot provide one without it"
-	(spCollumn isSortable and: [ (spCollumn isKindOf: SpStringTableColumn) not or: [ spCollumn evaluation isNotNil ] ]) ifTrue: [
-			| sortFunction |
-			sortFunction := spCollumn sortFunction.
-			sortFunction ifNotNil: [ :existingSortFunction | column sorterBlock: existingSortFunction ] ].
+	(aSpTableColumn isSortable and: [ (aSpTableColumn isKindOf: SpStringTableColumn) not or: [ aSpTableColumn evaluation isNotNil ] ]) ifTrue: [
+		| sortFunction |
+		sortFunction := aSpTableColumn sortFunction.
+		sortFunction ifNotNil: [ :existingSortFunction |
+			column sorterBlock: existingSortFunction ] ].
 	^ column
 ]
 
 { #category : #factory }
-SpToploColumnViewAdapter >> buildToploColumnFrom: spCollumn [
+SpToploColumnViewAdapter >> buildToploColumnFrom: aSpTableColumn [
 
-	^ spCollumn acceptColumnVisitor: self
+	^ aSpTableColumn acceptColumnVisitor: self
 ]
 
 { #category : #factory }
@@ -66,6 +71,19 @@ SpToploColumnViewAdapter >> buildWidget [
 SpToploColumnViewAdapter >> columns [
 
 	^ self widget columns
+]
+
+{ #category : #accessing }
+SpToploColumnViewAdapter >> firstRowNode [
+	"Answer the node of the first row of the adapted table. A ToTableElement holds its rows in its inner list element."
+
+	^ self widget list nodes first
+]
+
+{ #category : #testing }
+SpToploColumnViewAdapter >> hasHeader [
+
+	^ self isShowColumnHeaders
 ]
 
 { #category : #initialization }
@@ -109,11 +127,6 @@ SpToploColumnViewAdapter >> subscribeToWidget [
 			model selection selectIndexes: widget list selecter selectedIndexes ];
 		addEventHandlerOn: ToListStrongSelectionEvent
 		do: [ model doActivateAtIndex: model selection selectedIndex ]
-]
-
-{ #category : #protocol }
-SpToploColumnViewAdapter >> takeKeyboardFocus [
-	self flag: #toImplement
 ]
 
 { #category : #enumerating }
@@ -175,88 +188,83 @@ SpToploColumnViewAdapter >> visitColumnViewColumn: spCollumn [
 ]
 
 { #category : #visitor }
-SpToploColumnViewAdapter >> visitCompositeColumn: spCollumn [
+SpToploColumnViewAdapter >> visitCompositeColumn: aSpTableColumn [
 
 	| column |
-	"In this case, consider that the table has a column with checkbox for selection"
-	column := self buildGenericToTableColumnFrom: spCollumn.
-	"Use yourself by default. It sometimes happen when user give a list of string as data"
-	(spCollumn columns first isKindOf: SpCheckBoxTableColumn)
+	column := self buildGenericToTableColumnFrom: aSpTableColumn.
+	(aSpTableColumn columns isNotEmpty and: [
+		 aSpTableColumn columns first isKindOf: SpCheckBoxTableColumn ])
 		ifTrue: [
-				widget useCheckbox: true.
-				spCollumn columns first onActivation ifNotNil: [ :activationBlock |
-					additionnalActivationBlocks add: activationBlock ].
-				spCollumn columns first onDeactivation ifNotNil: [
-					:deactivationBlock |
-					additionnalDeactivationBlocks add: deactivationBlock ] ]
+			widget useCheckbox: true.
+			aSpTableColumn columns first onActivation ifNotNil: [ :activationBlock |
+				additionnalActivationBlocks add: activationBlock ].
+			aSpTableColumn columns first onDeactivation ifNotNil: [ :deactivationBlock |
+				additionnalDeactivationBlocks add: deactivationBlock ] ]
 		ifFalse: [
-				column cellBuilder: [ :element :dataItem :holder |
-						| pane |
-						pane := ToElement new
-							        layout: BlLinearLayout horizontal;
-							        fitContent;
-							        yourself.
-						spCollumn columns do: [ :innerColumn |
-								(innerColumn acceptColumnVisitor: self) cellBuilder
-									value: pane
-									value: dataItem
-									value: holder ].
-						element addChild: pane ] ].
-
+			column cellBuilder: [ :element :dataItem :holder |
+				| pane |
+				pane := ToElement new.
+				pane
+					layout: BlLinearLayout horizontal;
+					fitContent.
+				aSpTableColumn columns do: [ :innerColumn |
+					(innerColumn acceptColumnVisitor: self) cellBuilder
+						value: pane
+						value: dataItem
+						value: holder ].
+				element addChild: pane ] ].
 	^ column
 ]
 
-{ #category : #visiting }
+{ #category : #visitor }
 SpToploColumnViewAdapter >> visitImageColumn: aSpImageTableColumn [
 
 	| column |
 	column := self buildGenericToTableColumnFrom: aSpImageTableColumn.
 	column cellBuilder: [ :element :dataItem :holder |
-			(aSpImageTableColumn readObject: holder dataItem) ifNotNil: [ :icon |
-				element addChild: icon asForm asElement ] ].
-
+		(aSpImageTableColumn readObject: holder dataItem) ifNotNil: [ :icon |
+			element addChild: icon asForm asElement ] ].
 	^ column
 ]
 
 { #category : #visiting }
-SpToploColumnViewAdapter >> visitLinkColumn: spCollumn [
+SpToploColumnViewAdapter >> visitLinkColumn: aSpTableColumn [
 
 	| column |
-	column := self buildGenericToTableColumnFrom: spCollumn.
+	column := self buildGenericToTableColumnFrom: aSpTableColumn.
 	column cellBuilder: [ :element :dataItem :holder |
-			| label skin |
-			label := spCollumn evaluation
-				         ifNil: [ ToLabel text: dataItem asString ]
-				         ifNotNil: [ :evalBlock |
-				         ToLabel text: (evalBlock value: holder dataItem) ].
-			label clickAction: spCollumn action.
-			label addTokenNamed: #'color-text' withValue: self theme urlColor.
-			element addChild: label ].
+		| label |
+		aSpTableColumn evaluation
+			ifNil: [ label := ToLabel text: dataItem asString ]
+			ifNotNil: [ :evalBlock |
+				label := ToLabel text: (evalBlock value: holder dataItem) ].
+		label clickAction: aSpTableColumn action.
+		label addTokenNamed: #'color-text' withValue: self theme urlColor.
+		element addChild: label ].
 	^ column
 ]
 
 { #category : #visitor }
-SpToploColumnViewAdapter >> visitStringColumn: spCollumn [
+SpToploColumnViewAdapter >> visitStringColumn: aSpTableColumn [
 
 	| column |
-	column := self buildGenericToTableColumnFrom: spCollumn.
+	column := self buildGenericToTableColumnFrom: aSpTableColumn.
 	column cellBuilder: [ :element :dataItem :holder |
-			| label skin |
-			label := spCollumn evaluation
-				         ifNil: [ ToLabel text: dataItem asString ]
-				         ifNotNil: [ :evalBlock |
-				         ToLabel text: (evalBlock value: holder dataItem) ].
-			skin := SpToploTableColumnSkin new.
-			label defaultSkin: skin.
-			spCollumn displayColor ifNotNil: [ :displayColorBlock |
-				skin foreground: (displayColorBlock value: holder dataItem) ].
-
-			spCollumn displayItalic ifNotNil: [ :displayItalicBlock |
-				(displayItalicBlock value: holder dataItem) ifTrue: [
-					skin italic: true ] ].
-
-			spCollumn displayBold ifNotNil: [ :displayBoldBlock |
-				(displayBoldBlock value: holder dataItem) ifTrue: [ skin bold: true ] ].
-			element addChild: label ].
+		| label skin |
+		aSpTableColumn evaluation
+			ifNil: [ label := ToLabel text: dataItem asString ]
+			ifNotNil: [ :evalBlock |
+				label := ToLabel text: (evalBlock value: holder dataItem) ].
+		skin := SpToploTableColumnSkin new.
+		label defaultSkin: skin.
+		aSpTableColumn displayColor ifNotNil: [ :displayColorBlock |
+			skin foreground: (displayColorBlock value: holder dataItem) ].
+		aSpTableColumn displayItalic ifNotNil: [ :displayItalicBlock |
+			(displayItalicBlock value: holder dataItem) ifTrue: [
+				skin italic: true ] ].
+		aSpTableColumn displayBold ifNotNil: [ :displayBoldBlock |
+			(displayBoldBlock value: holder dataItem) ifTrue: [
+				skin bold: true ] ].
+		element addChild: label ].
 	^ column
 ]
