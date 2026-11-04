@@ -213,3 +213,9 @@ SpToploWindowLikeAdapter >> updateVisible [
 		ifTrue: [ widget show ]
 		ifFalse: [ widget close ]
 ]
+
+{ #category : #accessing }
+SpToploWindowLikeAdapter >> widgetElement [
+
+	^ widget root
+]

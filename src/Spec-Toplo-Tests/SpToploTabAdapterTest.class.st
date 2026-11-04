@@ -65,3 +65,21 @@ SpToploTabAdapterTest >> testBuildSelectsInitialPage [
 
 	self assert: widget selecter selectedIndexes equals: #( 2 )
 ]
+
+{ #category : #tests }
+SpToploTabAdapterTest >> testEmbeddableWidgetForWindowPresenter [
+
+	| tabPresenter windowPresenter tabAdapter embeddable |
+	tabPresenter := application instantiate: SpPresenter.
+	windowPresenter := (application instantiate: SpPresenter) asWindow.
+	tabPresenter layout: (SpTabLayout new
+		add: windowPresenter label: 'Window';
+		yourself).
+	tabPresenter build.
+	tabAdapter := tabPresenter adapter.
+	embeddable := tabAdapter
+		embeddableWidgetFor: windowPresenter
+		withConstraints: (tabPresenter layout constraintsFor: windowPresenter).
+	self assert: (embeddable isKindOf: BlElement).
+	self assert: embeddable identicalTo: windowPresenter adapter widget root
+]

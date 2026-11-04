@@ -138,3 +138,9 @@ SpToploAdapter >> updateVisible [
 			ifTrue: [ BlVisibility visible ]
 			ifFalse: [ BlVisibility gone ])
 ]
+
+{ #category : #accessing }
+SpToploAdapter >> widgetElement [
+
+	^ self widget
+]

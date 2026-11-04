@@ -38,14 +38,10 @@ SpToploTabAdapter >> children [
 { #category : #factory }
 SpToploTabAdapter >> embeddableWidgetFor: aPresenter withConstraints: constraints [
 
-	| widget |
-	widget := self
-		          ensurePresenterBuilt: aPresenter
-		          withConstraints: constraints.
-	(widget isKindOf: BlElement) ifTrue: [ ^ widget ].
-	((widget respondsTo: #root) and: [ widget root isNotNil ]) ifTrue: [
-		^ widget root ].
-	^ widget
+	self
+		ensurePresenterBuilt: aPresenter
+		withConstraints: constraints.
+	^ aPresenter adapter widgetElement
 ]
 
 { #category : #factory }
