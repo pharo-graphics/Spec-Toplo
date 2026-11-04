@@ -10,24 +10,49 @@ Class {
 	#category : #'Spec-Toplo-Adapters'
 }
 
-{ #category : #factory }
+{ #category : #building }
 SpToploPopoverAdapter >> buildWidget [
 
-	widget := ToPane new.
-	popupWindowHandler := ToPopupWindowManager new.
-	popupWindowHandler windowBuilder: [ :popup :request |
-			| child |
-			child := self model presenter build.
-			child matchParent.
+	| contentWidget |
+	widget := ToElement new
+		layout: BlLinearLayout vertical;
+		geometry: (BlRoundedRectangleGeometry cornerRadius: 8);
+		background: Color white;
+		border: (BlBorder paint: (Color gray alpha: 0.5) width: 1);
+		padding: (BlInsets all: 8);
+		fitContent;
+		yourself.
 
-			popup border: Color gray.
-			
-			popup height: model preferredExtent y / 10. "I don't know why divided by ten but it looks visually correct"
-			popup width: model preferredExtent x.
-			popup addChild: child ].
-	self presenter relativeTo adapter widget addEventHandler:
-		popupWindowHandler.
+	self model presenter ifNotNil: [ :p |
+		contentWidget := p build.
+		contentWidget fitContent.
+		widget addChild: contentWidget ].
+
+	popupWindowHandler := ToPopupWindowManager new.
+	popupWindowHandler closeOnReleased: false.
+	popupWindowHandler windowBuilder: [ :popup :request |
+		widget removeFromParent.
+		popup fitContent.
+		popup addChild: widget ].
+
 	^ widget
+]
+
+{ #category : #api }
+SpToploPopoverAdapter >> dismiss [
+
+	popupWindowHandler currentWindowDo: [ :aWindow | aWindow close ]
+]
+
+{ #category : #private }
+SpToploPopoverAdapter >> ensureAnchorElement [
+
+	self presenter relativeTo ifNotNil: [ :aPresenter |
+		aPresenter withAdapterDo: [ :anAdapter |
+			| anchor |
+			anchor := anAdapter widget.
+			(anchor hasEventHandler: popupWindowHandler)
+				ifFalse: [ anchor addEventHandler: popupWindowHandler ] ] ]
 ]
 
 { #category : #'t - anchored window element - displaying' }
@@ -42,6 +67,7 @@ SpToploPopoverAdapter >> popupModal: aBoolean pointingTo: aRectangle [
 	 popovers. The placement is still computed from the requested rectangle when
 	 provided."
 
+	self ensureAnchorElement.
 	popupWindowHandler placement: (self popupPlacementPointingTo: aRectangle).
 	popupWindowHandler popup.
 	self presenter isTransferFocus ifTrue: [ self presenter takeKeyboardFocus ].
