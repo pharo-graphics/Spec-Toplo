@@ -4,7 +4,7 @@ A SpToploKMVisitorTest is a test class for testing the behavior of SpToploKMVisi
 Class {
 	#name : #SpToploKMVisitorTest,
 	#superclass : #TestCase,
-	#category : #'Spec-Toplo-Tests-Adapters'
+	#category : #'Spec-Toplo-Tests-KeyCombinations'
 }
 
 { #category : #tests }

@@ -24,8 +24,9 @@ SpToploWindowLikeAdapter >> addPresenterIn: aBlSpace withSpecLayout: aSpExecutab
 SpToploWindowLikeAdapter >> buildWidget [
 
 	^ BlSpace new
-		  root: self newRootElement;
-		  yourself
+		host: self backend host;
+		root: self newRootElement;
+		yourself
 ]
 
 { #category : #API }

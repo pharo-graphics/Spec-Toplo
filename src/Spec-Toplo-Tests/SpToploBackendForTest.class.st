@@ -1,18 +1,33 @@
 Class {
 	#name : #SpToploBackendForTest,
 	#superclass : #SpAbstractBackendForTest,
-	#classTraits : 'TAssertable classTrait',
 	#instVars : [
-		'app'
+		'app',
+		'host',
+		'initialSpaces'
 	],
-	#category : #'Spec-Toplo-Tests'
+	#category : #'Spec-Toplo-Tests-Backend'
 }
 
+{ #category : #accessing }
+SpToploBackendForTest class >> availableBackendsForTest [
+
+	^ BlParameterizedHostTest availableHosts collect: [ :each | self host: each ]
+]
+
+{ #category : #'instance creation' }
+SpToploBackendForTest class >> host: aHost [
+
+	^ self new
+		host: aHost;
+		yourself
+]
+
 { #category : #asserting }
-SpToploBackendForTest >> assertHasHeader: anAdapter [ 
+SpToploBackendForTest >> assertHasHeader: anAdapter [
+
 	self waitUntilUIRedrawed.
-	
-	self assert: (anAdapter widget instVarNamed: #showHeader)
+	self assert: anAdapter hasHeader
 ]
 
 { #category : #asserting }
@@ -59,11 +74,13 @@ SpToploBackendForTest >> clickFirstRowAndColumn: aSpToploListAdapter [
 
 { #category : #running }
 SpToploBackendForTest >> closeAllWindows [
-	"Close every window opened by the test and wait (at most 2 seconds) for the headless host to process the closes."
+	"Close every window opened by the test, ensure any newly opened space is closed, and wait for the host to settle."
 
-	app ifNil: [ ^ self ].
-	app windows copy do: [ :each | each isWindowPresenter ifTrue: [ each close ] ].
-	self waitHeadlessHostUntil: [ BlHeadlessHost default isSettled ]
+	[ app windows copy do: [ :each | each close ] ] ensure: [
+		self host spaces
+			reject: [ :each | initialSpaces includes: each ]
+			thenDo: [ :each | each close ].
+		self host isRunning ifTrue: [ self host settle ] ]
 ]
 
 { #category : #simulating }
@@ -75,13 +92,21 @@ SpToploBackendForTest >> doubleClickFirstRowAndColumn: aSpToploListAdapter [
 
 { #category : #simulating }
 SpToploBackendForTest >> firstRowNodeOf: aSpToploListAdapter [
-	"Answer the node of the first row of the adapted list or table. A ToTableElement holds its rows in its inner list element."
+	"Answer the node of the first row of the adapted list or table."
 
-	| listElement |
-	listElement := (aSpToploListAdapter widget isKindOf: ToTableElement)
-		               ifTrue: [ aSpToploListAdapter widget list ]
-		               ifFalse: [ aSpToploListAdapter widget ].
-	^ listElement nodes first
+	^ aSpToploListAdapter firstRowNode
+]
+
+{ #category : #accessing }
+SpToploBackendForTest >> host [
+
+	^ host ifNil: [ host := BlHeadlessHost default ]
+]
+
+{ #category : #accessing }
+SpToploBackendForTest >> host: aHost [
+
+	host := aHost
 ]
 
 { #category : #opening }
@@ -96,57 +121,39 @@ SpToploBackendForTest >> openInstanceOf: aTest [
 
 { #category : #running }
 SpToploBackendForTest >> runBelowPulseLoopPriority: aBlock [
-	"Toplo postpones commands (e.g. list selection) to the next pulse of the Bloc pulse loop, and tests assert without waiting.
-	Run the test just below the pulse loop priority so that the pulse loop preempts it as soon as it is woken up."
+	"Spec2 generic tests (such as SpAbstractAdapterTest subclasses) do not call settle or waitUntilUIRedrawed between mutations and assertions.
+	Run the test just below the pulse loop priority so that the pulse loop preempts the test runner immediately whenever a pulse is requested.
+	Native Spec-Toplo tests should still rely on #waitUntilUIRedrawed for multi-frame settlement."
 
 	| process previousPriority |
 	process := Processor activeProcess.
 	previousPriority := process priority.
-	process priority: (previousPriority min: BlHeadlessHost default pulseLoop processPriority - 1).
+	process priority: (previousPriority min: self host pulseLoop processPriority - 1).
 	^ aBlock ensure: [ process priority: previousPriority ]
 ]
 
-{ #category : #actions }
+{ #category : #running }
 SpToploBackendForTest >> runTest: aBlock [
 
-	| previousPreferredHost |
-	previousPreferredHost := BlHostRegistry default preferredHost.
-	BlHostRegistry default preferredHost: BlHeadlessHost default.
-	self runBelowPulseLoopPriority: [
-			[
-				app := SpApplication new.
-				app useBackend: #Toplo.
-				app propertyAt: #testBackend put: self.
-				aBlock value ] ensure: [ [ self closeAllWindows ] ensure: [ BlHostRegistry default preferredHost: previousPreferredHost ] ] ]
-]
+	initialSpaces := self host spaces copy.
 
-{ #category : #running }
-SpToploBackendForTest >> waitHeadlessHostUntil: aConditionBlock [
-	"Wait (at most 2 seconds) for the headless host to pulse until aConditionBlock evaluates to true.
-	While the condition is not satisfied, a pulse is requested again on each check: the test environment terminates processes forked during a test, so the pulse loop started by a close sent from #tearDown (`window delete`) is killed before running and leaves that close queued with no loop running. #requestPulse restarts the loop when it is not running and only wakes it up otherwise."
-
-	| host deadline |
-	host := BlHeadlessHost default.
-	deadline := DateAndTime now + 2 seconds.
-	host
-		waitUntil: [
-				aConditionBlock value ifFalse: [ host requestPulse ].
-				aConditionBlock value ]
-		timeOutIf: [ DateAndTime now > deadline ]
-		onCompletion: [ ]
-		onTimeout: [ ]
+	self runBelowPulseLoopPriority: [ [
+		app := SpApplication new.
+		app useBackend: #Toplo.
+		app backend host: self host.
+		app propertyAt: #testBackend put: self.
+		aBlock value
+		] ensure: [ self closeAllWindows ] ]
 ]
 
 { #category : #testing }
 SpToploBackendForTest >> waitUntilUIRedrawed [
-	"Wait (at most 2 seconds) until the headless host and the space of every open window are settled.
-	This is important since the SpToplo* adapters are usually not synchronous: they defer tasks."
+	"Wait until the space of every open window is settled."
 
-	| host spaces |
-	host := BlHeadlessHost default.
-	spaces := (app windows select: [ :each | each isWindowPresenter ])
-		          collect: [ :each | each adapter widget ]
-		          thenSelect: [ :each | each isKindOf: BlSpace ].
-	spaces ifEmpty: [ ^ self ].
-	self waitHeadlessHostUntil: [ host isSettled and: [ spaces allSatisfy: [ :each | host isSpaceSettled: each ] ] ]
+	app ifNil: [ ^ self ].
+
+	(app windows
+		select: [ :each | each hasAdapter ]
+		thenCollect: [ :each | each adapter widgetSpace ])
+		do: [ :each | each settle ]
 ]

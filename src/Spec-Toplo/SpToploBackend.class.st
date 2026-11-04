@@ -4,6 +4,9 @@ I'm a Spec backend for Bloc.
 Class {
 	#name : #SpToploBackend,
 	#superclass : #SpApplicationBackend,
+	#instVars : [
+		'host'
+	],
 	#category : #'Spec-Toplo-Base'
 }
 
@@ -31,11 +34,11 @@ SpToploBackend >> defaultConfigurationFor: aSpApplication [
 	^ aSpApplication defaultConfigurationForToplo
 ]
 
-{ #category : #'deferred message' }
+{ #category : #ui }
 SpToploBackend >> defer: aBlockClosure [
 	"Enqueue aBlockClosure from any process to be executed in the UI process at the beginning of the next pulse."
 
-	BlHost preferableHostClass universe defer: aBlockClosure
+	self host defer: aBlockClosure
 ]
 
 { #category : #accessing }
@@ -50,6 +53,18 @@ SpToploBackend >> dropListClass [
 	^ SpDropListPresenter
 ]
 
+{ #category : #accessing }
+SpToploBackend >> host [
+
+	^ host ifNil: [ host := Bloc preferredHost ]
+]
+
+{ #category : #accessing }
+SpToploBackend >> host: aHost [
+
+	host := aHost
+]
+
 { #category : #'ui - dialogs' }
 SpToploBackend >> inform: aMsg [
 ]
@@ -58,6 +73,16 @@ SpToploBackend >> inform: aMsg [
 SpToploBackend >> listClass [
 
 	^ SpListPresenter
+]
+
+{ #category : #private }
+SpToploBackend >> openInnerWindow: aToInnerWindow on: aSpApplication [
+
+	self flag: #todo. "Fix!"
+
+	aSpApplication windows
+		detect: [ :each | each adapter class = SpToploWindowAdapter ]
+		ifFound: [ :each | each adapter widget root content addChild: aToInnerWindow ]
 ]
 
 { #category : #accessing }

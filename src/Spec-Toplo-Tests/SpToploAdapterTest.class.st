@@ -28,7 +28,9 @@ SpToploAdapterTest >> testWidgetElementOnElementAdapter [
 	| labelPresenter |
 	labelPresenter := application instantiate: SpLabelPresenter.
 	labelPresenter build.
-	self assert: labelPresenter adapter widgetElement identicalTo: labelPresenter adapter widget
+	self
+		assert: labelPresenter adapter widgetElement
+		identicalTo: labelPresenter adapter widget
 ]
 
 { #category : #tests }
@@ -36,16 +38,25 @@ SpToploAdapterTest >> testWidgetElementOnInnerWindowAdapter [
 
 	| innerWindowPresenter |
 	application adapterBindings useInnerWindowAdapter.
-	innerWindowPresenter := (application instantiate: SpPresenter) asWindow.
+	innerWindowPresenter := (application instantiate: SpLabelPresenter) asWindow.
 	innerWindowPresenter build.
-	self assert: innerWindowPresenter adapter widgetElement identicalTo: innerWindowPresenter adapter widget
+	self
+		assert: innerWindowPresenter adapter widgetElement
+		identicalTo: innerWindowPresenter adapter widget.
+
+	innerWindowPresenter open
 ]
 
 { #category : #tests }
 SpToploAdapterTest >> testWidgetElementOnWindowAdapter [
 
 	| windowPresenter |
-	windowPresenter := (application instantiate: SpPresenter) asWindow.
+	windowPresenter := (application instantiate: SpLabelPresenter) asWindow.
 	windowPresenter build.
-	self assert: windowPresenter adapter widgetElement identicalTo: windowPresenter adapter widget root
+	self
+		assert: windowPresenter adapter widgetElement
+		identicalTo: windowPresenter adapter widget root.
+
+	windowPresenter open.
+	self assert: windowPresenter adapter widgetElement isAttachedToSceneGraph
 ]
