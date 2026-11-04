@@ -58,6 +58,12 @@ SpToploAbstractListAdapter >> refreshList [
 
 ]
 
+{ #category : #refreshing }
+SpToploAbstractListAdapter >> refreshList: anAnnouncement [
+
+	self refreshList
+]
+
 { #category : #factory }
 SpToploAbstractListAdapter >> refreshWidgetList [
 

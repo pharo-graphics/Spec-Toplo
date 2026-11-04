@@ -10,7 +10,10 @@ Class {
 { #category : #support }
 SpToploEmbeddedListItemAdapterTest >> assertAllPanesTransparentIn: anElement [
 
-	(anElement isKindOf: ToPane) ifTrue: [ self assert: anElement background isTransparent ].
+	({ ToPane. ToTableCell. ToTableCellContainer. ToTableRowNode }
+		anySatisfy: [ :each | anElement isKindOf: each ])
+		ifTrue: [ self assert: anElement background isTransparent ].
+
 	anElement childrenDo: [ :child | self assertAllPanesTransparentIn: child ]
 ]
 
@@ -96,6 +99,24 @@ SpToploEmbeddedListItemAdapterTest >> testListViewPresenterRowsKeepEmbeddedPanes
 ]
 
 { #category : #tests }
+SpToploEmbeddedListItemAdapterTest >> testTablePresenterRowsKeepEmbeddedPanesTransparent [
+
+	| presenter |
+	presenter := SpTablePresenter new.
+	presenter
+		application: application;
+		items: #('Alpha' 'Beta');
+		addColumn: (SpStringTableColumn title: 'Name' evaluated: #asString);
+		addColumn: (SpCompositeTableColumn new
+			title: 'Composite';
+			addColumn: (SpStringTableColumn title: 'Sub' evaluated: #asString);
+			yourself).
+	presenter open.
+	self waitUntilUIRedrawed.
+	self assertEmbeddedPanesTransparentInFirstNodeOf: presenter adapter widget list
+]
+
+{ #category : #tests }
 SpToploEmbeddedListItemAdapterTest >> testTreeListViewPresenterRowsKeepEmbeddedPanesTransparent [
 
 	| presenter |
@@ -109,6 +130,25 @@ SpToploEmbeddedListItemAdapterTest >> testTreeListViewPresenterRowsKeepEmbeddedP
 	presenter open.
 	self waitUntilUIRedrawed.
 	self assertEmbeddedPanesTransparentInFirstNodeOf: presenter adapter widget
+]
+
+{ #category : #tests }
+SpToploEmbeddedListItemAdapterTest >> testTreeTablePresenterRowsKeepEmbeddedPanesTransparent [
+
+	| presenter |
+	presenter := SpTreeTablePresenter new.
+	presenter
+		application: application;
+		roots: #('Alpha' 'Beta');
+		children: [ :ignored | #(  ) ];
+		addColumn: (SpStringTableColumn title: 'Name' evaluated: #asString);
+		addColumn: (SpCompositeTableColumn new
+			title: 'Composite';
+			addColumn: (SpStringTableColumn title: 'Sub' evaluated: #asString);
+			yourself).
+	presenter open.
+	self waitUntilUIRedrawed.
+	self assertEmbeddedPanesTransparentInFirstNodeOf: presenter adapter widget list
 ]
 
 { #category : #running }
