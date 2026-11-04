@@ -72,7 +72,8 @@ SpToploTreeColumnViewAdapter >> subscribeToPresenter [
 
 	model
 		whenRootsChangedDo: [ self updateItems ];
-		whenSelectionChangedDo: [ self updateSelection ]
+		whenSelectionChangedDo: [ self updateSelection ];
+		whenSearchEnabledChangedDo: [ self updateSearch ]
 ]
 
 { #category : #initialization }
