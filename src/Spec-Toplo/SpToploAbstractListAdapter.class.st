@@ -4,8 +4,8 @@ I'm a Spec adapter that corresponds to `SpAbstractListPresenter`.
 Class {
 	#name : #SpToploAbstractListAdapter,
 	#superclass : #SpToploWidgetAdapter,
-	#traits : 'SpToploTWithContextMenu + SpToploTWithEmbeddedListItem',
-	#classTraits : 'SpToploTWithContextMenu classTrait + SpToploTWithEmbeddedListItem classTrait',
+	#traits : 'SpToploTWithContextMenu + SpToploTWithEmbeddedListItem + SpToploTWithSearch',
+	#classTraits : 'SpToploTWithContextMenu classTrait + SpToploTWithEmbeddedListItem classTrait + SpToploTWithSearch classTrait',
 	#category : #'Spec-Toplo-Adapters'
 }
 
@@ -92,11 +92,12 @@ SpToploAbstractListAdapter >> selectedIndexes [
 SpToploAbstractListAdapter >> subscribeToPresenter [
 
 	super subscribeToPresenter.
-	
+
 	model
 		whenModelChangedDo: [ self updateItems ];
 		whenSelectionChangedDo: [ self updateSelection ];
-		whenSelectionModeChangedDo: [ self updateSelectionMode ]
+		whenSelectionModeChangedDo: [ self updateSelectionMode ];
+		whenSearchEnabledChangedDo: [ self updateSearch ]
 ]
 
 { #category : #initialization }
@@ -120,7 +121,8 @@ SpToploAbstractListAdapter >> updateAll [
 	self
 		updateItems;
 		updateSelection;
-		updateMenu
+		updateMenu;
+		updateSearch
 ]
 
 { #category : #'updating widget' }

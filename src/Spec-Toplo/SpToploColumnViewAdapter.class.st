@@ -101,6 +101,12 @@ SpToploColumnViewAdapter >> isShowColumnHeaders [
 	^ self widget showHeader
 ]
 
+{ #category : #accessing }
+SpToploColumnViewAdapter >> searchListElement [
+
+	^ widget list
+]
+
 { #category : #initialization }
 SpToploColumnViewAdapter >> subscribeToPresenter [
 
