@@ -4,16 +4,18 @@ Class {
 	#category : #'Spec-Toplo-Examples'
 }
 
-{ #category : #'as yet unclassified' }
-SpToploExample class >> getApplication [
+{ #category : #accessing }
+SpToploExample class >> applicationForExamples [
+	"Answer an application configured with Toplo backend for examples,
+	 reusing the running IDE session application if it already uses Toplo."
 
 	| app |
-	(StPharoApplication current backend isKindOf: SpToploBackend)
-		ifTrue: [ app := StPharoApplication current ]
-		ifFalse: [
-				app := StPharoApplication new.
-				app useBackend: #Toplo ].
-	^ app
+	app := StPharoApplication current.
+	(app backend class = SpToploBackend) ifTrue: [ ^ app ].
+
+	^ StPharoApplication new
+		useBackend: #Toplo;
+		yourself
 ]
 
 { #category : #'user interface' }
@@ -41,60 +43,47 @@ SpToploExample class >> menuExamplesOn: aBuilder [
 
 { #category : #'user interface' }
 SpToploExample class >> openToDebugger [
+	<script>
 
-	| app aDebugSession debugger |
-	app := self getApplication.
+	| aDebugSession |
 	aDebugSession := StTestDebuggerProvider new sessionForDebuggerTests.
-	debugger := StDebugger basicNew
-		            session: aDebugSession;
-		            application: app;
-		            initialize;
-		            yourself.
-
-	debugger open
+	(self applicationForExamples instantiate: StDebugger on: aDebugSession) open
 ]
 
 { #category : #'user interface' }
 SpToploExample class >> openToDrTests [
+	<script>
 
-	| drTest app |
-	app := self getApplication.
-	drTest := DrTests newApplication: app.
-	drTest open
+	(self applicationForExamples instantiate: DrTests) open
 ]
 
 { #category : #'user interface' }
 SpToploExample class >> openToFinder [
+	<script>
 
 	StFinderPresenter openInToplo
 ]
 
 { #category : #'user interface' }
 SpToploExample class >> openToIceberg [
+	<script>
 
-	| repositories app |
+	| repositories |
 	repositories := IceTipRepositoriesBrowser new.
-	app := self getApplication.
-	repositories application: app.
+	repositories application: self applicationForExamples.
 	repositories open
 ]
 
 { #category : #'user interface' }
 SpToploExample class >> openToInspector [
+	<script>
 
-	| inspector app |
-	inspector := StInspectorPresenter onObject: Object new.
-	app := self getApplication.
-	inspector application: app.
-	inspector open
+	(self applicationForExamples instantiate: StInspectorPresenter on: Object new) open
 ]
 
 { #category : #'user interface' }
 SpToploExample class >> openToPlayground [
+	<script>
 
-	| playground app |
-	app := self getApplication.
-	playground := StPlaygroundPresenter new.
-	playground application: app.
-	playground open
+	(self applicationForExamples instantiate: StPlaygroundPresenter) open
 ]
