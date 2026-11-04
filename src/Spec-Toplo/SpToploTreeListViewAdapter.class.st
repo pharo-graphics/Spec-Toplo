@@ -26,7 +26,7 @@ SpToploTreeListViewAdapter >> takeKeyboardFocus [
 ]
 
 { #category : #enumerating }
-SpToploTreeListViewAdapter >> traversePresentersDo: aFullBlockClosure excluding: aCollection [ 
-	
+SpToploTreeListViewAdapter >> traversePresentersDo: aFullBlockClosure excluding: aCollection [
+
 	self flag: #toImplement
 ]

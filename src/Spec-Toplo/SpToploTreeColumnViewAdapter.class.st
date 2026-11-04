@@ -37,7 +37,7 @@ SpToploTreeColumnViewAdapter >> expandAll [
 SpToploTreeColumnViewAdapter >> initialize [
 
 	super initialize.
-	
+
 	suspendUpdateSelection := false
 ]
 
