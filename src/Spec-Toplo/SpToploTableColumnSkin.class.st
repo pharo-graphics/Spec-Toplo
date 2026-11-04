@@ -54,7 +54,7 @@ SpToploTableColumnSkin >> foreground: anObject [
 	foreground := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 SpToploTableColumnSkin >> initialize [
 
 	super initialize.
