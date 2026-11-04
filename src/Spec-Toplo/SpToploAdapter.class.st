@@ -4,6 +4,9 @@ I'm an abstract Spec adapter for all presenters.
 Class {
 	#name : #SpToploAdapter,
 	#superclass : #SpAbstractAdapter,
+	#instVars : [
+		'eventHandlersBySubscriber'
+	],
 	#category : #'Spec-Toplo-Adapters'
 }
 
@@ -85,6 +88,19 @@ SpToploAdapter >> defer: aBlockClosure [
 		 yourself)
 ]
 
+{ #category : #accessing }
+SpToploAdapter >> eventHandlersBySubscriber [
+
+	^ eventHandlersBySubscriber
+]
+
+{ #category : #initialization }
+SpToploAdapter >> initialize [
+
+	super initialize.
+	eventHandlersBySubscriber := Dictionary new
+]
+
 { #category : #testing }
 SpToploAdapter >> isVisible [
 	
@@ -121,6 +137,45 @@ SpToploAdapter >> takeKeyboardFocus [
 	widget requestFocus
 ]
 
+{ #category : #releasing }
+SpToploAdapter >> unsubscribe [
+
+	self
+		unsubscribeFromWidget;
+		unsubscribeFromPresenter.
+	super unsubscribe
+]
+
+{ #category : #events }
+SpToploAdapter >> unsubscribe: aSubscriber [
+
+	| handlers |
+	handlers := eventHandlersBySubscriber removeKey: aSubscriber ifAbsent: [ ^ self ].
+	self widgetDo: [ :aWidget |
+		handlers do: [ :eachHandler |
+			aWidget removeEventHandler: eachHandler ] ]
+]
+
+{ #category : #initialization }
+SpToploAdapter >> unsubscribeFromPresenter [
+
+	model ifNotNil: [ :aPresenter |
+		aPresenter hasAnnouncer ifTrue: [
+			self widgetDo: [ :aWidget |
+				aPresenter announcer unsubscribe: aWidget ].
+			aPresenter announcer unsubscribe: self ] ]
+]
+
+{ #category : #initialization }
+SpToploAdapter >> unsubscribeFromWidget [
+
+	self widgetDo: [ :aWidget |
+		eventHandlersBySubscriber valuesDo: [ :handlers |
+			handlers do: [ :eachHandler |
+				aWidget removeEventHandler: eachHandler ] ] ].
+	eventHandlersBySubscriber removeAll
+]
+
 { #category : #initialization }
 SpToploAdapter >> updateAll [
 	"Apply all the presenter specifications to the backend widget.
@@ -149,6 +204,19 @@ SpToploAdapter >> updateVisible [
 		(model isVisible
 			ifTrue: [ BlVisibility visible ]
 			ifFalse: [ BlVisibility gone ])
+]
+
+{ #category : #events }
+SpToploAdapter >> when: anEventClass do: aBlock for: aSubscriber [
+
+	| handler handlers |
+	handler := BlEventHandler on: anEventClass do: aBlock.
+	self widgetDo: [ :aWidget | aWidget addEventHandler: handler ].
+	handlers := eventHandlersBySubscriber
+		at: aSubscriber
+		ifAbsentPut: [ OrderedCollection new ].
+	handlers add: handler.
+	^ handler
 ]
 
 { #category : #accessing }

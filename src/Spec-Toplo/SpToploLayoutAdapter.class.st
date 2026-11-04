@@ -145,6 +145,14 @@ SpToploLayoutAdapter >> takeKeyboardFocus [
 		presenters first takeKeyboardFocus ]
 ]
 
+{ #category : #initialization }
+SpToploLayoutAdapter >> unsubscribeFromPresenter [
+
+	super unsubscribeFromPresenter.
+	layout ifNotNil: [
+		layout announcer unsubscribe: self ]
+]
+
 { #category : #updating }
 SpToploLayoutAdapter >> updateBorderWidth [
 	"Hook for subclasses."
