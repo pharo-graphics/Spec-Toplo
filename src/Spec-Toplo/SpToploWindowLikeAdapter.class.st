@@ -74,25 +74,23 @@ SpToploWindowLikeAdapter >> newRootElement [
 
 { #category : #'event handling' }
 SpToploWindowLikeAdapter >> onSpaceClosed [
-	"Inspired on SpMorphicWindowAdapter>>#windowClosed"
 
-	model
-		windowIsClosing;
-		windowClosed
+	self unsubscribe.
+
+	model ifNotNil: [
+		model
+			windowIsClosing;
+			windowClosed ]
 ]
 
 { #category : #'event handling' }
 SpToploWindowLikeAdapter >> onSpaceShown [
 
 	self defer: [
-		"Setting window position was problematic before being showed."
-
-		model initialPosition ifNotNil: [ :position |
-			widget position: position ].
-		model isCentered ifTrue: [ self centered ].
-
-	"	model presenter takeKeyboardFocus."
-		model windowIsOpening ]
+		model isClosed ifFalse: [
+			model initialPosition ifNotNil: [ :position |
+				widget position: position ].
+			model isCentered ifTrue: [ self centered ] ] ]
 ]
 
 { #category : #API }
@@ -121,7 +119,10 @@ SpToploWindowLikeAdapter >> openSync [
 SpToploWindowLikeAdapter >> openWithDeferredAction: aBlockClosure [
 
 	Toplo defaultThemeClass ifNil: [
-		self widget space toTheme: Smalltalk ui theme toTheme ].
+		self widget space toTheme: self theme toTheme ].
+
+	model windowIsOpening.
+
 	self open.
 	self defer: aBlockClosure
 ]
@@ -137,12 +138,13 @@ SpToploWindowLikeAdapter >> subscribeToPresenter [
 
 ]
 
-{ #category : #'widget creation' }
+{ #category : #initialization }
 SpToploWindowLikeAdapter >> subscribeToWidget [
 
-	widget
-		addEventHandlerOn: BlSpaceClosedEvent do: [ self onSpaceClosed ];
-		addEventHandlerOn: BlSpaceShownEvent do: [ self onSpaceShown ]
+	super subscribeToWidget.
+	self
+		when: BlSpaceClosedEvent do: [ self onSpaceClosed ] for: self;
+		when: BlSpaceShownEvent do: [ self onSpaceShown ] for: self
 ]
 
 { #category : #API }
