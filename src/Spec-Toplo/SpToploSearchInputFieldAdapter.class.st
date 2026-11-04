@@ -7,6 +7,12 @@ Class {
 	#category : #'Spec-Toplo-Adapters'
 }
 
+{ #category : #factory }
+SpToploSearchInputFieldAdapter >> buildWidget [
+
+	^ super buildWidget
+]
+
 { #category : #protocol }
 SpToploSearchInputFieldAdapter >> takeKeyboardFocus [
 

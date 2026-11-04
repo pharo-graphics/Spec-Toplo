@@ -17,22 +17,22 @@ SpToploOverlayAdapter class >> initialize [
 	to Toplo anchored placements, that have both axis mixed.
 
 	In other words, each dictionary association follows this pattern:
-
+	
 	{ Morphic Horizontal. Morphic Vertical } -> Toplo placement.
 	"
 	PlacementConverter := {
 		{ SpLayoutWidgetAlignment center. SpLayoutWidgetAlignment center } -> ToAnchoredAtCenter new.
 		{ SpLayoutWidgetAlignment center. SpLayoutWidgetAlignment start } -> ToAnchoredAtTop new.
 		{ SpLayoutWidgetAlignment center. SpLayoutWidgetAlignment end } -> ToAnchoredAtBottom new.
-
+	
 		{ SpLayoutWidgetAlignment start. SpLayoutWidgetAlignment start } -> ToAnchoredAtTopLeft new.
 		{ SpLayoutWidgetAlignment start. SpLayoutWidgetAlignment center } -> ToAnchoredAtLeft new.
 		{ SpLayoutWidgetAlignment start. SpLayoutWidgetAlignment end } -> ToAnchoredAtBottomLeft new.
-
+	
 		{ SpLayoutWidgetAlignment end. SpLayoutWidgetAlignment start } -> ToAnchoredAtTopRight new.
 		{ SpLayoutWidgetAlignment end. SpLayoutWidgetAlignment center } -> ToAnchoredAtRight new.
 		{ SpLayoutWidgetAlignment end. SpLayoutWidgetAlignment end } -> ToAnchoredAtBottomRight new.
-
+	
 		} asDictionary
 ]
 
