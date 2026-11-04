@@ -57,6 +57,14 @@ SpToploBoxAdapter >> children [
 			nextPutAll: endPane children ]
 ]
 
+{ #category : #protocol }
+SpToploBoxAdapter >> layout: aLayout [
+
+	super layout: aLayout.
+	self updateBorderWidth.
+	self updateSpacing
+]
+
 { #category : #'instance creation' }
 SpToploBoxAdapter >> newChildBlElement: aPresenter constrainedBy: aSpBoxConstraints [
 	"Inspired on SpMorphicBoxAdapter>>#basicAdd:constraints:to:"
@@ -180,12 +188,29 @@ SpToploBoxAdapter >> updateAsNonExpandedChild: childBlElement with: aSpBoxConstr
 ]
 
 { #category : #updating }
+SpToploBoxAdapter >> updateBorderWidth [
+
+	widget ifNotNil: [ widget padding: (BlInsets all: layout borderWidth) ]
+]
+
+{ #category : #updating }
 SpToploBoxAdapter >> updateChildPadding: aBlElement with: aSpBoxConstraints [
 
 	| insets |
+	aSpBoxConstraints padding = 0 ifTrue: [ ^ self ].
 	insets := layout direction isHorizontal
-		          ifTrue: [ BlInsets horizontal: aSpBoxConstraints padding ]
-		          ifFalse: [ BlInsets vertical: aSpBoxConstraints padding ].
+		ifTrue: [ BlInsets horizontal: aSpBoxConstraints padding ]
+		ifFalse: [ BlInsets vertical: aSpBoxConstraints padding ].
 
-	aBlElement padding: insets
+	"Spec child padding defines external spacing around the child in the layout,
+	 which corresponds to Bloc margin (unlike Morphic which used an outer wrapper)."
+	aBlElement margin: insets
+]
+
+{ #category : #updating }
+SpToploBoxAdapter >> updateSpacing [
+
+	layout ifNil: [ ^ self ].
+	startPane ifNotNil: [ startPane layout interspace: layout spacing ].
+	endPane ifNotNil: [ endPane layout interspace: layout spacing ]
 ]
