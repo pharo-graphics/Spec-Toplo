@@ -20,11 +20,6 @@ SpToploTreeListViewAdapter >> newItemElementFor: anItem [
 	^ self prepareEmbeddedItemPanesIn: toElement
 ]
 
-{ #category : #protocol }
-SpToploTreeListViewAdapter >> takeKeyboardFocus [
-	self widget requestFocus
-]
-
 { #category : #enumerating }
 SpToploTreeListViewAdapter >> traversePresentersDo: aFullBlockClosure excluding: aCollection [ 
 	

@@ -109,6 +109,12 @@ SpToploAdapter >> subscribeToWidget [
 
 ]
 
+{ #category : #protocol }
+SpToploAdapter >> takeKeyboardFocus [
+
+	self widget requestFocus
+]
+
 { #category : #initialization }
 SpToploAdapter >> updateAll [
 	"Apply all the presenter specifications to the backend widget.

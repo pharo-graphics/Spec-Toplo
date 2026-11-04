@@ -33,11 +33,6 @@ SpToploTextInputFieldAdapter >> subscribeToPresenter [
 	model whenPasswordChangedDo: [ self updateIsPassword ]
 ]
 
-{ #category : #protocol }
-SpToploTextInputFieldAdapter >> takeKeyboardFocus [
-	self flag: #todo
-]
-
 { #category : #initialization }
 SpToploTextInputFieldAdapter >> updateAll [
 

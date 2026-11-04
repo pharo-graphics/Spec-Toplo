@@ -69,6 +69,24 @@ SpToploPopoverAdapterTest >> tearDown [
 ]
 
 { #category : #tests }
+SpToploPopoverAdapterTest >> testPopoverWidgetContainsContentPresenter [
+
+	| content |
+	self buildAnchorPresenter.
+	content := SpLabelPresenter new
+		application: application;
+		label: 'Popover Content';
+		yourself.
+	popover := anchorPresenter newPopover.
+	popover relativeTo: anchorPresenter.
+	popover presenter: content.
+	popover build.
+
+	self assert: popover adapter widget children isNotEmpty.
+	self assert: popover adapter widget children first equals: content adapter widget
+]
+
+{ #category : #tests }
 SpToploPopoverAdapterTest >> testPopupModalPointingToUsesRectangleForRightPosition [
 
 	| fakeWindow rectangle expectedPosition |
@@ -94,10 +112,33 @@ SpToploPopoverAdapterTest >> testPopupModalWithoutRectangleUsesAnchorBoundsForBo
 	self assert: (popover adapter popupPositionFor: fakeWindow pointingTo: nil) equals: centeredX @ anchorBounds bottom
 ]
 
+{ #category : #tests }
+SpToploPopoverAdapterTest >> testPopupTransfersFocusToContentButton [
+
+	| contentButton content |
+	self buildAnchorPresenter.
+	content := SpPresenter new
+		application: application;
+		yourself.
+	contentButton := content newButton
+		label: 'Action';
+		yourself.
+	content layout: (SpBoxLayout newVertical
+		add: contentButton;
+		yourself).
+	popover := anchorPresenter newPopover.
+	popover relativeTo: anchorPresenter.
+	popover presenter: content.
+	popover bePositionBottom.
+	popover popup.
+	self waitUntilUIRedrawed.
+	self assert: contentButton adapter widget isFocused
+]
+
 { #category : #running }
 SpToploPopoverAdapterTest >> waitUntilUIRedrawed [
 
 	| aSpace |
-	aSpace := application windows anyOne adapter widget.
+	aSpace := (application windows detect: [ :w | w isWindowPresenter ]) adapter widget.
 	aSpace settleForDuration: 200 milliSeconds
 ]
