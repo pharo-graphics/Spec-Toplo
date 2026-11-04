@@ -152,6 +152,14 @@ SpToploBoxAdapter >> replace: aPresenter with: otherPresenter withConstraints: c
 	parentPane replaceChild: oldElement with: newElement
 ]
 
+{ #category : #initialization }
+SpToploBoxAdapter >> updateAll [
+
+	super updateAll.
+	self updateBorderWidth.
+	self updateSpacing
+]
+
 { #category : #updating }
 SpToploBoxAdapter >> updateAsExpandedChild: childBlElement with: aSpBoxConstraints [
 	
@@ -180,12 +188,39 @@ SpToploBoxAdapter >> updateAsNonExpandedChild: childBlElement with: aSpBoxConstr
 ]
 
 { #category : #updating }
+SpToploBoxAdapter >> updateBorderWidth [
+	"Bloc borders do not take part in layout: pad by the border width so the box grows by twice the width, as in Morphic"
+
+	| width |
+	width := layout borderWidth.
+	widget
+		border: (BlBorder paint: Color transparent width: width);
+		padding: (BlInsets all: width)
+]
+
+{ #category : #updating }
 SpToploBoxAdapter >> updateChildPadding: aBlElement with: aSpBoxConstraints [
+	"Spec constraint padding is space around the child (Morphic wraps the child in a bigger panel),
+	so map it to a Bloc margin. This keeps the child's own padding (e.g. border padding of a nested box).
+	As in Morphic, a padding of 0 leaves the child untouched."
 
 	| insets |
+	aSpBoxConstraints padding = 0 ifTrue: [ ^ self ].
+
 	insets := layout direction isHorizontal
 		          ifTrue: [ BlInsets horizontal: aSpBoxConstraints padding ]
 		          ifFalse: [ BlInsets vertical: aSpBoxConstraints padding ].
 
-	aBlElement padding: insets
+	aBlElement margin: insets
+]
+
+{ #category : #updating }
+SpToploBoxAdapter >> updateSpacing [
+	"Spacing goes between children, inside the start and end panes"
+
+	{
+		startPane.
+		endPane } do: [ :each |
+			each layout interspace: layout spacing.
+			each requestLayout ]
 ]
