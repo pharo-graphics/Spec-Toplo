@@ -160,6 +160,14 @@ SpToploBoxAdapter >> replace: aPresenter with: otherPresenter withConstraints: c
 	parentPane replaceChild: oldElement with: newElement
 ]
 
+{ #category : #initialization }
+SpToploBoxAdapter >> updateAll [
+
+	super updateAll.
+	self updateBorderWidth.
+	self updateSpacing
+]
+
 { #category : #updating }
 SpToploBoxAdapter >> updateAsExpandedChild: childBlElement with: aSpBoxConstraints [
 	
@@ -195,6 +203,9 @@ SpToploBoxAdapter >> updateBorderWidth [
 
 { #category : #updating }
 SpToploBoxAdapter >> updateChildPadding: aBlElement with: aSpBoxConstraints [
+	"Spec constraint padding is space around the child (Morphic wraps the child in a bigger panel),
+	so map it to a Bloc margin. This keeps the child's own padding (e.g. border padding of a nested box).
+	As in Morphic, a padding of 0 leaves the child untouched."
 
 	| insets |
 	aSpBoxConstraints padding = 0 ifTrue: [ ^ self ].
