@@ -37,7 +37,7 @@ SpToploTreeColumnViewAdapter >> expandAll [
 SpToploTreeColumnViewAdapter >> initialize [
 
 	super initialize.
-
+	
 	suspendUpdateSelection := false
 ]
 
@@ -72,8 +72,7 @@ SpToploTreeColumnViewAdapter >> subscribeToPresenter [
 
 	model
 		whenRootsChangedDo: [ self updateItems ];
-		whenSelectionChangedDo: [ self updateSelection ];
-		whenSearchEnabledChangedDo: [ self updateSearch ]
+		whenSelectionChangedDo: [ self updateSelection ]
 ]
 
 { #category : #initialization }
