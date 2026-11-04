@@ -15,6 +15,6 @@ SpToploAdapterBindings >> abstractAdapterClass [
 
 { #category : #accessing }
 SpToploAdapterBindings >> useInnerWindowAdapter [
-	
+
 	bindings at: #WindowAdapter put: SpToploInnerWindowAdapter name
 ]

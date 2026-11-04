@@ -4,45 +4,41 @@ I'm an alternative Spec adapter for `SpWindowPresenter` that uses a `ToInnerWind
 Class {
 	#name : #SpToploInnerWindowAdapter,
 	#superclass : #SpToploWindowAdapter,
-	#instVars : [
-		'containerWindow'
-	],
 	#category : #'Spec-Toplo-Adapters'
 }
 
 { #category : #factory }
 SpToploInnerWindowAdapter >> buildWidget [
 
-	| w root |
-	w := ToInnerWindow new.
-	root := self newRootElement.
-	root constraintsDo: [ :c |
-			c horizontal matchParent.
-			c vertical matchParent ].
+	| innerWindow containerElement |
+	innerWindow := ToInnerWindow new.
+	containerElement := self newRootElement.
+	containerElement constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent ].
 
-	w pane addChild: root as: #container.
-	^ w
+	innerWindow pane addChild: containerElement as: #container.
+	^ innerWindow
 ]
 
 { #category : #accessing }
 SpToploInnerWindowAdapter >> container [
 	
-	^ self widget childWithId: #container
+	^ widget childWithId: #container
 ]
 
 { #category : #API }
 SpToploInnerWindowAdapter >> open [
 
-	containerWindow := (model application windows collect: [ :e | e adapter ]) detect: [ :e | e class = SpToploWindowAdapter ].
-
-	containerWindow widget root content addChild: self widget
+	model application backend openInnerWindow: widget on: model application
 ]
 
 { #category : #accessing }
 SpToploInnerWindowAdapter >> updateContentWithSpecLayout: aSpExecutableLayout [
 	"Build the presenter of the window, and establish the Toplo widget as content of the window."
 
-	(widget pane childWithId: #container) content: (model presenter buildWithLayout: aSpExecutableLayout)
+	(widget pane childWithId: #container) content:
+		(model presenter buildWithLayout: aSpExecutableLayout)
 ]
 
 { #category : #accessing }
@@ -54,8 +50,7 @@ SpToploInnerWindowAdapter >> updateDecorationsAsBorderless [
 { #category : #'widget creation' }
 SpToploInnerWindowAdapter >> updateMenu [
 
-	model hasMenu ifFalse: [
-		^ self container removeMenu ].
+	model hasMenu ifFalse: [ ^ self container removeMenu ].
 
 	"Build new Toplo menu from presenter spec and set it."	
 	self container menu: model menu buildWithSpecAsPopup
@@ -74,10 +69,14 @@ SpToploInnerWindowAdapter >> updateStatusBar [
 { #category : #'widget creation' }
 SpToploInnerWindowAdapter >> updateToolbar [
 
-	"Inspired on SpAbstractMorphicWindowAdapter>>#setToolbarTo:"
-
 	model hasToolbar ifFalse: [ ^ self container removeToolbar ].
 
 	"Build new Toplo toolbar from presenter spec and set it."
 	self container toolbar: model toolbar build
+]
+
+{ #category : #accessing }
+SpToploInnerWindowAdapter >> widgetSpace [
+
+	^ widget space
 ]

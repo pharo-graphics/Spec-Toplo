@@ -60,6 +60,12 @@ SpToploAdapter >> addStyle: aString [
 	self updateStyle
 ]
 
+{ #category : #accessing }
+SpToploAdapter >> backend [
+
+	^ model application backend
+]
+
 { #category : #compatibility }
 SpToploAdapter >> bindKeyCombination: aKMKeyCombination toAction: aBlock [
 
@@ -112,7 +118,7 @@ SpToploAdapter >> subscribeToWidget [
 { #category : #protocol }
 SpToploAdapter >> takeKeyboardFocus [
 
-	self widget requestFocus
+	widget requestFocus
 ]
 
 { #category : #initialization }
@@ -148,5 +154,11 @@ SpToploAdapter >> updateVisible [
 { #category : #accessing }
 SpToploAdapter >> widgetElement [
 
-	^ self widget
+	^ widget
+]
+
+{ #category : #accessing }
+SpToploAdapter >> widgetSpace [
+
+	^ widget space
 ]
