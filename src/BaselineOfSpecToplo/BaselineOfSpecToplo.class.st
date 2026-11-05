@@ -43,7 +43,11 @@ BaselineOfSpecToplo >> declareRoassalBlocPackageOn: spec [
 		ifFalse: [
 			SystemVersion current major = 14
 				ifTrue: [ branch := 'Pharo14' ]
-				ifFalse: [ self notYetImplemented ] ].
+				ifFalse: [
+					SystemVersion current major = 15
+						ifTrue: [ branch := 'Pharo15' ]
+						ifFalse: [ self notYetImplemented ]
+					] ].
 
 	spec
 		package: 'Roassal-Bloc'
