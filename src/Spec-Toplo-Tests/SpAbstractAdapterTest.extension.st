@@ -6,7 +6,7 @@ SpAbstractAdapterTest class >> testParameters [
 	^ ParametrizedTestMatrix new
 		forSelector: #specInitializationStrategy
 			addOptions: { [ SpInitializationStrategy beforeTest ]. [ SpInitializationStrategy afterTest ] };
-		forSelector: #backendForTest
-			addOptions: { SpToploBackendForTest };
+		forSelector: #backendInstanceForTest
+			addOptions: SpToploBackendForTest availableBackendsForTest;
 		yourself
 ]
