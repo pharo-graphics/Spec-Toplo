@@ -4,6 +4,9 @@ I'm an abstract Spec adapter for all presenters.
 Class {
 	#name : #SpToploAdapter,
 	#superclass : #SpAbstractAdapter,
+	#instVars : [
+		'eventHandlersBySubscriber'
+	],
 	#category : #'Spec-Toplo-Adapters'
 }
 
@@ -60,6 +63,12 @@ SpToploAdapter >> addStyle: aString [
 	self updateStyle
 ]
 
+{ #category : #accessing }
+SpToploAdapter >> backend [
+
+	^ model application backend
+]
+
 { #category : #compatibility }
 SpToploAdapter >> bindKeyCombination: aKMKeyCombination toAction: aBlock [
 
@@ -77,6 +86,19 @@ SpToploAdapter >> defer: aBlockClosure [
 	widget enqueueTask: (BlTaskAction new
 		 action: aBlockClosure;
 		 yourself)
+]
+
+{ #category : #accessing }
+SpToploAdapter >> eventHandlersBySubscriber [
+
+	^ eventHandlersBySubscriber
+]
+
+{ #category : #initialization }
+SpToploAdapter >> initialize [
+
+	super initialize.
+	eventHandlersBySubscriber := Dictionary new
 ]
 
 { #category : #testing }
@@ -112,7 +134,46 @@ SpToploAdapter >> subscribeToWidget [
 { #category : #protocol }
 SpToploAdapter >> takeKeyboardFocus [
 
-	self widget requestFocus
+	widget requestFocus
+]
+
+{ #category : #releasing }
+SpToploAdapter >> unsubscribe [
+
+	self
+		unsubscribeFromWidget;
+		unsubscribeFromPresenter.
+	super unsubscribe
+]
+
+{ #category : #events }
+SpToploAdapter >> unsubscribe: aSubscriber [
+
+	| handlers |
+	handlers := eventHandlersBySubscriber removeKey: aSubscriber ifAbsent: [ ^ self ].
+	self widgetDo: [ :aWidget |
+		handlers do: [ :eachHandler |
+			aWidget removeEventHandler: eachHandler ] ]
+]
+
+{ #category : #initialization }
+SpToploAdapter >> unsubscribeFromPresenter [
+
+	model ifNotNil: [ :aPresenter |
+		aPresenter hasAnnouncer ifTrue: [
+			self widgetDo: [ :aWidget |
+				aPresenter announcer unsubscribe: aWidget ].
+			aPresenter announcer unsubscribe: self ] ]
+]
+
+{ #category : #initialization }
+SpToploAdapter >> unsubscribeFromWidget [
+
+	self widgetDo: [ :aWidget |
+		eventHandlersBySubscriber valuesDo: [ :handlers |
+			handlers do: [ :eachHandler |
+				aWidget removeEventHandler: eachHandler ] ] ].
+	eventHandlersBySubscriber removeAll
 ]
 
 { #category : #initialization }
@@ -145,8 +206,27 @@ SpToploAdapter >> updateVisible [
 			ifFalse: [ BlVisibility gone ])
 ]
 
+{ #category : #events }
+SpToploAdapter >> when: anEventClass do: aBlock for: aSubscriber [
+
+	| handler handlers |
+	handler := BlEventHandler on: anEventClass do: aBlock.
+	self widgetDo: [ :aWidget | aWidget addEventHandler: handler ].
+	handlers := eventHandlersBySubscriber
+		at: aSubscriber
+		ifAbsentPut: [ OrderedCollection new ].
+	handlers add: handler.
+	^ handler
+]
+
 { #category : #accessing }
 SpToploAdapter >> widgetElement [
 
-	^ self widget
+	^ widget
+]
+
+{ #category : #accessing }
+SpToploAdapter >> widgetSpace [
+
+	^ widget space
 ]

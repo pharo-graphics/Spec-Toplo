@@ -4,8 +4,8 @@ I'm a Spec adapter for `SpTreePresenter`.
 Class {
 	#name : #SpToploTreeAdapter,
 	#superclass : #SpToploWidgetAdapter,
-	#traits : 'SpToploTTreeHelper + SpToploTWithEmbeddedListItem',
-	#classTraits : 'SpToploTTreeHelper classTrait + SpToploTWithEmbeddedListItem classTrait',
+	#traits : 'SpToploTTreeHelper + SpToploTWithEmbeddedListItem + SpToploTWithSearch',
+	#classTraits : 'SpToploTTreeHelper classTrait + SpToploTWithEmbeddedListItem classTrait + SpToploTWithSearch classTrait',
 	#category : #'Spec-Toplo-Adapters'
 }
 
@@ -112,7 +112,8 @@ SpToploTreeAdapter >> subscribeToPresenter [
 
 	model
 		whenSelectionChangedDo: [ self updateSelection ];
-		whenRootsChangedDo: [ self updateRoots ]
+		whenRootsChangedDo: [ self updateRoots ];
+		whenSearchEnabledChangedDo: [ self updateSearch ]
 ]
 
 { #category : #initialization }
@@ -148,7 +149,8 @@ SpToploTreeAdapter >> updateAll [
 
 	self
 		updateRoots;
-		updateSelection
+		updateSelection;
+		updateSearch
 ]
 
 { #category : #'updating widget' }

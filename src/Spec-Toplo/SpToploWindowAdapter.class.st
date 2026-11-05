@@ -39,8 +39,8 @@ SpToploWindowAdapter >> restore [
 	self widget show
 ]
 
-{ #category : #announcer }
-SpToploWindowAdapter >> when: aClass do: aFullBlockClosure for: aMiModelsBrowser [
+{ #category : #accessing }
+SpToploWindowAdapter >> widgetSpace [
 
-	self widget addEventHandlerOn: aClass do: aFullBlockClosure
+	^ widget
 ]
