@@ -119,6 +119,16 @@ SpToploBackendForTest >> openInstanceOf: aTest [
 	self waitUntilUIRedrawed
 ]
 
+{ #category : #printing }
+SpToploBackendForTest >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		nextPut: $(;
+		nextPutAll: self host label;
+		nextPut: $)
+]
+
 { #category : #running }
 SpToploBackendForTest >> runBelowPulseLoopPriority: aBlock [
 	"Spec2 generic tests (such as SpAbstractAdapterTest subclasses) do not call settle or waitUntilUIRedrawed between mutations and assertions.
