@@ -31,13 +31,7 @@ Class {
 SpToBoxLayoutPresenter class >> openInToplo [
 
 	<script>
-	| app presenter |
-	app := SpApplication new
-		       useBackend: #Toplo;
-		       yourself.
-	presenter := self newApplication: app.
-	presenter open.
-	^ presenter
+	^ (SpToploExample applicationForExamples instantiate: self) open
 ]
 
 { #category : #layout }
