@@ -1,6 +1,6 @@
 Extension { #name : #SpAbstractLayoutTest }
 
-{ #category : #'*Spec-Toplo-Backend-Tests' }
+{ #category : #'*Spec-Toplo-Tests' }
 SpAbstractLayoutTest >> backendInstanceForTest: aBackendForTest [
 
 	backendForTest := aBackendForTest
