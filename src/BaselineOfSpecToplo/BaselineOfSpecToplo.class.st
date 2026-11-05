@@ -39,10 +39,10 @@ BaselineOfSpecToplo >> declareRoassalBlocPackageOn: spec [
 
 	| branch |
 	SystemVersion current major = 13
-		ifTrue: [ branch := 'Pharo13' ]
+		ifTrue: [ branch := 'v1.7.5' ]
 		ifFalse: [
 			SystemVersion current major = 14
-				ifTrue: [ branch := 'Pharo14' ]
+				ifTrue: [ branch := '5246d05c98ca47a549aba9778071a39d5edbafa3' "Pharo14" ]
 				ifFalse: [ self notYetImplemented ] ].
 
 	spec
@@ -55,5 +55,5 @@ BaselineOfSpecToplo >> declareToploOn: spec [
 
 	spec
 		baseline: 'Toplo'
-		with: [ spec repository: 'github://pharo-graphics/Toplo:master/src' ]
+		with: [ spec repository: 'github://pharo-graphics/Toplo:v0.11.0/src' ]
 ]
