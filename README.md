@@ -52,6 +52,8 @@ Bloc > Hosts for parameterized tests
 - **Headless host only (Fast)** *(Default)*: Runs tests headlessly in background.
 - **All available hosts**: Tests the matrix against all registered hosts (including real OS windows).
 
+<img width="909" height="497" alt="ParameterizedTests" src="https://github.com/user-attachments/assets/10b2016e-9a97-4fcd-90c1-0a5dd31cbc39" />
+
 #### 2. Programmatically
 ```smalltalk
 "Run fast on headless host only (default)"
