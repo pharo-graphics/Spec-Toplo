@@ -2,28 +2,13 @@ name: Tests
 
 on:
   push:
+    branches-ignore:
+      - dev # Handled by continuous-release.yml
   pull_request:
   workflow_dispatch:
   schedule:
     - cron: "0 8 * * 1"   # Run every Monday at 08:00
 
 jobs:
-  test:
-    strategy:
-      # Default value means that a failure in one OS cancels all 
-      fail-fast: false
-      matrix:
-        smalltalk: [ Pharo64-14, Pharo64-15 ]
-        os: [ macos-latest ] # windows-latest, ubuntu-latest, 
-    runs-on: ${{ matrix.os }}
-    name: ${{ matrix.smalltalk }} on ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v7
-      - name: Setup smalltalkCI
-        uses: hpi-swa/setup-smalltalkCI@v1
-        with:
-          smalltalk-image: ${{ matrix.smalltalk }}
-      - name: Load in New Image and Run Tests
-        run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
-        shell: bash
-        timeout-minutes: 15
+  tests:
+    uses: ./.github/workflows/build.yml

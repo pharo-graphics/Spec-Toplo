@@ -1,0 +1,36 @@
+name: Continuous release
+
+on:
+  push:
+    branches:
+      - dev
+
+concurrency:
+  group: continuous-release
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: spec-toplo-pharo-*
+          merge-multiple: true
+          path: dist
+      - name: Replace the continuous pre-release
+        run: |
+          gh release delete continuous --cleanup-tag --yes || true
+          gh release create continuous dist/*.zip \
+            --target "$GITHUB_SHA" \
+            --prerelease \
+            --title "Continuous build (dev)" \
+            --notes "Built from commit $GITHUB_SHA once the tests passed on dev."
