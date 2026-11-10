@@ -1,0 +1,45 @@
+# In the future, the full tests should be merged with Build. Currently the Spec tests are not all passing so we have 2 .ston files to exclude the failing tests in one of them.
+name: Full tests
+
+on: [ push, pull_request, workflow_dispatch ]
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        smalltalk: [ Pharo64-14, Pharo64-15 ]
+        os: [ macos-latest ]
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.smalltalk }} on ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup smalltalkCI
+        uses: hpi-swa/setup-smalltalkCI@v1
+        with:
+          smalltalk-image: ${{ matrix.smalltalk }}
+      - name: Load in New Image and Run Tests
+        run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
+        shell: bash
+        timeout-minutes: 15
+      - name: Compute the Pharo version
+        id: version
+        env:
+          SMALLTALK_IMAGE: ${{ matrix.smalltalk }}
+        run: echo "pharo-version=${SMALLTALK_IMAGE##*-}0" >> "$GITHUB_OUTPUT"
+      - name: Package image, changes, sources and version
+        env:
+          PHARO_VERSION: ${{ steps.version.outputs.pharo-version }}
+        run: |
+          set -euo pipefail
+          package_directory="$RUNNER_TEMP/spec-toplo-pharo-$PHARO_VERSION"
+          mkdir -p "$package_directory"
+          cp "$(find .smalltalkCI "$HOME/.smalltalkCI" -name '*.image' | head -n 1)" "$package_directory/"
+          cp "$(find .smalltalkCI "$HOME/.smalltalkCI" -name '*.changes' | head -n 1)" "$package_directory/"
+          cp "$(find .smalltalkCI "$HOME/.smalltalkCI" -name '*.sources' | head -n 1)" "$package_directory/"
+          printf '%s' "$PHARO_VERSION" > "$package_directory/pharo-version"
+          (cd "$package_directory" && zip -r "$RUNNER_TEMP/spec-toplo-pharo-$PHARO_VERSION.zip" .)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spec-toplo-pharo-${{ steps.version.outputs.pharo-version }}
+          path: ${{ runner.temp }}/spec-toplo-pharo-${{ steps.version.outputs.pharo-version }}.zip
