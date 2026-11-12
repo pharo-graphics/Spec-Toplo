@@ -29,16 +29,63 @@ SpToploExample class >> menuExamplesOn: aBuilder [
 		order: 99999;
 		help: 'Open Spec-Toplo Browser.';
 		with: [
-				(aBuilder item: #toInspector) action: [ self openToInspector ].
-				(aBuilder item: #toPlayground) action: [ self openToPlayground ].
-				(aBuilder item: #toTests) action: [ self openToDrTests ].
-				(aBuilder item: #toFinder) action: [ self openToFinder ].
-				(aBuilder item: #toGitManager)
-					action: [ self openToIceberg ];
-					withSeparatorAfter.
-					(aBuilder item: #toDebugger)
-					action: [ self openToDebugger ];
-					withSeparatorAfter ]
+			(aBuilder item: #toInspector) action: [ self openToInspector ].
+			(aBuilder item: #toPlayground) action: [ self openToPlayground ].
+			(aBuilder item: #toTests) action: [ self openToDrTests ].
+			(aBuilder item: #toFinder) action: [ self openToFinder ].
+			(aBuilder item: #toAthens) action: [ self openToAthens ].
+			(aBuilder item: #toGitManager)
+				action: [ self openToIceberg ];
+				withSeparatorAfter.
+			(aBuilder item: #toDebugger)
+				action: [ self openToDebugger ];
+				withSeparatorAfter ]
+]
+
+{ #category : #'user interface' }
+SpToploExample class >> openToAthens [
+	<script>
+
+	| presenter window |
+	presenter := self applicationForExamples instantiate: SpAthensPresenter.
+	presenter drawBlock: [ :canvas :bounds |
+		| surface grad |
+		surface := canvas surface.
+		surface clear: Color black.
+
+		"Background gradient"
+		grad := surface
+			createLinearGradient: {
+				(0.0 -> Color purple).
+				(0.5 -> Color blue muchDarker).
+				(1.0 -> Color cyan muchDarker) }
+			start: bounds origin
+			stop: bounds corner.
+		canvas setPaint: grad.
+		canvas drawShape: (bounds insetBy: 16).
+
+		"Dashed stylish border"
+		(canvas setStrokePaint: Color white)
+			width: 2.5;
+			capRound;
+			joinRound;
+			dashes: #(12 6) offset: 0.
+		canvas drawShape: (bounds insetBy: 16).
+
+		"Centered vector text"
+		canvas pathTransform restoreAfter: [
+			canvas pathTransform translateBy: bounds center.
+			canvas setPaint: Color white.
+			canvas setFont: StandardFonts defaultFont.
+			canvas drawString: 'Hello' ] ].
+
+	window := presenter asWindow.
+	window
+		title: 'Athens in Toplo Demo';
+		initialExtent: 400 @ 300;
+		open.
+
+	^ window
 ]
 
 { #category : #'user interface' }
