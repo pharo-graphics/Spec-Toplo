@@ -1,0 +1,99 @@
+name: CI
+
+# Runs the minimal tests (.ci.ston) on each Pharo version and packages the image as an artifact.
+# The artifact is then published either as the continuous pre-release (push to dev)
+# or uploaded to the GitHub release (release created or edited).
+on:
+  push:
+  pull_request:
+  release:
+    types: [created, edited]
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * 1"   # Run every Monday at 08:00
+
+# Only one continuous release runs at a time on dev; other runs are not cancelled.
+concurrency:
+  group: ${{ github.ref == 'refs/heads/dev' && 'continuous-release' || github.run_id }}
+  cancel-in-progress: ${{ github.ref == 'refs/heads/dev' }}
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        smalltalk: [ Pharo64-14, Pharo64-15 ]
+        os: [ macos-latest ]
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.smalltalk }} on ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup smalltalkCI
+        uses: hpi-swa/setup-smalltalkCI@v1
+        with:
+          smalltalk-image: ${{ matrix.smalltalk }}
+      - name: Load in New Image and Run Tests
+        run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
+        shell: bash
+        timeout-minutes: 15
+      - name: Compute the Pharo version
+        id: version
+        env:
+          SMALLTALK_IMAGE: ${{ matrix.smalltalk }}
+        run: echo "pharo-version=${SMALLTALK_IMAGE##*-}0" >> "$GITHUB_OUTPUT"
+      - name: Package image, changes, sources and version
+        env:
+          PHARO_VERSION: ${{ steps.version.outputs.pharo-version }}
+        run: |
+          set -euo pipefail
+          package_directory="$RUNNER_TEMP/spec-toplo-pharo-$PHARO_VERSION"
+          mkdir -p "$package_directory"
+          cp "$(find .smalltalkCI "$HOME/.smalltalkCI" -name '*.image' | head -n 1)" "$package_directory/"
+          cp "$(find .smalltalkCI "$HOME/.smalltalkCI" -name '*.changes' | head -n 1)" "$package_directory/"
+          cp "$(find .smalltalkCI "$HOME/.smalltalkCI" -name '*.sources' | head -n 1)" "$package_directory/"
+          printf '%s' "$PHARO_VERSION" > "$package_directory/pharo-version"
+          (cd "$package_directory" && zip -r "$RUNNER_TEMP/spec-toplo-pharo-$PHARO_VERSION.zip" .)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spec-toplo-pharo-${{ steps.version.outputs.pharo-version }}
+          path: ${{ runner.temp }}/spec-toplo-pharo-${{ steps.version.outputs.pharo-version }}.zip
+
+  continuous-release:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: spec-toplo-pharo-*
+          merge-multiple: true
+          path: dist
+      - name: Replace the continuous pre-release
+        run: |
+          gh release delete continuous --cleanup-tag --yes || true
+          gh release create continuous dist/*.zip \
+            --target "$GITHUB_SHA" \
+            --prerelease \
+            --title "Continuous build (dev)" \
+            --notes "Built from commit $GITHUB_SHA once the tests passed on dev."
+
+  release:
+    needs: build
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: spec-toplo-pharo-*
+          merge-multiple: true
+          path: dist
+      - name: Upload the artifacts to the release
+        run: gh release upload "${{ github.event.release.tag_name }}" dist/*.zip --clobber
