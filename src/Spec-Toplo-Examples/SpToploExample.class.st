@@ -29,16 +29,17 @@ SpToploExample class >> menuExamplesOn: aBuilder [
 		order: 99999;
 		help: 'Open Spec-Toplo Browser.';
 		with: [
-				(aBuilder item: #toInspector) action: [ self openToInspector ].
-				(aBuilder item: #toPlayground) action: [ self openToPlayground ].
-				(aBuilder item: #toTests) action: [ self openToDrTests ].
-				(aBuilder item: #toFinder) action: [ self openToFinder ].
-				(aBuilder item: #toGitManager)
-					action: [ self openToIceberg ];
-					withSeparatorAfter.
-					(aBuilder item: #toDebugger)
-					action: [ self openToDebugger ];
-					withSeparatorAfter ]
+			(aBuilder item: #toInspector) action: [ self openToInspector ].
+			(aBuilder item: #toPlayground) action: [ self openToPlayground ].
+			(aBuilder item: #toTests) action: [ self openToDrTests ].
+			(aBuilder item: #toFinder) action: [ self openToFinder ].
+			(aBuilder item: #toAthens) action: [ self openToAthens ].
+			(aBuilder item: #toGitManager)
+				action: [ self openToIceberg ];
+				withSeparatorAfter.
+			(aBuilder item: #toDebugger)
+				action: [ self openToDebugger ];
+				withSeparatorAfter ]
 ]
 
 { #category : #'user interface' }
