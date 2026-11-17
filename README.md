@@ -64,6 +64,49 @@ BlParameterizedHostTest testHostsMode: #allAvailable.
 ```
 
 
+## Debugging
+
+### Running with Toplo vs. Morphic
+
+To run or debug a presenter with the Toplo backend, assign an application configured with `#Toplo`:
+
+```smalltalk
+app := StPharoApplication new.
+app useBackend: #Toplo.
+
+presenter := MyPresenter new.
+presenter application: app.
+presenter open.
+```
+
+> **Tip:** Omitting `presenter application: app` opens the presenter with the default Morphic backend, enabling side-by-side visual and behavioral comparisons.
+
+### Navigating Adapters, Widgets, and Constraints
+
+When diagnosing layout, event, or styling issues, navigate between Spec presenters and Toplo widgets:
+
+```smalltalk
+"Retrieve the Toplo adapter from the presenter"
+adapter := presenter adapter. "Answers an SpToplo*Adapter"
+
+"Retrieve the root BlElement / To* widget"
+widget := presenter adapter widget.
+
+"Inspect layout constraint resizers vs. actual computed geometry bounds"
+widget constraints horizontal resizer. "e.g. Match parent, Exact 200, Fit content"
+widget bounds asRectangle.
+```
+
+To quickly close temporary spaces opened during interactive debugging in the Playground, evaluate `Bloc closeSpaces`.
+
+### Bloc Foundation Documentation
+
+For the underlying Bloc concurrency model, testing, and layout mechanics, refer to the documentation in the [Bloc repository](https://github.com/pharo-graphics/Bloc):
+- [Concurrency and Synchronization](https://github.com/pharo-graphics/Bloc/blob/dev/doc/2-ConcurrencyAndSynchronization.md): The host pulse loop, `#settle`, `#deferAndSettle:`, and pulse process safety.
+- [Testing and Simulating Interactions](https://github.com/pharo-graphics/Bloc/blob/dev/doc/TestingInteractions.md): Programmatic event simulation with `BlEventSimulator`.
+- [Layout and Constraints](https://github.com/pharo-graphics/Bloc/blob/dev/doc/LayoutAndConstraints.md): Measurement passes, resizers, and layout events.
+
+
 ## Branches & Contributions
 
 We describe our contribution workflow & branch name convention in [this wiki page](../../wiki/Branches-and-versions).
