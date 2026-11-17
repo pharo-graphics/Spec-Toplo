@@ -37,7 +37,7 @@ SpToploToolbarAdapter >> newItemFor: aSpToolbarButtonPresenter [
 { #category : #testing }
 SpToploToolbarAdapter >> numberOfItems [
 
-	^ self widget dataSource size
+	^ self widget dataSource collection count: [ :each | each class ~= ToMenuFiller ]
 ]
 
 { #category : #initialization }
@@ -61,11 +61,11 @@ SpToploToolbarAdapter >> updateItems [
 
 	widget removeAllItems.
 
-	model leftItems do: [ :each |
-		widget addItem: (self newItemFor: each) ].
+	model leftItems do: [ :each | widget addItem: (self newItemFor: each) ].
 
-	model rightItems do: [ :each |
-		widget addItem: (self newItemFor: each) ]
+	model rightItems ifNotEmpty: [
+		widget addFiller.
+		model rightItems do: [ :each | widget addItem: (self newItemFor: each) ] ]
 ]
 
 { #category : #initialization }
