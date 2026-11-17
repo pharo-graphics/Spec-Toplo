@@ -81,6 +81,25 @@ SpToploTableAdapterTest >> testChooserSelection [
 	self assert: (self dataSourceOfChooserList: chooser targetList) itemCount equals: 2
 ]
 
+{ #category : #tests }
+SpToploTableAdapterTest >> testContextMenuWithActions [
+
+	| group contextMenu |
+	self buildTablePresenter.
+	group := SpActionGroup new.
+	group addActionWith: [ :action |
+		action
+			name: 'TestCommand';
+			action: [ ] ].
+	tablePresenter actions: group.
+
+	contextMenu := ToContextMenu new.
+	tablePresenter adapter fillContextMenu: contextMenu.
+
+	self assert: contextMenu items size equals: 1.
+	self assert: contextMenu items first label text asString equals: 'TestCommand'
+]
+
 { #category : #chooser }
 SpToploTableAdapterTest >> testTableColumnsNumber [
 
