@@ -49,20 +49,14 @@ SpToploBackendForTest >> assertImage: actual equals: expected [
 ]
 
 { #category : #asserting }
-SpToploBackendForTest >> assertList: anAdapter displayItems: aCollection [ 
-	| tableContainer tableRowContents |
-	
+SpToploBackendForTest >> assertList: anAdapter displayItems: aCollection [
+
+	| displayedStrings |
 	self waitUntilUIRedrawed.
-	
-	tableContainer := anAdapter widget list innerElement.
-	tableRowContents := tableContainer children collect: [ :row | 
-		| cell |
-		cell := (row node childWithId: #Value) cell.
-		cell children anyOne text asString ].
-	
-	self assert: tableRowContents first = aCollection first.
-	self assert: tableRowContents second = aCollection second.
-	self assert: tableRowContents third = aCollection third.
+
+	displayedStrings := (self listElementOf: anAdapter) nodes collect: [ :each | self displayedStringOf: each ].
+
+	self assert: (displayedStrings first: aCollection size) asArray = aCollection asArray
 ]
 
 { #category : #simulating }
@@ -83,6 +77,16 @@ SpToploBackendForTest >> closeAllWindows [
 		self host isRunning ifTrue: [ self host settle ] ]
 ]
 
+{ #category : #private }
+SpToploBackendForTest >> displayedStringOf: aNode [
+	"Answer the text of the first label found breadth-first in aNode, or nil."
+
+	^ aNode
+		  allChildrenBreadthFirstDetect: [ :each | each isKindOf: ToLabel ]
+		  ifFound: [ :label | label text asString ]
+		  ifNone: [ nil ]
+]
+
 { #category : #simulating }
 SpToploBackendForTest >> doubleClickFirstRowAndColumn: aSpToploListAdapter [
 
@@ -93,6 +97,13 @@ SpToploBackendForTest >> doubleClickFirstRowAndColumn: aSpToploListAdapter [
 { #category : #simulating }
 SpToploBackendForTest >> firstRowNodeOf: aSpToploListAdapter [
 	"Answer the node of the first row of the adapted list or table."
+
+	^ (self listElementOf: aSpToploListAdapter) nodes first
+]
+
+{ #category : #private }
+SpToploBackendForTest >> listElementOf: anAdapter [
+	"A ToTableElement holds its rows in its inner list element."
 
 	^ aSpToploListAdapter firstRowNode
 ]

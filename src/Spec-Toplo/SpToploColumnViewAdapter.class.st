@@ -129,10 +129,10 @@ SpToploColumnViewAdapter >> subscribeToWidget [
 
 	widget list
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
-		do: [ :event |
-			model selection selectIndexes: widget list selecter selectedIndexes ];
+		do: [ :event | model selection selectIndexes: widget list selecter selectedIndexes ];
+		addEventHandlerOn: BlPrimaryClickEvent do: [ :evt | self transferClick: evt ];
 		addEventHandlerOn: ToListStrongSelectionEvent
-		do: [ model doActivateAtIndex: model selection selectedIndex ]
+		do: [ model isActiveOnDoubleClick ifTrue: [ model doActivateAtIndex: model selection selectedIndex ] ]
 ]
 
 { #category : #enumerating }

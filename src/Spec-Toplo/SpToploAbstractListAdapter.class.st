@@ -107,10 +107,21 @@ SpToploAbstractListAdapter >> subscribeToWidget [
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :evt |
 				| selectedIndexes |
 				selectedIndexes := evt selectedIndexes asArray.
-				selectedIndexes = model selection selectedIndexes asArray
-					ifFalse: [ model selection selectIndexes: selectedIndexes ] ];
-		addEventHandlerOn: ToListStrongSelectionEvent do: [
-				model doActivateAtIndex: model selection selectedIndex ]
+				selectedIndexes = model selection selectedIndexes asArray ifFalse: [ model selection selectIndexes: selectedIndexes ] ];
+		addEventHandlerOn: BlPrimaryClickEvent do: [ :evt | self transferClick: evt ];
+		addEventHandlerOn: ToListStrongSelectionEvent
+		do: [ model isActiveOnDoubleClick ifTrue: [ model doActivateAtIndex: model selection selectedIndex ] ]
+]
+
+{ #category : #private }
+SpToploAbstractListAdapter >> transferClick: aClickEvent [
+	"Single-click activation: Toplo signals only double clicks as strong selection"
+
+	model isActiveOnSingleClick ifFalse: [ ^ self ].
+	aClickEvent target
+		withAllParentsDetect: [ :each | (each isKindOf: ToBasicListNode) and: [ each holder listElement == aClickEvent currentTarget ] ]
+		ifFound: [ :node | model doActivateAtIndex: node holder position ]
+		ifNone: [ ]
 ]
 
 { #category : #initialization }
