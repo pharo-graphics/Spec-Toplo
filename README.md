@@ -1,7 +1,7 @@
 # Spec-Toplo
 
 [![License](https://img.shields.io/github/license/pharo-graphics/Spec-Toplo.svg)](./LICENSE)
-[![Tests](https://github.com/pharo-graphics/Spec-Toplo/actions/workflows/tests.yml/badge.svg)](https://github.com/pharo-graphics/Spec-Toplo/actions/workflows/tests.yml)
+[![Tests](https://github.com/pharo-graphics/Spec-Toplo/actions/workflows/ci.yml/badge.svg)](https://github.com/pharo-graphics/Spec-Toplo/actions/workflows/ci.yml)
 
 [Toplo](https://github.com/plantec/Toplo) backend for [Spec](https://github.com/pharo-spec/Spec).
 
