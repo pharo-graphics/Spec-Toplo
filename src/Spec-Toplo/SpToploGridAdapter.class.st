@@ -8,21 +8,68 @@ Class {
 }
 
 { #category : #adding }
-SpToploGridAdapter >> addChildElement: aToLabel with: aSpGridConstraints [
+SpToploGridAdapter >> addChildElement: aChildElement with: aSpGridConstraints [
 
-	widget addChild: aToLabel
+	self updateGridDimensions.
+	widget addChild: aChildElement
 ]
 
 { #category : #adding }
 SpToploGridAdapter >> addConstraints: constraints toChild: childBlElement [
 
+	| col spanX row spanY isColExpand isRowExpand |
+	constraints ifNil: [ ^ childBlElement ].
+
+	col := constraints column.
+	spanX := constraints columnSpan.
+	row := constraints row.
+	spanY := constraints rowSpan.
+
+	isColExpand := layout isColumnHomogeneous or: [
+		(col to: col + spanX - 1) anySatisfy: [ :eachCol |
+			(layout columnConstraintsAt: eachCol)
+				ifNotNil: [ :c | c isExpand ]
+				ifNil: [ false ] ] ].
+
+	isRowExpand := layout isRowHomogeneous or: [
+		(row to: row + spanY - 1) anySatisfy: [ :eachRow |
+			(layout rowConstraintsAt: eachRow)
+				ifNotNil: [ :c | c isExpand ]
+				ifNil: [ false ] ] ].
+
 	childBlElement constraintsDo: [ :c |
-			(self model layout isKindOf: SpGridLayout) ifTrue: [
-				self model layout isColumnHomogeneous ifFalse: [ childBlElement fitContent ] ].
-			constraints span ifNotNil: [
-					c grid horizontal span: constraints span x.
-					c grid vertical span: constraints span y ] ].
+		isColExpand
+			ifTrue: [ c horizontal matchParent ]
+			ifFalse: [
+				childBlElement constraints horizontal resizer isExact ifFalse: [
+					c horizontal fitContent ] ].
+		isRowExpand
+			ifTrue: [ c vertical matchParent ]
+			ifFalse: [
+				childBlElement constraints vertical resizer isExact ifFalse: [
+					c vertical fitContent ] ].
+		c grid horizontal span: spanX.
+		c grid vertical span: spanY ].
+
 	^ childBlElement
+]
+
+{ #category : #accessing }
+SpToploGridAdapter >> calculateColumnCount [
+	"Answer the maximum column index reached by any child (offset by -1 for 1-based inclusive span)."
+
+	^ (layout children values collect: [ :each | each column + each columnSpan - 1 ])
+		ifNotEmpty: #max
+		ifEmpty: [ 0 ]
+]
+
+{ #category : #accessing }
+SpToploGridAdapter >> calculateRowCount [
+	"Answer the maximum row index reached by any child (offset by -1 for 1-based inclusive span)."
+
+	^ (layout children values collect: [ :each | each row + each rowSpan - 1 ])
+		ifNotEmpty: #max
+		ifEmpty: [ 0 ]
 ]
 
 { #category : #'instance creation' }
@@ -30,16 +77,19 @@ SpToploGridAdapter >> newChildBlElement: aPresenter constrainedBy: constraints [
 	^ self newBlElementFrom: aPresenter constraints: constraints
 ]
 
-{ #category : #'instance creation' }
+{ #category : #factory }
 SpToploGridAdapter >> newToploWidget [
 
 	| gridLayout |
 	gridLayout := BlGridLayout horizontal.
-	gridLayout columnCount:
-		((layout children values collect: [ :value | value position x ]) ifNotEmpty: [ :col | col max ] ifEmpty: [ 0 ]).
-	gridLayout rowCount:
-		((layout children values collect: [ :value | value position y ]) ifNotEmpty: [ :col | col max ] ifEmpty: [ 0 ]).
 	^ ToPane new
-		  layout: gridLayout;
-		  yourself
+		layout: gridLayout;
+		yourself
+]
+
+{ #category : #updating }
+SpToploGridAdapter >> updateGridDimensions [
+
+	widget layout columnCount: self calculateColumnCount.
+	widget layout rowCount: self calculateRowCount
 ]
