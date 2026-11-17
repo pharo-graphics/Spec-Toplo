@@ -22,12 +22,15 @@ jobs:
         run: smalltalkci -s ${{ matrix.smalltalk }} .SpecBackendTests.ston
         shell: bash
         timeout-minutes: 15
+      # Packaging runs even when the tests fail so the image can be downloaded and debugged locally.
       - name: Compute the Pharo version
+        if: always()
         id: version
         env:
           SMALLTALK_IMAGE: ${{ matrix.smalltalk }}
         run: echo "pharo-version=${SMALLTALK_IMAGE##*-}0" >> "$GITHUB_OUTPUT"
       - name: Package image, changes, sources and version
+        if: always()
         env:
           PHARO_VERSION: ${{ steps.version.outputs.pharo-version }}
         run: |
@@ -40,6 +43,7 @@ jobs:
           printf '%s' "$PHARO_VERSION" > "$package_directory/pharo-version"
           (cd "$package_directory" && zip -r "$RUNNER_TEMP/spec-toplo-pharo-$PHARO_VERSION.zip" .)
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: spec-toplo-pharo-${{ steps.version.outputs.pharo-version }}
           path: ${{ runner.temp }}/spec-toplo-pharo-${{ steps.version.outputs.pharo-version }}.zip
