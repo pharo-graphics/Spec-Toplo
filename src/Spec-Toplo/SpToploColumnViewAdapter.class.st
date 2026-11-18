@@ -21,7 +21,7 @@ SpToploColumnViewAdapter >> alternateRowsColor [
 { #category : #factory }
 SpToploColumnViewAdapter >> buildColumns [
 
-	^ self model columns collect: [ :aSpTableColumn |
+	^ model columns collect: [ :aSpTableColumn |
 		self buildToploColumnFrom: aSpTableColumn ]
 ]
 
@@ -61,8 +61,8 @@ SpToploColumnViewAdapter >> buildToploColumnFrom: aSpTableColumn [
 SpToploColumnViewAdapter >> buildWidget [
 
 	widget := ToTableElement new.
-	widget showHeader: self model isShowingColumnHeaders.
-	widget selecter multiple: self model selectionMode isMultipleSelection.
+	widget showHeader: model isShowingColumnHeaders.
+	widget selecter multiple: model selectionMode isMultipleSelection.
 	widget columns: self buildColumns.
 	^ widget
 ]
@@ -70,14 +70,14 @@ SpToploColumnViewAdapter >> buildWidget [
 { #category : #accessing }
 SpToploColumnViewAdapter >> columns [
 
-	^ self widget columns
+	^ widget columns
 ]
 
 { #category : #accessing }
 SpToploColumnViewAdapter >> firstRowNode [
 	"Answer the node of the first row of the adapted table. A ToTableElement holds its rows in its inner list element."
 
-	^ self widget list nodes first
+	^ widget list nodes first
 ]
 
 { #category : #testing }
@@ -98,7 +98,7 @@ SpToploColumnViewAdapter >> initialize [
 { #category : #testing }
 SpToploColumnViewAdapter >> isShowColumnHeaders [
 	
-	^ self widget showHeader
+	^ widget showHeader
 ]
 
 { #category : #accessing }
@@ -164,7 +164,7 @@ SpToploColumnViewAdapter >> visitColumnViewColumn: spCollumn [
 	| column |
 	column := self buildGenericToTableColumnFrom: spCollumn.
 	"Use yourself by default. It sometimes happen when user give a list of string as data"
-	"dataIndex: [:val | spCollumn bindAction value: self model value: val ];"
+	"dataIndex: [:val | spCollumn bindAction value: model value: val ];"
 	column cellBuilder: [ :element :dataItem :holder |
 			| pane contentPresenter toElement |
 			element hMatchParent.
@@ -176,7 +176,7 @@ SpToploColumnViewAdapter >> visitColumnViewColumn: spCollumn [
 			pane vFitContent.
 			
 
-			contentPresenter := spCollumn setupAction value: self model.
+			contentPresenter := spCollumn setupAction value: model.
 			spCollumn bindAction value: contentPresenter value: dataItem.
 
 			toElement := contentPresenter build.

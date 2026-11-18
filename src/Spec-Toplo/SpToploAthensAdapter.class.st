@@ -24,9 +24,9 @@ SpToploAthensAdapter >> redraw [
 	| extent |
 	widget ifNil: [ ^ self ].
 	extent := widget extent.
-	(extent x <= 0 or: [ extent y <= 0 ]) ifTrue: [ extent := self presenter surfaceExtent ifNil: [ 100 @ 100 ] ].
+	(extent x <= 0 or: [ extent y <= 0 ]) ifTrue: [ extent := model surfaceExtent ifNil: [ 100 @ 100 ] ].
 	(surface isNil or: [ surface extent ~= extent ]) ifTrue: [ surface := AthensAeCairoSurface extent: extent ].
-	self presenter drawBlock ifNotNil: [ :block | surface drawDuring: [ :canvas | block cull: canvas cull: (0 @ 0 extent: extent) ] ].
+	model drawBlock ifNotNil: [ :block | surface drawDuring: [ :canvas | block cull: canvas cull: (0 @ 0 extent: extent) ] ].
 	widget background: (BlImageBackground image: surface asForm).
 	widget invalidate
 ]
@@ -35,8 +35,8 @@ SpToploAthensAdapter >> redraw [
 SpToploAthensAdapter >> subscribeToPresenter [
 
 	super subscribeToPresenter.
-	self presenter whenDrawBlockChangedDo: [ :newBlock | self redraw ].
-	self presenter whenExtentChangedDo: [ :newExtent |
+	model whenDrawBlockChangedDo: [ :newBlock | self redraw ].
+	model whenExtentChangedDo: [ :newExtent |
 		widget size: newExtent.
 		self redraw ].
 	self redraw

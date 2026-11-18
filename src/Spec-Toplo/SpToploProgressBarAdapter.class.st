@@ -21,7 +21,7 @@ SpToploProgressBarAdapter >> buildWidget [
 { #category : #'updating widget' }
 SpToploProgressBarAdapter >> progressBarState [
 
-	^ self model state
+	^ model state
 ]
 
 { #category : #initialization }
@@ -33,7 +33,7 @@ SpToploProgressBarAdapter >> subscribeToWidget [
 { #category : #'as yet unclassified' }
 SpToploProgressBarAdapter >> updateFixedProgress [
 
-	^ self widget valueInPercentage: self progressBarState value asFloat
+	^ widget valueInPercentage: self progressBarState value asFloat
 ]
 
 { #category : #'as yet unclassified' }
@@ -56,11 +56,10 @@ SpToploProgressBarAdapter >> updateOngoingProgress [
 { #category : #'updating widget' }
 SpToploProgressBarAdapter >> updateState [
 
-	self widgetDo: [
-			self progressBarState class = SpIndeterminatedProgressBarState
-				ifTrue: [ self updateInfiniteProgress ]
-				ifFalse: [
-						self progressBarState class = SpFixedProgressBarState
-							ifTrue: [ self updateFixedProgress ]
-							ifFalse: [ self updateOngoingProgress ] ] ]
+	self progressBarState class = SpIndeterminatedProgressBarState
+		ifTrue: [ self updateInfiniteProgress ]
+		ifFalse: [
+			self progressBarState class = SpFixedProgressBarState
+				ifTrue: [ self updateFixedProgress ]
+				ifFalse: [ self updateOngoingProgress ] ]
 ]

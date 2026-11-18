@@ -95,6 +95,50 @@ SpToploMenuAdapterTest >> testMenuItemEnablementChanged [
 ]
 
 { #category : #tests }
+SpToploMenuAdapterTest >> testMenuItemShortcut [
+
+	| menu item widget shortcutLabel |
+	menu := SpMenuPresenter newApplication: application.
+	menu addItem: [ :it |
+		it
+			name: 'Packages';
+			shortcut: $p meta;
+			action: [ ] ].
+	widget := menu build.
+
+	item := widget items first.
+	self assert: item isEndFlexible.
+	self assert: item endElement hasChildren.
+
+	shortcutLabel := item endElement children first.
+	self assert: shortcutLabel isEnabled.
+	self assert: shortcutLabel text asString equals: '⌘P'
+]
+
+{ #category : #tests }
+SpToploMenuAdapterTest >> testMenuItemShortcutDisabled [
+
+	| menu itemPresenter widget item shortcutLabel |
+	menu := SpMenuPresenter newApplication: application.
+	menu addItem: [ :it |
+		itemPresenter := it.
+		it
+			name: 'Packages';
+			shortcut: $p meta;
+			enabled: true;
+			action: [ ] ].
+	widget := menu build.
+
+	item := widget items first.
+	shortcutLabel := item endElement children first.
+	self assert: shortcutLabel isEnabled.
+
+	itemPresenter enabled: false.
+	self deny: item isEnabled.
+	self deny: shortcutLabel isEnabled
+]
+
+{ #category : #tests }
 SpToploMenuAdapterTest >> testUnsubscribeRemovesSubscriptionsFromDynamicallyRemovedMenuItems [
 
 	| menu item slot |

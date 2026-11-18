@@ -9,5 +9,5 @@ Class {
 
 { #category : #testing }
 SpToploModalWindowAdapter >> isDisplayed [
-	^ self widget isOpened 
+	^ widget isOpened 
 ]

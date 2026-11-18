@@ -61,9 +61,8 @@ SpToploWindowLikeAdapter >> close [
 { #category : #'submorphs - add/remove' }
 SpToploWindowLikeAdapter >> delete [
 	
-	self widgetDo: [ :w |
-		w close.
-		model application windowClosed: self ]
+	widget close.
+	model application windowClosed: self
 ]
 
 { #category : #hook }
@@ -119,7 +118,7 @@ SpToploWindowLikeAdapter >> openSync [
 SpToploWindowLikeAdapter >> openWithDeferredAction: aBlockClosure [
 
 	Toplo defaultThemeClass ifNil: [
-		self widget space toTheme: self theme toTheme ].
+		widget space toTheme: self theme toTheme ].
 
 	model windowIsOpening.
 

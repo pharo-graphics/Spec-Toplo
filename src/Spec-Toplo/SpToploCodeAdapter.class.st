@@ -13,13 +13,12 @@ Class {
 { #category : #adding }
 SpToploCodeAdapter >> addTextSegmentDecoration: aDecorationSegment [
 
-	self widgetDo: [ :w |
-			| deco |
-			deco := (AlbSubtextElement editorElement: w next)
-				        interval: aDecorationSegment interval;
-				        background: aDecorationSegment highlightColor;
-				        yourself.
-				w next frontLayer addChild: deco. ]
+	| deco |
+	deco := (AlbSubtextElement editorElement: widget next)
+		        interval: aDecorationSegment interval;
+		        background: aDecorationSegment highlightColor;
+		        yourself.
+	widget next frontLayer addChild: deco
 ]
 
 { #category : #accessing }
@@ -40,30 +39,29 @@ SpToploCodeAdapter >> buildWidget [
 { #category : #testing }
 SpToploCodeAdapter >> hasSyntaxHighlightEnabled [
 
-	^ self widget styler hasSyntaxHighlightEnabled
+	^ widget styler hasSyntaxHighlightEnabled
 ]
 
 { #category : #'updating widget' }
 SpToploCodeAdapter >> insertPopoverAfterCurrentSelection: aPresenter style: styleName [
 
 	| popover |
-	self widgetDo: [ :w |
-			popover := self presenter newPopover
-				           presenter: aPresenter;
-				           yourself.
-			popover build.
-			styleName ifNotNil: [ popover addStyle: styleName ].
-			popover adapter popupWindowHandler placement:
-				(ToActionPlacement new action: [ :theWin :evt :aBoundsUpdater |
-						 | theElem theRoot |
-						 theElem := theWin anchorElement.
-						 theRoot := theWin anchorRoot.
-						 theWin position:
-							 theElem next beneathLayer children first bounds inSpace bounds
-								 right
-							 @
-							 theElem next beneathLayer children first bounds inSpace bounds
-								 top ]) ]
+	popover := model newPopover
+		           presenter: aPresenter;
+		           yourself.
+	popover build.
+	styleName ifNotNil: [ popover addStyle: styleName ].
+	popover adapter popupWindowHandler placement:
+		(ToActionPlacement new action: [ :theWin :evt :aBoundsUpdater |
+				 | theElem theRoot |
+				 theElem := theWin anchorElement.
+				 theRoot := theWin anchorRoot.
+				 theWin position:
+					 theElem next beneathLayer children first bounds inSpace bounds
+						 right
+					 @
+					 theElem next beneathLayer children first bounds inSpace bounds
+						 top ])
 ]
 
 { #category : #'updating widget' }
@@ -78,13 +76,13 @@ SpToploCodeAdapter >> interactionModel: anInteractionModel [
 { #category : #factory }
 SpToploCodeAdapter >> pasteText [
 
-	self widget editor paste
+	widget editor paste
 ]
 
 { #category : #removing }
 SpToploCodeAdapter >> removeAllTextSegmentDecorations [
 
-	self widgetDo: [ :w | w next frontLayer removeChildren ]
+	widget next frontLayer removeChildren
 ]
 
 { #category : #initialization }
@@ -103,7 +101,7 @@ SpToploCodeAdapter >> subscribeToWidget [
 
 	self
 		subscribeToWidgetEvent: ToAlbumSaveAcceptedEvent
-		do: [ :event | self model triggerSubmitAction ]
+		do: [ :event | model triggerSubmitAction ]
 ]
 
 { #category : #protocol }
@@ -128,10 +126,9 @@ SpToploCodeAdapter >> updateInteractionModel [
 		ifTrue: [ self updateStylerForScripting ]
 		ifFalse: [
 				self updateStylerFor: model interactionModel behavior.
-				self widgetDo: [ :w |
-						w
-							withSaveCapability;
-							whenSaveRequestedDo: [ :saveRequested | saveRequested accepted: true ] ] ]
+				widget
+					withSaveCapability;
+					whenSaveRequestedDo: [ :saveRequested | saveRequested accepted: true ] ]
 ]
 
 { #category : #'updating widget' }

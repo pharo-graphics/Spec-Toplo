@@ -12,7 +12,7 @@ Class {
 { #category : #accessing }
 SpToploLabelAdapter >> backgroundColor [
 
-	^ self widget attributesBuilder attributes
+	^ widget attributesBuilder attributes
 		  detect: [ :att | att isKindOf: BlTextBackgroundAttribute ]
 		  ifFound: [ :attribute | attribute paint ]
 		  ifNone: [ ^ nil ]
@@ -25,7 +25,7 @@ SpToploLabelAdapter >> beJustifyCenter [
 
 { #category : #accessing }
 SpToploLabelAdapter >> beWrap [
-	self widget beMultiLine
+	widget beMultiLine
 ]
 
 { #category : #factory }
@@ -68,8 +68,8 @@ SpToploLabelAdapter >> updateAll [
 { #category : #'updating widget' }
 SpToploLabelAdapter >> updateBackgroundColor [
 
-	self model displayBackgroundColor ifNotNil: [ :backgroundColorAction |
-		self widget attributesBuilder background: backgroundColorAction value ]
+	model displayBackgroundColor ifNotNil: [ :backgroundColorAction |
+		widget attributesBuilder background: backgroundColorAction value ]
 ]
 
 { #category : #'updating widget' }

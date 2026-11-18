@@ -151,7 +151,7 @@ SpToploBoxAdapter >> replace: aPresenter with: otherPresenter withConstraints: c
 				ifTrue: [ endPane ]
 				ifFalse: [ self error: 'Presenter not found' ] ].
 
-	otherPresenter owner: self presenter.
+	otherPresenter owner: model.
 
 	newElement := self 
 		newChildBlElement: otherPresenter

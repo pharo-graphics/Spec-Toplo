@@ -14,8 +14,8 @@ SpToploTreeColumnViewAdapter >> buildWidget [
 
 	widget := ToTreeTableElement new.
 	widget useScrollbar: true.
-	widget showHeader: self model isShowingColumnHeaders.
-	widget selecter multiple: self model selectionMode isMultipleSelection.
+	widget showHeader: model isShowingColumnHeaders.
+	widget selecter multiple: model selectionMode isMultipleSelection.
 	widget columns: self buildColumns.
 	widget nodeManager childrenGetter: [ :dataItem | model childrenFor: dataItem ].
 	^ widget
@@ -24,7 +24,7 @@ SpToploTreeColumnViewAdapter >> buildWidget [
 { #category : #testing }
 SpToploTreeColumnViewAdapter >> columnCount [
 
-	^ self widget columns size
+	^ widget columns size
 ]
 
 { #category : #'expanding-collapsing' }
@@ -49,7 +49,7 @@ SpToploTreeColumnViewAdapter >> itemAtPath: aPath [
 
 { #category : #updating }
 SpToploTreeColumnViewAdapter >> refreshTree [
-	self widget list notifyDataSourceChanged
+	widget list notifyDataSourceChanged
 ]
 
 { #category : #accessing }
@@ -61,10 +61,10 @@ SpToploTreeColumnViewAdapter >> scrollToSelection [
 SpToploTreeColumnViewAdapter >> selectedItem [
 
 	| selectedIndex |
-	selectedIndex := self widget selecter selectedIndex.
+	selectedIndex := widget selecter selectedIndex.
 	selectedIndex = 0 ifTrue: [ ^ nil ].
 
-	^ (self widget dataSource at: selectedIndex) dataItem
+	^ (widget dataSource at: selectedIndex) dataItem
 ]
 
 { #category : #initialization }
@@ -97,7 +97,7 @@ SpToploTreeColumnViewAdapter >> transferStrongSelection: evt [
 { #category : #initialization }
 SpToploTreeColumnViewAdapter >> treeWidget [
 
-	^ self widget list
+	^ widget list
 ]
 
 { #category : #'updating widget' }
@@ -125,5 +125,5 @@ SpToploTreeColumnViewAdapter >> updateSelectionMode [
 
 	widget ifNil: [ ^ self ].
 	widget selecter multiple:
-		self model selectionMode isMultipleSelection
+		model selectionMode isMultipleSelection
 ]

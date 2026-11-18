@@ -22,7 +22,7 @@ SpToploLayoutAdapter >> add: aPresenter constraints: constraints [
 	Inspired on SpMorphicLayoutAdapter>>#add:constraints:"
 
 	| aBlElement |
-	aPresenter owner: self presenter. 
+	aPresenter owner: model. 
 
 	aBlElement := self 
 		newChildBlElement: aPresenter
@@ -56,14 +56,14 @@ SpToploLayoutAdapter >> buildWidget [
 SpToploLayoutAdapter >> buildWithSelector: aSelector [
 	"Inspired on SpMorphicLayoutAdapter>>#buildWithSelector:"
 
-	^ self widget
+	^ widget
 ]
 
 { #category : #accessing }
 SpToploLayoutAdapter >> children [
 	"Debug API. Answer the widgets added to this layout."
 
-	^ self widget children
+	^ widget children
 ]
 
 { #category : #testing }
@@ -119,7 +119,7 @@ SpToploLayoutAdapter >> newToploWidget [
 { #category : #adding }
 SpToploLayoutAdapter >> remove: aPresenter [
 
-	self widget removeChild: aPresenter adapter widget
+	widget removeChild: aPresenter adapter widget
 ]
 
 { #category : #initialization }

@@ -10,7 +10,7 @@ Class {
 	#category : #'Spec-Toplo-Adapters'
 }
 
-{ #category : #building }
+{ #category : #factory }
 SpToploPopoverAdapter >> buildWidget [
 
 	| contentWidget |
@@ -23,7 +23,7 @@ SpToploPopoverAdapter >> buildWidget [
 		fitContent;
 		yourself.
 
-	self model presenter ifNotNil: [ :p |
+	model presenter ifNotNil: [ :p |
 		contentWidget := p build.
 		contentWidget fitContent.
 		widget addChild: contentWidget ].
@@ -47,7 +47,7 @@ SpToploPopoverAdapter >> dismiss [
 { #category : #private }
 SpToploPopoverAdapter >> ensureAnchorElement [
 
-	self presenter relativeTo ifNotNil: [ :aPresenter |
+	model relativeTo ifNotNil: [ :aPresenter |
 		aPresenter withAdapterDo: [ :anAdapter |
 			| anchor |
 			anchor := anAdapter widget.
@@ -70,8 +70,8 @@ SpToploPopoverAdapter >> popupModal: aBoolean pointingTo: aRectangle [
 	self ensureAnchorElement.
 	popupWindowHandler placement: (self popupPlacementPointingTo: aRectangle).
 	popupWindowHandler popup.
-	self presenter isTransferFocus ifTrue: [ self presenter takeKeyboardFocus ].
-	self presenter popoverOpened
+	model isTransferFocus ifTrue: [ model takeKeyboardFocus ].
+	model popoverOpened
 ]
 
 { #category : #'private - positioning' }
@@ -88,9 +88,9 @@ SpToploPopoverAdapter >> popupPositionFor: aWindow pointingTo: aRectangle [
 	| targetBounds centeredX |
 	targetBounds := self popupTargetBoundsFor: aRectangle window: aWindow.
 	centeredX := targetBounds topCenter x - (aWindow measuredWidth / 2.0).
-	self presenter position == SpPopoverPosition top ifTrue: [ ^ centeredX @ (targetBounds top - aWindow measuredHeight) ].
-	self presenter position == SpPopoverPosition left ifTrue: [ ^ targetBounds left - aWindow measuredWidth @ targetBounds top ].
-	self presenter position == SpPopoverPosition right ifTrue: [ ^ targetBounds right @ targetBounds top ].
+	model position == SpPopoverPosition top ifTrue: [ ^ centeredX @ (targetBounds top - aWindow measuredHeight) ].
+	model position == SpPopoverPosition left ifTrue: [ ^ targetBounds left - aWindow measuredWidth @ targetBounds top ].
+	model position == SpPopoverPosition right ifTrue: [ ^ targetBounds right @ targetBounds top ].
 	^ centeredX @ targetBounds bottom
 ]
 

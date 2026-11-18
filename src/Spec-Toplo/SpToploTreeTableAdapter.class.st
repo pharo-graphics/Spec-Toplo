@@ -8,6 +8,6 @@ Class {
 SpToploTreeTableAdapter >> buildWidget [
 
 	super buildWidget.
-	widget nodeManager lazilyComputeChildren: self model shouldLazilyComputeChildren.
+	widget nodeManager lazilyComputeChildren: model shouldLazilyComputeChildren.
 	^ widget
 ]

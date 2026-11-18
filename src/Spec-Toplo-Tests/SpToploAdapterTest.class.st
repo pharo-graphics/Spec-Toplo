@@ -23,6 +23,30 @@ SpToploAdapterTest >> tearDown [
 ]
 
 { #category : #tests }
+SpToploAdapterTest >> testAdapterInstallsShortcutsFromActions [
+
+	| presenter group shortcut buffer |
+	group := CmCommandGroup new asSpecGroup.
+	group register:
+		(SpAction new
+			name: 'Test';
+			shortcutKey: $p meta;
+			action: [ ];
+			yourself).
+
+	presenter := application instantiate: SpTablePresenter.
+	presenter actions: group.
+	presenter build.
+
+	buffer := BlKeyboardBuffer new
+		          add: (BlKeyDownEvent new key: KeyboardKey metaLeft);
+		          add: (BlKeyDownEvent new key: KeyboardKey P);
+		          yourself.
+	shortcut := presenter adapter widget shortcuts detect: [ :s | s matches: buffer ] ifNone: [ nil ].
+	self assert: shortcut isNotNil
+]
+
+{ #category : #tests }
 SpToploAdapterTest >> testAdapterUnsubscribeRemovesSubscriptions [
 
 	| presenter adapter |

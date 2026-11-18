@@ -16,7 +16,9 @@ SpToploMenuLikeAdapter >> addMenuFor: item into: parentMenu [
 		ifNil: [
 			toploItem := ToMenuItem new.
 			item action ifNotNil: [
-				toploItem clickAction: [ (self isItemEnabled: item) ifTrue: [ item performMenuActionWith: toploItem ] ] ] ]
+				toploItem clickAction: [
+					(self isItemEnabled: item) ifTrue: [
+						item performMenuActionWith: toploItem ] ] ] ]
 		ifNotNil: [ :subMenuPresenter |
 			toploItem := ToMenu new.
 			self addMenuGroups: subMenuPresenter menuGroups into: toploItem ].
@@ -25,6 +27,15 @@ SpToploMenuLikeAdapter >> addMenuFor: item into: parentMenu [
 	item icon ifNotNil: [ :o | toploItem iconImage: o ].
 	item description ifNotNil: [ :o | toploItem tooltipText: o ].
 	toploItem enabled: (self isItemEnabled: item).
+
+	self shortcutTextIn: item ifPresent: [ :text |
+		| shortcutLabel |
+		shortcutLabel := ToLabel text: text.
+		shortcutLabel enabled: (self isItemEnabled: item).
+		toploItem endElement addChild: shortcutLabel.
+		toploItem endFlexible: true.
+		item whenEnabledChangedDo: [
+			shortcutLabel enabled: (self isItemEnabled: item) ] ].
 
 	presenterSubscriptions add: item.
 
@@ -57,6 +68,16 @@ SpToploMenuLikeAdapter >> isItemEnabled: anItem [
 		ifTrue: [ itemEnabled := itemEnabled cull: anItem ].
 
 	^ itemEnabled ifNil: [ true ]
+]
+
+{ #category : #private }
+SpToploMenuLikeAdapter >> shortcutTextIn: anItem ifPresent: aBlock [
+
+	| shortcut |
+	shortcut := anItem shortcut ifNil: [ ^ self ].
+	aBlock value: (shortcut isString
+		ifTrue: [ shortcut ]
+		ifFalse: [ KMShortcutPrinter toString: shortcut asKeyCombination ])
 ]
 
 { #category : #factory }

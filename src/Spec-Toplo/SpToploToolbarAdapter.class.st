@@ -20,7 +20,7 @@ SpToploToolbarAdapter >> buildWidget [
 { #category : #testing }
 SpToploToolbarAdapter >> hasButtonWithLabel: aString [
 
-	^ self widget dataSource collection
+	^ widget dataSource collection
 		  detect: [ :element |
 				  (element isKindOf: ToMenuItem) and: [
 					  element label text asString = aString ] ]
@@ -37,7 +37,7 @@ SpToploToolbarAdapter >> newItemFor: aSpToolbarButtonPresenter [
 { #category : #testing }
 SpToploToolbarAdapter >> numberOfItems [
 
-	^ self widget dataSource collection count: [ :each | each class ~= ToMenuFiller ]
+	^ widget dataSource collection count: [ :each | each class ~= ToMenuFiller ]
 ]
 
 { #category : #initialization }
