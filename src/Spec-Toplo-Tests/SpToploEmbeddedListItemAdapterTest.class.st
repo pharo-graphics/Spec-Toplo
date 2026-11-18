@@ -53,19 +53,12 @@ SpToploEmbeddedListItemAdapterTest >> newNestedRowPresenterFrom: aPresenter [
 	^ row
 ]
 
-{ #category : #running }
-SpToploEmbeddedListItemAdapterTest >> setUp [
+{ #category : #private }
+SpToploEmbeddedListItemAdapterTest >> performTest [
 
-	super setUp.
-	application := SpApplication new.
-	application useBackend: #Toplo
-]
-
-{ #category : #running }
-SpToploEmbeddedListItemAdapterTest >> tearDown [
-
-	application ifNotNil: [ application windows do: [ :each | each delete ] ].
-	super tearDown
+	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
+		application := testApplication.
+		super performTest ]
 ]
 
 { #category : #tests }
