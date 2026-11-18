@@ -24,15 +24,15 @@ SpToploTabAdapter >> adapterWasBuilt [
 { #category : #adding }
 SpToploTabAdapter >> add: aPresenter constraints: constraints [
 
-	aPresenter owner: self presenter.
+	aPresenter owner: model.
 	constraintsByPresenter at: aPresenter put: constraints.
-	self widget addTabItemData: aPresenter
+	widget addTabItemData: aPresenter
 ]
 
 { #category : #accessing }
 SpToploTabAdapter >> children [
 
-	^ self widget items collection
+	^ widget items collection
 ]
 
 { #category : #factory }
@@ -48,7 +48,7 @@ SpToploTabAdapter >> embeddableWidgetFor: aPresenter withConstraints: constraint
 SpToploTabAdapter >> ensureLabelBuilt: aPresenter [
 
 	aPresenter hasAdapter ifFalse: [
-			aPresenter hasOwner ifFalse: [ aPresenter owner: self presenter ].
+			aPresenter hasOwner ifFalse: [ aPresenter owner: model ].
 			aPresenter build ].
 	^ aPresenter adapter widget
 ]
@@ -56,8 +56,8 @@ SpToploTabAdapter >> ensureLabelBuilt: aPresenter [
 { #category : #factory }
 SpToploTabAdapter >> ensurePresenterBuilt: aPresenter withConstraints: constraints [
 
-	(aPresenter hasAdapter and: [ aPresenter owner = self presenter ]) ifFalse: [
-		aPresenter owner: self presenter.
+	(aPresenter hasAdapter and: [ aPresenter owner = model ]) ifFalse: [
+		aPresenter owner: model.
 		aPresenter buildWithSelector: constraints spec ].
 	^ aPresenter adapter widget
 ]
@@ -100,16 +100,16 @@ SpToploTabAdapter >> remove: aPresenter [
 	| tabButton |
 
 	constraintsByPresenter removeKey: aPresenter ifAbsent: [  ].
-	tabButton := self widget items collection
+	tabButton := widget items collection
 		detect: [ :each | (each userData at: #adapterPresenter ifAbsent: [ nil ]) = aPresenter ]
 		ifNone: [ nil ].
-	tabButton ifNotNil: [ self widget removeItem: tabButton ]
+	tabButton ifNotNil: [ widget removeItem: tabButton ]
 ]
 
 { #category : #accessing }
 SpToploTabAdapter >> selectIndex: aNumber [
 
-	self widget selectedAtPosition: aNumber
+	widget selectedAtPosition: aNumber
 ]
 
 { #category : #factory }

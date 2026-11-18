@@ -21,7 +21,7 @@ SpToploPaginatorAdapter >> buildWidget [
 	list
 		beHorizontal;
 		matchParent;
-		addAllItems: (self model pages collect: [ :aPageDescription |
+		addAllItems: (model pages collect: [ :aPageDescription |
 					 self entryForPage: aPageDescription ]).
 	rootPane addChild: list.
 	^ rootPane
@@ -61,5 +61,5 @@ SpToploPaginatorAdapter >> subscribeToWidget [
 		on: list
 		do: [ :event |
 			event selectedIndexes ifNotEmpty: [
-				self presenter selectPage: event selectedIndexes anyOne ] ]
+				model selectPage: event selectedIndexes anyOne ] ]
 ]

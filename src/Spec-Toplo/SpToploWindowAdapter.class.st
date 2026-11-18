@@ -9,7 +9,7 @@ Class {
 
 { #category : #activation }
 SpToploWindowAdapter >> activate [
-	"self widget toFront"
+	"widget toFront"
 
 	self flag: 
 		#'toImplement - seem to have missing stuff in BlOSWindowSDL2HostSpace'
@@ -18,13 +18,13 @@ SpToploWindowAdapter >> activate [
 { #category : #activation }
 SpToploWindowAdapter >> isDisplayed [
 
-	^ self widget isVisible
+	^ widget isVisible
 ]
 
 { #category : #testing }
 SpToploWindowAdapter >> isTopWindow [
 
-	^ self widget isFocused
+	^ widget isFocused
 ]
 
 { #category : #hook }
@@ -36,7 +36,7 @@ SpToploWindowAdapter >> newRootElement [
 { #category : #'window management' }
 SpToploWindowAdapter >> restore [
 
-	self widget show
+	widget show
 ]
 
 { #category : #accessing }

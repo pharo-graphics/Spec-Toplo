@@ -11,8 +11,8 @@ Class {
 SpToploToolbarPopoverButtonAdapter >> updateAction [
 
 	widget clickAction: [
-			self presenter newPopover
+			model newPopover
 				addStyle: 'popoverButton';
-				presenter: self presenter content value;
+				presenter: model content value;
 				popup ]
 ]

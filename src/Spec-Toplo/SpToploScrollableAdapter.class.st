@@ -10,7 +10,7 @@ Class {
 { #category : #adding }
 SpToploScrollableAdapter >> addChildElement: aToElement with: aSpBoxConstraints [
 	 
-	self widget children first addChild: aToElement
+	widget children first addChild: aToElement
 ]
 
 { #category : #adding }
@@ -103,7 +103,7 @@ SpToploScrollableAdapter >> remove: aPresenter [
 { #category : #accessing }
 SpToploScrollableAdapter >> scrollableElement [
 
-	^ self widget children first
+	^ widget children first
 ]
 
 { #category : #adding }

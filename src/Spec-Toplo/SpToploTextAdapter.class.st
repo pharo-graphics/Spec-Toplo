@@ -10,7 +10,7 @@ Class {
 { #category : #'accessing - text' }
 SpToploTextAdapter >> appendText: aString [
 
-	self widget text append: aString asRopedText
+	widget text append: aString asRopedText
 ]
 
 { #category : #factory }

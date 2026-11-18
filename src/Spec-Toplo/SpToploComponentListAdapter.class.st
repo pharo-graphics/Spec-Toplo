@@ -11,7 +11,7 @@ Class {
 SpToploComponentListAdapter >> children [
 	"The list items are presenters: answer the widgets built for them."
 
-	^ self widget dataAccessor collect: [ :itemPresenter | itemPresenter adapter widget ]
+	^ widget dataAccessor collect: [ :itemPresenter | itemPresenter adapter widget ]
 ]
 
 { #category : #'instance creation' }

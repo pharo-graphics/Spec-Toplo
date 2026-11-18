@@ -25,8 +25,8 @@ SpToploDropListAdapter >> buildWidget [
 { #category : #accessing }
 SpToploDropListAdapter >> displayedIcon [
 
-	self model hasIcons ifFalse: [ ^ nil ].
-	^ self widget icon
+	model hasIcons ifFalse: [ ^ nil ].
+	^ widget icon
 ]
 
 { #category : #accessing }
@@ -55,7 +55,7 @@ SpToploDropListAdapter >> newItemElementFor: aSpDropListItem [
 { #category : #'api - selection' }
 SpToploDropListAdapter >> selectIndex: anInteger [
 
-	self widget selecter selectIndex: anInteger
+	widget selecter selectIndex: anInteger
 ]
 
 { #category : #accessing }

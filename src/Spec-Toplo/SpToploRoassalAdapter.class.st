@@ -14,7 +14,7 @@ Class {
 SpToploRoassalAdapter >> adapt: aComposableModel [
 
 	super adapt: aComposableModel.
-	canvas := self model canvas.
+	canvas := model canvas.
 	self applyScript
 ]
 
@@ -24,7 +24,7 @@ SpToploRoassalAdapter >> applyScript [
 	| extent |
 	extent := canvas extent.
 	self freeCanvas.
-	self model script value: canvas.
+	model script value: canvas.
 	canvas notifyExtentChanged: extent.
 	self updateBlocElement
 ]

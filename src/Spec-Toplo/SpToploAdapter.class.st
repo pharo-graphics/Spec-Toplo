@@ -46,13 +46,27 @@ SpToploAdapter >> adaptToploWidget [
 ]
 
 { #category : #initialization }
+SpToploAdapter >> addKeyBindingsFromGroup: anActionGroup [
+
+	anActionGroup asKMCategory allEntries keymaps do: [ :each |
+		self
+			bindKeyCombination: each shortcut
+			toAction: each action ]
+]
+
+{ #category : #initialization }
 SpToploAdapter >> addShortcuts [
 
-	model contextKeyBindings ifNotNil: [ :aCategory | 
+	model internalActions ifNotNil: [ :actionGroup |
+		self addKeyBindingsFromGroup: actionGroup ].
+	model actions ifNotNil: [ :actionGroup |
+		self addKeyBindingsFromGroup: actionGroup ].
+
+	model contextKeyBindings ifNotNil: [ :aCategory |
+		model actions ifNotNil: [
+			Error signal: 'You are using contextKeyBindings: and actions: at the same time. Both mechanisms are mutually exclusive.' ].
 		aCategory allEntries keymaps do: [ :each |
-			self
-				bindKeyCombination: each shortcut 
-				toAction: each action ] ]
+			self bindKeyCombination: each shortcut toAction: each action ] ]
 ]
 
 { #category : #adding }
@@ -172,7 +186,7 @@ SpToploAdapter >> unsubscribeFromPresenter [
 
 	model ifNotNil: [ :aPresenter |
 		aPresenter hasAnnouncer ifTrue: [
-			self widgetDo: [ :aWidget | aPresenter announcer unsubscribe: aWidget ].
+			widget ifNotNil: [ aPresenter announcer unsubscribe: widget ].
 			aPresenter announcer unsubscribe: self ] ]
 ]
 

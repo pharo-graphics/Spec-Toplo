@@ -26,7 +26,7 @@ SpMorphicBlocAdapter >> buildWidget [
 	space show.
 
 	self refreshBlocElement.
-	self presenter whenBlocElementChangedDo: [ self refreshBlocElement ].
+	model whenBlocElementChangedDo: [ self refreshBlocElement ].
 	
 	^ widget
 ]

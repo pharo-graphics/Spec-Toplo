@@ -17,7 +17,7 @@ SpToploTreeAdapter >> buildWidget [
 	tree useScrollbar: true.
 	"tree withRowNumbers. USEFUL TO DEBUG"
 
-	tree selecter multiple: self model selectionMode isMultipleSelection.
+	tree selecter multiple: model selectionMode isMultipleSelection.
 	tree nodeManager childrenGetter: [ :dataItem |
 		model childrenFor: dataItem ].
 
@@ -35,7 +35,7 @@ SpToploTreeAdapter >> collapseAll [
 { #category : #private }
 SpToploTreeAdapter >> collapsePath: aPath [
 
-	(self widget dataSource itemsAtPath: aPath) last collapse
+	(widget dataSource itemsAtPath: aPath) last collapse
 ]
 
 { #category : #'expanding-collapsing' }
@@ -137,7 +137,7 @@ SpToploTreeAdapter >> transferStrongSelection: evt [
 { #category : #initialization }
 SpToploTreeAdapter >> treeWidget [
 
-	^ self widget
+	^ widget
 ]
 
 { #category : #initialization }
@@ -174,5 +174,5 @@ SpToploTreeAdapter >> updateSelectionMode [
 
 	widget ifNil: [ ^ self ].
 	widget selecter multiple:
-		self model selectionMode isMultipleSelection
+		model selectionMode isMultipleSelection
 ]

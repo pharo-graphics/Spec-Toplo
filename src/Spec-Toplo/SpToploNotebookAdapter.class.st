@@ -39,14 +39,14 @@ SpToploNotebookAdapter >> buildWidget [
 
 			tabButton paneBuilder: [ :pane |
 				pane addChild: (self buildContentForPage: aData) ] ].
-	self presenter pages do: [ :page | tabPanel addTabItemData: page ].
+	model pages do: [ :page | tabPanel addTabItemData: page ].
 
 	"force first page to be drawn"
-	self presenter selectedPage ifNil: [ "cannot select a page if there is not"
-		self presenter pages ifNotEmpty: [
-			self presenter selectPageIndex: 1 ] ].
+	model selectedPage ifNil: [ "cannot select a page if there is not"
+		model pages ifNotEmpty: [
+			model selectPageIndex: 1 ] ].
 
-	tabPanel selecter selectIndex: self presenter selectedPageIndex.
+	tabPanel selecter selectIndex: model selectedPageIndex.
 	tabPanel requestFocus.
 	^ tabPanel
 ]
@@ -54,18 +54,18 @@ SpToploNotebookAdapter >> buildWidget [
 { #category : #test }
 SpToploNotebookAdapter >> clickTab: anInteger [
 
-	(self widget dataSource at: anInteger) eventSimulator click
+	(widget dataSource at: anInteger) eventSimulator click
 ]
 
 { #category : #factory }
 SpToploNotebookAdapter >> ensurePage: aPage isBuiltWithPresenter: presenter [
 
 	"is already built *for this notebook (owner)*"
-	(presenter hasAdapter and: [ presenter owner = self presenter ]) 
+	(presenter hasAdapter and: [ presenter owner = model ]) 
 		ifTrue: [ ^ self ].
 
 	"if not built or not same owner, I need to rebuild"
-	presenter owner: self presenter.
+	presenter owner: model.
 	presenter build
 
 ]
@@ -78,14 +78,14 @@ SpToploNotebookAdapter >> modelOfTab: tabButton [
 
 { #category : #'as yet unclassified' }
 SpToploNotebookAdapter >> numberOfTabs [
-	^ self widget dataSource size
+	^ widget dataSource size
 ]
 
 { #category : #factory }
 SpToploNotebookAdapter >> pageWithModel: anObject [
 	"an utility to easy find pages with a model"
  
-	^ self widget dataSource collection detect: [ :tabButton |
+	^ widget dataSource collection detect: [ :tabButton |
 			 (self modelOfTab: tabButton) = anObject ]
 ]
 
@@ -96,15 +96,15 @@ SpToploNotebookAdapter >> selectPage: page [
 	"SpNotebookAdapterTest>>#testRemoveAll"
 
 	page ifNil: [ ^ nil ].
-	self widget selectedAtPosition:
-		(self widget dataSource collection detect: [ :tabButton |
+	widget selectedAtPosition:
+		(widget dataSource collection detect: [ :tabButton |
 			 (self modelOfTab: tabButton) = page ]) holder position
 ]
 
 { #category : #'inspector compatibility' }
 SpToploNotebookAdapter >> selectedPageName [
 
-	^ (self widget dataSource at: self widget selecter selectedIndex)
+	^ (widget dataSource at: widget selecter selectedIndex)
 		  labelText
 ]
 
@@ -138,8 +138,8 @@ SpToploNotebookAdapter >> subscribeToWidget [
 SpToploNotebookAdapter >> updatePageContent: aPage [
 
 	(self pageWithModel: aPage) invalidate.
-	aPage = self presenter selectedPage ifFalse: [ ^ self ].
-	self updatePageIndex: self model selectedPageIndex
+	aPage = model selectedPage ifFalse: [ ^ self ].
+	self updatePageIndex: model selectedPageIndex
 ]
 
 { #category : #private }
@@ -147,32 +147,32 @@ SpToploNotebookAdapter >> updatePageIndex: anInteger [
 
 	| newPage widgetPage |
 
-	newPage := self model pages at: anInteger.
+	newPage := model pages at: anInteger.
 	widgetPage := self widgetPageAtIndex: anInteger.
 	widgetPage paneBuilder: [ :pane | pane addChild: (self buildContentForPage: newPage) ].
 	widgetPage bodyPane: nil.
-	self widget itemList dataSource notifyChanged.
-	(self widget itemList isSelectedAtPosition: anInteger) ifFalse: [ ^ self ].
-	self widget body removeChildren.
-	(widgetPage paneBuilder value: self widget body)
+	widget itemList dataSource notifyChanged.
+	(widget itemList isSelectedAtPosition: anInteger) ifFalse: [ ^ self ].
+	widget body removeChildren.
+	(widgetPage paneBuilder value: widget body)
 ]
 
 { #category : #factory }
 SpToploNotebookAdapter >> updatePagesWith: aCollection [
 
 	| pagesToRemove |
-	self widget ifNil: [ ^ self ].
+	widget ifNil: [ ^ self ].
 
-	pagesToRemove := self widget dataAccessor reject: [ :tabButton |
+	pagesToRemove := widget dataAccessor reject: [ :tabButton |
 		                 aCollection anySatisfy: [ :page | page = (self modelOfTab: tabButton) ] ].
-	pagesToRemove do: [ :tabButton | self widget removeItem: tabButton ].
+	pagesToRemove do: [ :tabButton | widget removeItem: tabButton ].
 	aCollection
-		reject: [ :page | self widget dataAccessor anySatisfy: [ :p | (self modelOfTab: p) = page ] ]
-		thenDo: [ :page | self widget addTabItemData: page ]
+		reject: [ :page | widget dataAccessor anySatisfy: [ :p | (self modelOfTab: p) = page ] ]
+		thenDo: [ :page | widget addTabItemData: page ]
 ]
 
 { #category : #initialization }
 SpToploNotebookAdapter >> widgetPageAtIndex: anIndex [
 
-	^ self widget dataAccessor at: anIndex
+	^ widget dataAccessor at: anIndex
 ]

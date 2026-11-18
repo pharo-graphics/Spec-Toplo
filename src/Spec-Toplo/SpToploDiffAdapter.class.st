@@ -14,49 +14,49 @@ SpToploDiffAdapter >> buildWidget [
 		  from: self leftText
 		  to: self rightText
 		  contextClass: self contextClass;
-		  leftLabel: self model leftLabel;
-		  rightLabel: self model rightLabel;
+		  leftLabel: model leftLabel;
+		  rightLabel: model rightLabel;
 		  yourself
 ]
 
 { #category : #factory }
 SpToploDiffAdapter >> contextClass [
 
-	^ self model contextClass
+	^ model contextClass
 ]
 
 { #category : #factory }
 SpToploDiffAdapter >> leftText [
 
-	^ self model leftText
+	^ model leftText
 ]
 
 { #category : #factory }
 SpToploDiffAdapter >> leftText: aLeftText [
 
-	^ self widget srcText: aLeftText
+	^ widget srcText: aLeftText
 ]
 
 { #category : #factory }
 SpToploDiffAdapter >> rightText [
 
-	^ self model rightText
+	^ model rightText
 ]
 
 { #category : #factory }
 SpToploDiffAdapter >> rightText: aRightText [
 
-	^ self widget targetText: aRightText
+	^ widget targetText: aRightText
 ]
 
 { #category : #factory }
 SpToploDiffAdapter >> showOnlyDestination: aBoolean [
 
-	self widgetDo: [ :wid | wid showOnlyDestination: aBoolean ]
+	widget showOnlyDestination: aBoolean
 ]
 
 { #category : #factory }
 SpToploDiffAdapter >> showOnlySource: aBoolean [
 
-	self widgetDo: [ :wid | wid showOnlySource: aBoolean ]
+	widget showOnlySource: aBoolean
 ]
