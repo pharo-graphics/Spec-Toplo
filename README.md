@@ -11,7 +11,7 @@ Spec is a [Pharo](https://pharo.org/) library for describing user interfaces. Yo
 
 More concretely, a Spec UI is a tree of `SpPresenter`, that is opened in the context of an application (`SpApplication`) that, among others, indicates what is the backend.
 
-Our backend (`SpToploBackend`) provides the adapters (hierarchy of `SpToploAdapter`) to make the `Toplo` widgets to act as the tree of presenters describe.
+Our backend (`SpToploBackend`) provides the adapters (hierarchy of `SpToploAdapter`) to make the `Toplo` widgets to act as the tree of presenters describe. See [Adapter Conventions](doc/AdapterConventions.md) for architectural guidelines and lifecycle conventions.
 
 Other Spec backends are:
 - Morphic (the default)
@@ -105,6 +105,11 @@ For the underlying Bloc concurrency model, testing, and layout mechanics, refer 
 - [Concurrency and Synchronization](https://github.com/pharo-graphics/Bloc/blob/dev/doc/2-ConcurrencyAndSynchronization.md): The host pulse loop, `#settle`, `#deferAndSettle:`, and pulse process safety.
 - [Testing and Simulating Interactions](https://github.com/pharo-graphics/Bloc/blob/dev/doc/TestingInteractions.md): Programmatic event simulation with `BlEventSimulator`.
 - [Layout and Constraints](https://github.com/pharo-graphics/Bloc/blob/dev/doc/LayoutAndConstraints.md): Measurement passes, resizers, and layout events.
+
+
+### Adapter Architecture & Conventions
+
+When implementing or modifying adapters in `Spec-Toplo`, follow the architecture guidelines, lifecycle hooks, and synchronization rules described in [Adapter Conventions](doc/AdapterConventions.md).
 
 
 ## Branches & Contributions
