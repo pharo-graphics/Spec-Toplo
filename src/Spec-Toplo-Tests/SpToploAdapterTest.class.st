@@ -53,7 +53,7 @@ SpToploAdapterTest >> testAdapterUnsubscribeRemovesSubscriptions [
 	presenter := application instantiate: SpLabelPresenter.
 	presenter build.
 	adapter := presenter adapter.
-	self assert: ((presenter observablePropertyNamed: #visible) instVarNamed: 'subscriptions') isNotEmpty.
+	self denyEmpty: ((presenter observablePropertyNamed: #visible) instVarNamed: 'subscriptions').
 
 	adapter unsubscribe.
 	self assert: (((presenter observablePropertyNamed: #visible) instVarNamed: 'subscriptions') noneSatisfy: [ :sub | sub receiver == adapter ])
@@ -71,7 +71,7 @@ SpToploAdapterTest >> testAthensAdapterUnsubscribesFromWidget [
 
 	adapter unsubscribe.
 	self deny: (adapter widget eventDispatcher hasHandler: handler).
-	self assert: adapter widgetEventHandlers isEmpty
+	self assertEmpty: adapter widgetEventHandlers
 ]
 
 { #category : #tests }
@@ -86,7 +86,7 @@ SpToploAdapterTest >> testCheckBoxAdapterUnsubscribesFromWidget [
 
 	adapter unsubscribe.
 	self deny: (adapter widget eventDispatcher hasHandler: handler).
-	self assert: adapter widgetEventHandlers isEmpty
+	self assertEmpty: adapter widgetEventHandlers
 ]
 
 { #category : #tests }
@@ -136,7 +136,7 @@ SpToploAdapterTest >> testCodeAdapterUnsubscribesFromWidget [
 
 	adapter unsubscribe.
 	self deny: (adapter widget eventDispatcher hasHandler: handler).
-	self assert: adapter widgetEventHandlers isEmpty
+	self assertEmpty: adapter widgetEventHandlers
 ]
 
 { #category : #tests }
@@ -154,7 +154,7 @@ SpToploAdapterTest >> testColumnViewAdapterUnsubscribesFromWidget [
 
 	adapter unsubscribe.
 	handlers do: [ :each | self deny: (adapter widget list eventDispatcher hasHandler: each) ].
-	self assert: adapter widgetEventHandlers isEmpty
+	self assertEmpty: adapter widgetEventHandlers
 ]
 
 { #category : #tests }
@@ -170,7 +170,7 @@ SpToploAdapterTest >> testDropListAdapterUnsubscribesFromWidget [
 
 	adapter unsubscribe.
 	self deny: (adapter widget eventDispatcher hasHandler: handler).
-	self assert: adapter widgetEventHandlers isEmpty
+	self assertEmpty: adapter widgetEventHandlers
 ]
 
 { #category : #tests }
@@ -205,7 +205,7 @@ SpToploAdapterTest >> testElementAdapterSubscribeToWidgetEvent [
 
 	adapter unsubscribe.
 	self deny: (adapter widget eventDispatcher hasHandler: handler).
-	self assert: adapter widgetEventHandlers isEmpty
+	self assertEmpty: adapter widgetEventHandlers
 ]
 
 { #category : #tests }
@@ -237,7 +237,7 @@ SpToploAdapterTest >> testListAdapterUnsubscribesFromWidget [
 
 	adapter unsubscribe.
 	handlers do: [ :each | self deny: (adapter widget eventDispatcher hasHandler: each) ].
-	self assert: adapter widgetEventHandlers isEmpty
+	self assertEmpty: adapter widgetEventHandlers
 ]
 
 { #category : #tests }
@@ -254,7 +254,7 @@ SpToploAdapterTest >> testMillerAdapterUnsubscribesFromWidget [
 
 	adapter unsubscribe.
 	self deny: (spaceRoot eventDispatcher hasHandler: handler).
-	self assert: adapter widgetEventHandlers isEmpty
+	self assertEmpty: adapter widgetEventHandlers
 ]
 
 { #category : #tests }
@@ -270,7 +270,7 @@ SpToploAdapterTest >> testNotebookAdapterUnsubscribesFromWidget [
 
 	adapter unsubscribe.
 	self deny: (adapter widget itemList eventDispatcher hasHandler: handler).
-	self assert: adapter widgetEventHandlers isEmpty
+	self assertEmpty: adapter widgetEventHandlers
 ]
 
 { #category : #tests }
@@ -285,7 +285,7 @@ SpToploAdapterTest >> testPaginatorAdapterUnsubscribesFromWidget [
 
 	adapter unsubscribe.
 	self deny: (adapter list eventDispatcher hasHandler: handler).
-	self assert: adapter widgetEventHandlers isEmpty
+	self assertEmpty: adapter widgetEventHandlers
 ]
 
 { #category : #tests }
@@ -300,7 +300,7 @@ SpToploAdapterTest >> testRadioButtonAdapterUnsubscribesFromWidget [
 
 	adapter unsubscribe.
 	self deny: (adapter widget eventDispatcher hasHandler: handler).
-	self assert: adapter widgetEventHandlers isEmpty
+	self assertEmpty: adapter widgetEventHandlers
 ]
 
 { #category : #tests }
@@ -336,7 +336,7 @@ SpToploAdapterTest >> testToggleButtonAdapterUnsubscribesFromWidget [
 
 	adapter unsubscribe.
 	self deny: (adapter widget eventDispatcher hasHandler: handler).
-	self assert: adapter widgetEventHandlers isEmpty
+	self assertEmpty: adapter widgetEventHandlers
 ]
 
 { #category : #tests }
@@ -370,7 +370,7 @@ SpToploAdapterTest >> testTreeAdapterUnsubscribesFromWidget [
 
 	adapter unsubscribe.
 	handlers do: [ :each | self deny: (adapter widget eventDispatcher hasHandler: each) ].
-	self assert: adapter widgetEventHandlers isEmpty
+	self assertEmpty: adapter widgetEventHandlers
 ]
 
 { #category : #tests }
@@ -388,7 +388,7 @@ SpToploAdapterTest >> testTreeColumnViewAdapterUnsubscribesFromWidget [
 
 	adapter unsubscribe.
 	handlers do: [ :each | self deny: (adapter widget list eventDispatcher hasHandler: each) ].
-	self assert: adapter widgetEventHandlers isEmpty
+	self assertEmpty: adapter widgetEventHandlers
 ]
 
 { #category : #tests }
@@ -444,7 +444,7 @@ SpToploAdapterTest >> testWindowAdapterUnsubscribesWhenSpaceClosed [
 	windowPresenter close.
 	adapter widget host universe pulse.
 	self deny: (adapter widget space eventDispatcher hasHandler: handler).
-	self assert: adapter widgetEventHandlers isEmpty
+	self assertEmpty: adapter widgetEventHandlers
 ]
 
 { #category : #tests }
