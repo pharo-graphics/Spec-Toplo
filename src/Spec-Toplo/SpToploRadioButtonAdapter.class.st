@@ -38,8 +38,10 @@ SpToploRadioButtonAdapter >> subscribeToPresenter [
 { #category : #initialization }
 SpToploRadioButtonAdapter >> subscribeToWidget [
 
-	widget
-		addEventHandlerOn: ToCheckableCheckEvent
+	super subscribeToWidget.
+
+	self
+		subscribeToWidgetEvent: ToCheckableCheckEvent
 		do: [ :event | model state: widget checked ]
 ]
 

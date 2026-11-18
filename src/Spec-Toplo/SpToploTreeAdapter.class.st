@@ -121,13 +121,11 @@ SpToploTreeAdapter >> subscribeToWidget [
 
 	super subscribeToWidget.
 
-	widget
-		addEventHandlerOn: ToListPrimarySelectionChangedEvent
-		do: [ :evt | self transferSelectionChange: evt ].
-
-	widget
-		addEventHandlerOn: ToListStrongSelectionEvent
-		do: [ :evt | self transferStrongSelection: evt ]
+	self
+		subscribeToWidgetEvent: ToListPrimarySelectionChangedEvent
+			do: [ :evt | self transferSelectionChange: evt ];
+		subscribeToWidgetEvent: ToListStrongSelectionEvent
+			do: [ :evt | self transferStrongSelection: evt ]
 ]
 
 { #category : #initialization }

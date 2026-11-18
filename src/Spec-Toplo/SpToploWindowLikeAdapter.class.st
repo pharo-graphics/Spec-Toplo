@@ -143,8 +143,8 @@ SpToploWindowLikeAdapter >> subscribeToWidget [
 
 	super subscribeToWidget.
 	self
-		when: BlSpaceClosedEvent do: [ self onSpaceClosed ] for: self;
-		when: BlSpaceShownEvent do: [ self onSpaceShown ] for: self
+		subscribeToWidgetEvent: BlSpaceClosedEvent do: [ self onSpaceClosed ];
+		subscribeToWidgetEvent: BlSpaceShownEvent do: [ self onSpaceShown ]
 ]
 
 { #category : #API }

@@ -97,7 +97,8 @@ SpToploMillerAdapter >> subscribeToWidget [
 
 	super subscribeToWidget.
 	self list whenLayoutedDoOnce: [
-			self list space root
-				addEventHandlerOn: BlElementExtentChangedEvent
-				do: [ :ann | self recomputeAllWidth ] ]
+		self
+			subscribeToWidgetEvent: BlElementExtentChangedEvent
+			on: self list space root
+			do: [ :ann | self recomputeAllWidth ] ]
 ]

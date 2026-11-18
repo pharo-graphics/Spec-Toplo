@@ -100,6 +100,26 @@ SpToploTableAdapterTest >> testContextMenuWithActions [
 	self assert: contextMenu items first label text asString equals: 'TestCommand'
 ]
 
+{ #category : #tests }
+SpToploTableAdapterTest >> testContextMenuWithDisabledAction [
+
+	| group contextMenu |
+	self buildTablePresenter.
+	group := SpActionGroup new.
+	group addActionWith: [ :action |
+		action
+			name: 'DisabledCommand';
+			actionEnabled: [ false ];
+			action: [ ] ].
+	tablePresenter actions: group.
+
+	contextMenu := ToContextMenu new.
+	tablePresenter adapter fillContextMenu: contextMenu.
+
+	self assert: contextMenu items size equals: 1.
+	self deny: contextMenu items first isEnabled
+]
+
 { #category : #chooser }
 SpToploTableAdapterTest >> testTableColumnsNumber [
 

@@ -14,9 +14,8 @@ Class {
 SpToploAthensAdapter >> buildWidget [
 
 	^ ToElement new
-		matchParent;
-		addEventHandlerOn: BlElementExtentChangedEvent do: [ :event | self redraw ];
-		yourself
+		  matchParent;
+		  yourself
 ]
 
 { #category : #drawing }
@@ -41,6 +40,16 @@ SpToploAthensAdapter >> subscribeToPresenter [
 		widget size: newExtent.
 		self redraw ].
 	self redraw
+]
+
+{ #category : #initialization }
+SpToploAthensAdapter >> subscribeToWidget [
+
+	super subscribeToWidget.
+
+	self
+		subscribeToWidgetEvent: BlElementExtentChangedEvent
+		do: [ :event | self redraw ]
 ]
 
 { #category : #accessing }

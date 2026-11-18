@@ -79,11 +79,13 @@ SpToploTreeColumnViewAdapter >> subscribeToPresenter [
 { #category : #initialization }
 SpToploTreeColumnViewAdapter >> subscribeToWidget [
 
-	widget list
-		addEventHandlerOn: ToListPrimarySelectionChangedEvent
-		do: [ :event | self transferSelectionChange: event ];
-		addEventHandlerOn: ToListStrongSelectionEvent
-		do: [ :event | self transferStrongSelection: event ]
+	self
+		subscribeToWidgetEvent: ToListPrimarySelectionChangedEvent
+			on: widget list
+			do: [ :event | self transferSelectionChange: event ];
+		subscribeToWidgetEvent: ToListStrongSelectionEvent
+			on: widget list
+			do: [ :event | self transferStrongSelection: event ]
 ]
 
 { #category : #initialization }

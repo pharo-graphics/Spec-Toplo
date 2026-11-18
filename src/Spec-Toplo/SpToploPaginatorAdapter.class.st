@@ -52,13 +52,14 @@ SpToploPaginatorAdapter >> subscribeToPresenter [
 		anObject ifNil: [ self list removeAllItems ] ifNotNil: [ self halt ] ]
 ]
 
-{ #category : #factory }
+{ #category : #initialization }
 SpToploPaginatorAdapter >> subscribeToWidget [
 
 	super subscribeToWidget.
-	list
-		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+	self
+		subscribeToWidgetEvent: ToListPrimarySelectionChangedEvent
+		on: list
 		do: [ :event |
-				event selectedIndexes ifNotEmpty: [
-					self presenter selectPage: event selectedIndexes anyOne ] ]
+			event selectedIndexes ifNotEmpty: [
+				self presenter selectPage: event selectedIndexes anyOne ] ]
 ]

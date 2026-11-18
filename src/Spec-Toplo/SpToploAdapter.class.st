@@ -5,7 +5,8 @@ Class {
 	#name : #SpToploAdapter,
 	#superclass : #SpAbstractAdapter,
 	#instVars : [
-		'eventHandlersBySubscriber'
+		'widgetSubscriptions',
+		'presenterSubscriptions'
 	],
 	#category : #'Spec-Toplo-Adapters'
 }
@@ -88,17 +89,13 @@ SpToploAdapter >> defer: aBlockClosure [
 		 yourself)
 ]
 
-{ #category : #accessing }
-SpToploAdapter >> eventHandlersBySubscriber [
-
-	^ eventHandlersBySubscriber
-]
-
 { #category : #initialization }
 SpToploAdapter >> initialize [
 
 	super initialize.
-	eventHandlersBySubscriber := Dictionary new
+
+	widgetSubscriptions := IdentityDictionary new.
+	presenterSubscriptions := IdentitySet new
 ]
 
 { #category : #testing }
@@ -131,6 +128,28 @@ SpToploAdapter >> subscribeToWidget [
 
 ]
 
+{ #category : #events }
+SpToploAdapter >> subscribeToWidgetEvent: aBlEventClass do: aBlock [
+
+	^ self subscribeToWidgetEvent: aBlEventClass on: widget do: aBlock
+]
+
+{ #category : #events }
+SpToploAdapter >> subscribeToWidgetEvent: aBlEventClass on: anElement do: aBlock [
+
+	| handler |
+	handler := BlEventHandler on: aBlEventClass do: aBlock.
+	anElement addEventHandler: handler.
+	widgetSubscriptions at: handler put: anElement.
+	^ handler
+]
+
+{ #category : #accessing }
+SpToploAdapter >> subscribedPresenters [
+
+	^ presenterSubscriptions
+]
+
 { #category : #protocol }
 SpToploAdapter >> takeKeyboardFocus [
 
@@ -146,34 +165,31 @@ SpToploAdapter >> unsubscribe [
 	super unsubscribe
 ]
 
-{ #category : #events }
-SpToploAdapter >> unsubscribe: aSubscriber [
-
-	| handlers |
-	handlers := eventHandlersBySubscriber removeKey: aSubscriber ifAbsent: [ ^ self ].
-	self widgetDo: [ :aWidget |
-		handlers do: [ :eachHandler |
-			aWidget removeEventHandler: eachHandler ] ]
-]
-
 { #category : #initialization }
 SpToploAdapter >> unsubscribeFromPresenter [
 
+	self unsubscribeFromPresenters.
+
 	model ifNotNil: [ :aPresenter |
 		aPresenter hasAnnouncer ifTrue: [
-			self widgetDo: [ :aWidget |
-				aPresenter announcer unsubscribe: aWidget ].
+			self widgetDo: [ :aWidget | aPresenter announcer unsubscribe: aWidget ].
 			aPresenter announcer unsubscribe: self ] ]
+]
+
+{ #category : #initialization }
+SpToploAdapter >> unsubscribeFromPresenters [
+
+	presenterSubscriptions do: [ :eachPresenter | eachPresenter unsubscribe: self ].
+	presenterSubscriptions removeAll
 ]
 
 { #category : #initialization }
 SpToploAdapter >> unsubscribeFromWidget [
 
-	self widgetDo: [ :aWidget |
-		eventHandlersBySubscriber valuesDo: [ :handlers |
-			handlers do: [ :eachHandler |
-				aWidget removeEventHandler: eachHandler ] ] ].
-	eventHandlersBySubscriber removeAll
+	widgetSubscriptions keysAndValuesDo: [ :handler :element |
+		element removeEventHandler: handler ].
+
+	widgetSubscriptions removeAll
 ]
 
 { #category : #initialization }
@@ -206,23 +222,16 @@ SpToploAdapter >> updateVisible [
 			ifFalse: [ BlVisibility gone ])
 ]
 
-{ #category : #events }
-SpToploAdapter >> when: anEventClass do: aBlock for: aSubscriber [
-
-	| handler handlers |
-	handler := BlEventHandler on: anEventClass do: aBlock.
-	self widgetDo: [ :aWidget | aWidget addEventHandler: handler ].
-	handlers := eventHandlersBySubscriber
-		at: aSubscriber
-		ifAbsentPut: [ OrderedCollection new ].
-	handlers add: handler.
-	^ handler
-]
-
 { #category : #accessing }
 SpToploAdapter >> widgetElement [
 
 	^ widget
+]
+
+{ #category : #accessing }
+SpToploAdapter >> widgetEventHandlers [
+
+	^ widgetSubscriptions
 ]
 
 { #category : #accessing }

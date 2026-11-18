@@ -122,10 +122,16 @@ SpToploNotebookAdapter >> subscribeToPresenter [
 SpToploNotebookAdapter >> subscribeToWidget [
 
 	super subscribeToWidget.
-	widget itemList addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :event |
+	self
+		subscribeToWidgetEvent: ToListPrimarySelectionChangedEvent
+		on: widget itemList
+		do: [ :event |
 			event selectedIndexes
-				ifEmpty: [ self model selectPage: nil ]
-				ifNotEmpty: [ self model selectPage: (self modelOfTab: (self widget dataAccessor at: event selectedIndexes first)) ] ]
+				ifEmpty: [ model selectPage: nil ]
+				ifNotEmpty: [
+					model selectPage:
+						(self modelOfTab:
+							(widget dataAccessor at: event selectedIndexes first)) ] ]
 ]
 
 { #category : #updating }
