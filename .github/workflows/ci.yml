@@ -42,11 +42,14 @@ jobs:
         id: version
         env:
           SMALLTALK_IMAGE: ${{ matrix.smalltalk }}
-        run: echo "pharo-version=Pharo${SMALLTALK_IMAGE##*-}" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "pharo-version=Pharo${SMALLTALK_IMAGE##*-}" >> "$GITHUB_OUTPUT"
+          echo "pharo-number=${SMALLTALK_IMAGE##*-}0" >> "$GITHUB_OUTPUT"
       - name: Package image, changes, sources and version
         if: always()
         env:
           PHARO_VERSION: ${{ steps.version.outputs.pharo-version }}
+          PHARO_NUMBER: ${{ steps.version.outputs.pharo-number }}
         run: |
           set -euo pipefail
           package_directory="$RUNNER_TEMP/Spec-Toplo-$PHARO_VERSION"
@@ -54,7 +57,7 @@ jobs:
           cp "$SMALLTALK_CI_IMAGE" "$package_directory/Spec-Toplo-$PHARO_VERSION.image"
           cp "$SMALLTALK_CI_CHANGES" "$package_directory/Spec-Toplo-$PHARO_VERSION.changes"
           cp "$(find "$SMALLTALK_CI_BUILD" "$SMALLTALK_CI_CACHE" -name '*.sources' | head -n 1)" "$package_directory/"
-          printf '%s' "$PHARO_VERSION" > "$package_directory/pharo.version"
+          printf '%s' "$PHARO_NUMBER" > "$package_directory/pharo.version"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
