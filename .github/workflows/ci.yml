@@ -42,24 +42,24 @@ jobs:
         id: version
         env:
           SMALLTALK_IMAGE: ${{ matrix.smalltalk }}
-        run: echo "pharo-version=${SMALLTALK_IMAGE##*-}0" >> "$GITHUB_OUTPUT"
+        run: echo "pharo-version=Pharo${SMALLTALK_IMAGE##*-}" >> "$GITHUB_OUTPUT"
       - name: Package image, changes, sources and version
         if: always()
         env:
           PHARO_VERSION: ${{ steps.version.outputs.pharo-version }}
         run: |
           set -euo pipefail
-          package_directory="$RUNNER_TEMP/spec-toplo-pharo-$PHARO_VERSION"
+          package_directory="$RUNNER_TEMP/Spec-Toplo-$PHARO_VERSION"
           mkdir -p "$package_directory"
-          cp "$(find .smalltalkCI "$HOME/.smalltalkCI" -name '*.image' | head -n 1)" "$package_directory/"
-          cp "$(find .smalltalkCI "$HOME/.smalltalkCI" -name '*.changes' | head -n 1)" "$package_directory/"
-          cp "$(find .smalltalkCI "$HOME/.smalltalkCI" -name '*.sources' | head -n 1)" "$package_directory/"
-          printf '%s' "$PHARO_VERSION" > "$package_directory/pharo-version"
+          cp "$SMALLTALK_CI_IMAGE" "$package_directory/Spec-Toplo-$PHARO_VERSION.image"
+          cp "$SMALLTALK_CI_CHANGES" "$package_directory/Spec-Toplo-$PHARO_VERSION.changes"
+          cp "$(find "$SMALLTALK_CI_BUILD" "$SMALLTALK_CI_CACHE" -name '*.sources' | head -n 1)" "$package_directory/"
+          printf '%s' "$PHARO_VERSION" > "$package_directory/pharo.version"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: spec-toplo-pharo-${{ steps.version.outputs.pharo-version }}
-          path: ${{ runner.temp }}/spec-toplo-pharo-${{ steps.version.outputs.pharo-version }}
+          name: Spec-Toplo-${{ steps.version.outputs.pharo-version }}
+          path: ${{ runner.temp }}/Spec-Toplo-${{ steps.version.outputs.pharo-version }}
 
   # Runs even when the build failed (tests not passing) so the zips are always published on dev.
   continuous-release:
@@ -73,11 +73,11 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          pattern: spec-toplo-pharo-*
+          pattern: Spec-Toplo-Pharo*
           path: dist
       - name: Zip each Pharo version
         run: |
-          for directory in dist/spec-toplo-pharo-*/; do
+          for directory in dist/Spec-Toplo-Pharo*/; do
             name="$(basename "$directory")"
             (cd "$directory" && zip -r "../$name.zip" .)
           done
@@ -101,11 +101,11 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          pattern: spec-toplo-pharo-*
+          pattern: Spec-Toplo-Pharo*
           path: dist
       - name: Zip each Pharo version
         run: |
-          for directory in dist/spec-toplo-pharo-*/; do
+          for directory in dist/Spec-Toplo-Pharo*/; do
             name="$(basename "$directory")"
             (cd "$directory" && zip -r "../$name.zip" .)
           done
