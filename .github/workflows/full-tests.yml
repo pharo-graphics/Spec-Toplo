@@ -41,9 +41,8 @@ jobs:
           cp "$(find .smalltalkCI "$HOME/.smalltalkCI" -name '*.changes' | head -n 1)" "$package_directory/"
           cp "$(find .smalltalkCI "$HOME/.smalltalkCI" -name '*.sources' | head -n 1)" "$package_directory/"
           printf '%s' "$PHARO_VERSION" > "$package_directory/pharo-version"
-          (cd "$package_directory" && zip -r "$RUNNER_TEMP/spec-toplo-pharo-$PHARO_VERSION.zip" .)
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: spec-toplo-pharo-${{ steps.version.outputs.pharo-version }}
-          path: ${{ runner.temp }}/spec-toplo-pharo-${{ steps.version.outputs.pharo-version }}.zip
+          path: ${{ runner.temp }}/spec-toplo-pharo-${{ steps.version.outputs.pharo-version }}
