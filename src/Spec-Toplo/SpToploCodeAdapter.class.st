@@ -101,7 +101,9 @@ SpToploCodeAdapter >> subscribeToWidget [
 
 	super subscribeToWidget.
 
-	widget addEventHandlerOn: ToAlbumSaveAcceptedEvent do: [ :event | self model triggerSubmitAction ]
+	self
+		subscribeToWidgetEvent: ToAlbumSaveAcceptedEvent
+		do: [ :event | self model triggerSubmitAction ]
 ]
 
 { #category : #protocol }

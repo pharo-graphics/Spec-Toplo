@@ -127,11 +127,12 @@ SpToploColumnViewAdapter >> subscribeToPresenter [
 { #category : #initialization }
 SpToploColumnViewAdapter >> subscribeToWidget [
 
-	widget list
-		addEventHandlerOn: ToListPrimarySelectionChangedEvent
-		do: [ :event |
-			model selection selectIndexes: widget list selecter selectedIndexes ];
-		addEventHandlerOn: ToListStrongSelectionEvent
+	self
+		subscribeToWidgetEvent: ToListPrimarySelectionChangedEvent
+		on: widget list
+		do: [ :event | model selection selectIndexes: widget list selecter selectedIndexes ];
+		subscribeToWidgetEvent: ToListStrongSelectionEvent
+		on: widget list
 		do: [ model doActivateAtIndex: model selection selectedIndex ]
 ]
 

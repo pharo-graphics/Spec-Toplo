@@ -13,16 +13,25 @@ SpToploMenuLikeAdapter >> addMenuFor: item into: parentMenu [
 
 	| toploItem |
 	item subMenu
-		ifNil: [ toploItem := ToMenuItem new ]
+		ifNil: [
+			toploItem := ToMenuItem new.
+			item action ifNotNil: [
+				toploItem clickAction: [ (self isItemEnabled: item) ifTrue: [ item performMenuActionWith: toploItem ] ] ] ]
 		ifNotNil: [ :subMenuPresenter |
 			toploItem := ToMenu new.
-			self
-				addMenuGroups: subMenuPresenter menuGroups
-				into: toploItem ].
+			self addMenuGroups: subMenuPresenter menuGroups into: toploItem ].
 
-	item name   ifNotNil: [ :o | toploItem labelText: o ].
-	item icon   ifNotNil: [ :o | toploItem iconImage: o ].
-	item action ifNotNil: [ :o | toploItem clickAction: o ].
+	item name ifNotNil: [ :o | toploItem labelText: o ].
+	item icon ifNotNil: [ :o | toploItem iconImage: o ].
+	item description ifNotNil: [ :o | toploItem tooltipText: o ].
+	toploItem enabled: (self isItemEnabled: item).
+
+	presenterSubscriptions add: item.
+
+	item whenNameChangedDo: [ :o | toploItem labelText: o ].
+	item whenIconChangedDo: [ :o | toploItem iconImage: o ].
+	item whenDescriptionChangedDo: [ :o | toploItem tooltipText: o ].
+	item whenEnabledChangedDo: [ toploItem enabled: (self isItemEnabled: item) ].
 
 	parentMenu addItem: toploItem
 ]
@@ -37,6 +46,19 @@ SpToploMenuLikeAdapter >> addMenuGroups: menuGroups into: aToMenu [
 		separatedBy: [ aToMenu addSeparator ]
 ]
 
+{ #category : #testing }
+SpToploMenuLikeAdapter >> isItemEnabled: anItem [
+
+	| itemEnabled |
+	itemEnabled := anItem isEnabled.
+
+	"Based on SpMorphicMenuItemAdapter"
+	(itemEnabled isBlock or: [ itemEnabled isMessageSend ])
+		ifTrue: [ itemEnabled := itemEnabled cull: anItem ].
+
+	^ itemEnabled ifNil: [ true ]
+]
+
 { #category : #factory }
 SpToploMenuLikeAdapter >> updateAll [
 
@@ -47,6 +69,8 @@ SpToploMenuLikeAdapter >> updateAll [
 
 { #category : #factory }
 SpToploMenuLikeAdapter >> updateMenu [
+
+	self unsubscribeFromPresenters.
 
 	"Reset"
 	widget items do: [ :each | widget removeItem: each ].

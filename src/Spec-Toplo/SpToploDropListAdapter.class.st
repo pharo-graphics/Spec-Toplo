@@ -80,9 +80,9 @@ SpToploDropListAdapter >> subscribeToPresenter [
 SpToploDropListAdapter >> subscribeToWidget [
 
 	super subscribeToWidget.
-	widget addEventHandlerOn: ToSelectChangedEvent do: [ :selection |
-			model selectedIndex = selection selectedIndex ifFalse: [
-				model selectIndex: selection selectedIndex ] ]
+	self
+		subscribeToWidgetEvent: ToSelectChangedEvent
+		do: [ :selection | model selectedIndex = selection selectedIndex ifFalse: [ model selectIndex: selection selectedIndex ] ]
 ]
 
 { #category : #initialization }

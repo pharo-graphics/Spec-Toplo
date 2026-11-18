@@ -40,8 +40,8 @@ SpToploToggleButtonAdapter >> subscribeToWidget [
 
 	super subscribeToWidget.
 
-	widget
-		addEventHandlerOn: ToCheckableCheckEvent
+	self
+		subscribeToWidgetEvent: ToCheckableCheckEvent
 		do: [ :event | model state: widget checked ]
 ]
 

@@ -103,14 +103,14 @@ SpToploAbstractListAdapter >> subscribeToPresenter [
 { #category : #initialization }
 SpToploAbstractListAdapter >> subscribeToWidget [
 
-	widget
-		addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :evt |
-				| selectedIndexes |
-				selectedIndexes := evt selectedIndexes asArray.
-				selectedIndexes = model selection selectedIndexes asArray
-					ifFalse: [ model selection selectIndexes: selectedIndexes ] ];
-		addEventHandlerOn: ToListStrongSelectionEvent do: [
-				model doActivateAtIndex: model selection selectedIndex ]
+	super subscribeToWidget.
+
+	self
+		subscribeToWidgetEvent: ToListPrimarySelectionChangedEvent do: [ :evt |
+			| selectedIndexes |
+			selectedIndexes := evt selectedIndexes asArray.
+			selectedIndexes = model selection selectedIndexes asArray ifFalse: [ model selection selectIndexes: selectedIndexes ] ];
+		subscribeToWidgetEvent: ToListStrongSelectionEvent do: [ model doActivateAtIndex: model selection selectedIndex ]
 ]
 
 { #category : #initialization }
