@@ -7,12 +7,12 @@ Class {
 	#category : #'Spec-Toplo-Tests-Adapters'
 }
 
-{ #category : #running }
-SpToploMenuAdapterTest >> setUp [
+{ #category : #private }
+SpToploMenuAdapterTest >> performTest [
 
-	super setUp.
-	application := SpApplication new.
-	application useBackend: #Toplo
+	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
+		application := testApplication.
+		super performTest ]
 ]
 
 { #category : #tests }

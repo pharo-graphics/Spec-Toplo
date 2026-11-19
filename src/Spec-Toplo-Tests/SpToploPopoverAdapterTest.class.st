@@ -50,21 +50,18 @@ SpToploPopoverAdapterTest >> newFakeWindowMeasuredWidth: aWidth height: aHeight 
 		  yourself
 ]
 
-{ #category : #running }
-SpToploPopoverAdapterTest >> setUp [
+{ #category : #private }
+SpToploPopoverAdapterTest >> performTest [
 
-	super setUp.
-	application := SpApplication new.
-	application useBackend: #Toplo
+	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
+		application := testApplication.
+		super performTest ]
 ]
 
 { #category : #running }
 SpToploPopoverAdapterTest >> tearDown [
 
-	popover ifNotNil: [
-			popover withAdapterDo: [ :adapter |
-				adapter popupWindowHandler currentWindowDo: [ :aWindow | aWindow isOpened ifTrue: [ aWindow close ] ] ] ].
-	application ifNotNil: [ application windows do: [ :each | each delete ] ].
+	popover ifNotNil: [ popover withAdapterDo: [ :adapter | adapter popupWindowHandler currentWindowDo: [ :aWindow | aWindow isOpened ifTrue: [ aWindow close ] ] ] ].
 	super tearDown
 ]
 

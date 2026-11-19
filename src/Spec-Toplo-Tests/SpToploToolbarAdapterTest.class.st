@@ -7,19 +7,12 @@ Class {
 	#category : #'Spec-Toplo-Tests-Adapters'
 }
 
-{ #category : #running }
-SpToploToolbarAdapterTest >> setUp [
+{ #category : #private }
+SpToploToolbarAdapterTest >> performTest [
 
-	super setUp.
-	application := SpApplication new.
-	application useBackend: #Toplo
-]
-
-{ #category : #running }
-SpToploToolbarAdapterTest >> tearDown [
-
-	application ifNotNil: [ application windows do: [ :each | each delete ] ].
-	super tearDown
+	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
+		application := testApplication.
+		super performTest ]
 ]
 
 { #category : #tests }

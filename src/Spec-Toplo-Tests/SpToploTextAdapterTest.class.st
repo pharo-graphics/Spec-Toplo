@@ -17,20 +17,12 @@ SpToploTextAdapterTest >> buildTextPresenter [
 	textPresenter build
 ]
 
-{ #category : #running }
-SpToploTextAdapterTest >> setUp [
+{ #category : #private }
+SpToploTextAdapterTest >> performTest [
 
-	super setUp.
-	application := SpApplication new.
-	application useBackend: #Toplo
-]
-
-{ #category : #running }
-SpToploTextAdapterTest >> tearDown [
-
-	application ifNotNil: [
-		application windows do: [ :each | each delete ] ].
-	super tearDown
+	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
+		application := testApplication.
+		super performTest ]
 ]
 
 { #category : #tests }
