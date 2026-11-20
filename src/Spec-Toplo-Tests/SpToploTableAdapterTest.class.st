@@ -40,6 +40,27 @@ SpToploTableAdapterTest >> buildTablePresenter [
 	^ tablePresenter build
 ]
 
+{ #category : #'test - building' }
+SpToploTableAdapterTest >> buildThreeColumnTablePresenter [
+
+	| presenter |
+	presenter := SpTablePresenter new.
+	presenter application: application.
+	presenter items: { 'first'. 'second' }.
+	presenter addColumn: (SpStringTableColumn new
+		 title: 'Repositories';
+		 width: 200;
+		 yourself).
+	presenter addColumn: (SpStringTableColumn new
+		 title: 'Status';
+		 width: 200;
+		 yourself).
+	presenter addColumn: (SpStringTableColumn new
+		 title: 'Hash';
+		 yourself).
+	^ presenter
+]
+
 { #category : #chooser }
 SpToploTableAdapterTest >> dataSourceOfChooserList: aChooserList [
 
@@ -77,6 +98,42 @@ SpToploTableAdapterTest >> testChooserSelection [
 	chooser addSelected.
 	self assert: (self dataSourceOfChooserList: chooser sourceList) itemCount equals: 1.
 	self assert: (self dataSourceOfChooserList: chooser targetList) itemCount equals: 2
+]
+
+{ #category : #tests }
+SpToploTableAdapterTest >> testColumnStateWidthsMatchSpecColumnWidthsAfterSwitchingNotebookPage [
+
+	| notebook firstTable secondTable |
+	firstTable := self buildThreeColumnTablePresenter.
+	secondTable := self buildThreeColumnTablePresenter.
+	notebook := SpNotebookPresenter new.
+	notebook application: application.
+	notebook addPageTitle: 'First' provider: [ firstTable ].
+	notebook addPageTitle: 'Second' provider: [ secondTable ].
+	notebook open.
+	notebook selectPageIndex: 2.
+	notebook adapter widget space settle.
+	self assert: (secondTable adapter widget columnStateAt: 1) width equals: 200.
+	self assert: (secondTable adapter widget columnStateAt: 2) width equals: 200
+]
+
+{ #category : #tests }
+SpToploTableAdapterTest >> testColumnsStayVisibleWhenSwitchingNotebookPages [
+
+	| notebook firstTable secondTable headerWidths |
+	firstTable := self buildThreeColumnTablePresenter.
+	secondTable := self buildThreeColumnTablePresenter.
+	notebook := SpNotebookPresenter new.
+	notebook application: application.
+	notebook addPageTitle: 'First' provider: [ firstTable ].
+	notebook addPageTitle: 'Second' provider: [ secondTable ].
+	notebook open.
+	notebook selectPageIndex: 2.
+	notebook adapter widget space settle.
+	headerWidths := OrderedCollection new.
+	secondTable adapter widget allChildrenBreadthFirstDo: [ :each | each class == ToTableHeaderCell ifTrue: [ headerWidths add: each bounds asRectangle width ] ].
+	self assert: headerWidths size equals: 3.
+	self assert: (headerWidths allSatisfy: [ :width | width > 20 ])
 ]
 
 { #category : #tests }
