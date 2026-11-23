@@ -23,6 +23,12 @@ SpToploBackendForTest class >> host: aHost [
 		yourself
 ]
 
+{ #category : #accessing }
+SpToploBackendForTest >> app [
+
+	^ app
+]
+
 { #category : #asserting }
 SpToploBackendForTest >> assertHasHeader: anAdapter [
 
@@ -74,12 +80,10 @@ SpToploBackendForTest >> clickFirstRowAndColumn: aSpToploListAdapter [
 
 { #category : #running }
 SpToploBackendForTest >> closeAllWindows [
-	"Close every window opened by the test, ensure any newly opened space is closed, and wait for the host to settle."
+	"Delete every window opened by the test, ensure any newly opened space is closed, and wait for the host to settle."
 
-	[ app windows copy do: [ :each | each close ] ] ensure: [
-		self host spaces
-			reject: [ :each | initialSpaces includes: each ]
-			thenDo: [ :each | each close ].
+	[ app windows copy do: [ :each | each delete ] ] ensure: [
+		self host spaces reject: [ :each | initialSpaces includes: each ] thenDo: [ :each | each close ].
 		self host isRunning ifTrue: [ self host settle ] ]
 ]
 
@@ -154,6 +158,12 @@ SpToploBackendForTest >> runTest: aBlock [
 		app propertyAt: #testBackend put: self.
 		aBlock value
 		] ensure: [ self closeAllWindows ] ]
+]
+
+{ #category : #running }
+SpToploBackendForTest >> runTestWithApplication: aBlock [
+
+	self runTest: [ aBlock value: app ]
 ]
 
 { #category : #testing }

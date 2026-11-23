@@ -106,10 +106,31 @@ For the underlying Bloc concurrency model, testing, and layout mechanics, refer 
 - [Testing and Simulating Interactions](https://github.com/pharo-graphics/Bloc/blob/dev/doc/TestingInteractions.md): Programmatic event simulation with `BlEventSimulator`.
 - [Layout and Constraints](https://github.com/pharo-graphics/Bloc/blob/dev/doc/LayoutAndConstraints.md): Measurement passes, resizers, and layout events.
 
-
 ### Adapter Architecture & Conventions
 
 When implementing or modifying adapters in `Spec-Toplo`, follow the architecture guidelines, lifecycle hooks, and synchronization rules described in [Adapter Conventions](doc/AdapterConventions.md).
+
+
+## Continuous Integration
+
+GitHub Actions runs on every push and pull request. The workflows are in [`.github/workflows`](./.github/workflows):
+
+- `ci.yml` loads the project in a new image and runs the minimal tests (`.ci.ston`) on Pharo 14 and Pharo 15.
+- `full-tests.yml` runs the broader test set (`.SpecBackendTests.ston`) on the same Pharo versions. Some of these tests still fail, which is why they run separately.
+
+Each run packages the image it tested, so you can download it and debug locally. The package contains:
+
+- `Spec-Toplo-Pharo14.image` (or `Pharo15`) and its `.changes` file
+- the `.sources` file of Pharo
+- `pharo.version`, which contains `140` for Pharo 14 and `150` for Pharo 15
+
+There are three kinds of artefacts:
+
+- **Action artefacts** are saved on every run, including when the tests fail. Open the run from the [Actions tab](../../actions), then download `Spec-Toplo-Pharo14` or `Spec-Toplo-Pharo15` from its *Artifacts* section. GitHub keeps them for a limited time.
+- **Continuous artefacts** are published on every push to `dev`. They are attached to the `continuous` pre-release on the [Releases page](../../releases), as `Spec-Toplo-Pharo14.zip` and `Spec-Toplo-Pharo15.zip`. Each push replaces the previous ones. The pre-release is published even when the tests fail, so check the CI run for the test results.
+- **Release artefacts** are attached to every GitHub release when you create or edit it. The release job runs only when the build succeeds, so failing builds are not attached to releases.
+
+To debug a downloaded image, unzip the package, then open the `.image` file with the Pharo VM of the matching version.
 
 
 ## Branches & Contributions

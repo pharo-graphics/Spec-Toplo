@@ -46,14 +46,12 @@ SpToploTableAdapterTest >> dataSourceOfChooserList: aChooserList [
 	^ (((aChooserList listPresenter adapter widget childWithId: #singleChild) childAt: 1) childAt: 2) dataSource
 ]
 
-{ #category : #running }
-SpToploTableAdapterTest >> setUp [
+{ #category : #private }
+SpToploTableAdapterTest >> performTest [
 
-	super setUp.
-
-	"Put here a common initialization logic for tests"
-	application := SpApplication new.
-	application useBackend: #Toplo
+	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
+		application := testApplication.
+		super performTest ]
 ]
 
 { #category : #chooser }

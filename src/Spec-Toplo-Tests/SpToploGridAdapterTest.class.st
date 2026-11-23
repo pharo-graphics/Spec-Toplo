@@ -8,12 +8,12 @@ Class {
 	#category : #'Spec-Toplo-Tests-Adapters'
 }
 
-{ #category : #running }
-SpToploGridAdapterTest >> setUp [
+{ #category : #private }
+SpToploGridAdapterTest >> performTest [
 
-	super setUp.
-	application := SpApplication new.
-	application useBackend: #Toplo
+	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
+		application := testApplication.
+		super performTest ]
 ]
 
 { #category : #running }

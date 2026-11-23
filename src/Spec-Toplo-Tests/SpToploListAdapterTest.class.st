@@ -18,20 +18,12 @@ SpToploListAdapterTest >> buildListPresenter [
 	^ listPresenter
 ]
 
-{ #category : #running }
-SpToploListAdapterTest >> setUp [
+{ #category : #private }
+SpToploListAdapterTest >> performTest [
 
-	super setUp.
-	application := SpApplication new.
-	application useBackend: #Toplo
-]
-
-{ #category : #running }
-SpToploListAdapterTest >> tearDown [
-
-	application ifNotNil: [
-		application windows do: [ :each | each delete ] ].
-	super tearDown
+	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
+		application := testApplication.
+		super performTest ]
 ]
 
 { #category : #tests }

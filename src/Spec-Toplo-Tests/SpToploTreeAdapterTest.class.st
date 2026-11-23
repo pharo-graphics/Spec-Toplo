@@ -35,12 +35,12 @@ SpToploTreeAdapterTest >> buildTreeTablePresenter [
 	^ treeTablePresenter build
 ]
 
-{ #category : #running }
-SpToploTreeAdapterTest >> setUp [
+{ #category : #private }
+SpToploTreeAdapterTest >> performTest [
 
-	super setUp.
-	application := SpApplication new.
-	application useBackend: #Toplo
+	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
+		application := testApplication.
+		super performTest ]
 ]
 
 { #category : #tests }

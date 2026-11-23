@@ -31,19 +31,12 @@ SpToploTabAdapterTest >> newTabPresenterWithInitialPageIndex: anInteger [
 	^ presenter
 ]
 
-{ #category : #running }
-SpToploTabAdapterTest >> setUp [
+{ #category : #private }
+SpToploTabAdapterTest >> performTest [
 
-	super setUp.
-	application := SpApplication new.
-	application useBackend: #Toplo
-]
-
-{ #category : #running }
-SpToploTabAdapterTest >> tearDown [
-
-	application ifNotNil: [ application windows do: [ :each | each delete ] ].
-	super tearDown
+	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
+		application := testApplication.
+		super performTest ]
 ]
 
 { #category : #tests }
