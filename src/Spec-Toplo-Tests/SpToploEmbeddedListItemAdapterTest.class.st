@@ -1,9 +1,6 @@
 Class {
 	#name : #SpToploEmbeddedListItemAdapterTest,
-	#superclass : #TestCase,
-	#instVars : [
-		'application'
-	],
+	#superclass : #SpToploAbstractAdapterTest,
 	#category : #'Spec-Toplo-Tests-Adapters'
 }
 
@@ -51,14 +48,6 @@ SpToploEmbeddedListItemAdapterTest >> newNestedRowPresenterFrom: aPresenter [
 			 add: nested;
 			 yourself).
 	^ row
-]
-
-{ #category : #private }
-SpToploEmbeddedListItemAdapterTest >> performTest [
-
-	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
-		application := testApplication.
-		super performTest ]
 ]
 
 { #category : #tests }
@@ -142,12 +131,4 @@ SpToploEmbeddedListItemAdapterTest >> testTreeTablePresenterRowsKeepEmbeddedPane
 	presenter open.
 	self waitUntilUIRedrawed.
 	self assertEmbeddedPanesTransparentInFirstNodeOf: presenter adapter widget list
-]
-
-{ #category : #running }
-SpToploEmbeddedListItemAdapterTest >> waitUntilUIRedrawed [
-
-	| aSpace |
-	aSpace := application windows anyOne adapter widget.
-	aSpace settleForDuration: 500 milliSeconds
 ]

@@ -3,9 +3,8 @@ A SpToploTableAdapterTest is a test class for testing the behavior of SpToploTab
 "
 Class {
 	#name : #SpToploTableAdapterTest,
-	#superclass : #TestCase,
+	#superclass : #SpToploAbstractAdapterTest,
 	#instVars : [
-		'application',
 		'chooser',
 		'tablePresenter'
 	],
@@ -65,14 +64,6 @@ SpToploTableAdapterTest >> buildThreeColumnTablePresenter [
 SpToploTableAdapterTest >> dataSourceOfChooserList: aChooserList [
 
 	^ (((aChooserList listPresenter adapter widget childWithId: #singleChild) childAt: 1) childAt: 2) dataSource
-]
-
-{ #category : #private }
-SpToploTableAdapterTest >> performTest [
-
-	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
-		application := testApplication.
-		super performTest ]
 ]
 
 { #category : #chooser }

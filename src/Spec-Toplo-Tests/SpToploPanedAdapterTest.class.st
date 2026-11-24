@@ -1,19 +1,8 @@
 Class {
 	#name : #SpToploPanedAdapterTest,
-	#superclass : #TestCase,
-	#instVars : [
-		'application'
-	],
+	#superclass : #SpToploAbstractAdapterTest,
 	#category : #'Spec-Toplo-Tests-Adapters'
 }
-
-{ #category : #private }
-SpToploPanedAdapterTest >> performTest [
-
-	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
-		application := testApplication.
-		super performTest ]
-]
 
 { #category : #tests }
 SpToploPanedAdapterTest >> testBoxLayoutBorderWidth [

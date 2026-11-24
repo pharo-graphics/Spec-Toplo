@@ -1,8 +1,7 @@
 Class {
 	#name : #SpToploTreeAdapterTest,
-	#superclass : #TestCase,
+	#superclass : #SpToploAbstractAdapterTest,
 	#instVars : [
-		'application',
 		'treePresenter',
 		'treeTablePresenter'
 	],
@@ -33,14 +32,6 @@ SpToploTreeAdapterTest >> buildTreeTablePresenter [
 		                      addColumn: column.
 	treeTablePresenter application: application.
 	^ treeTablePresenter build
-]
-
-{ #category : #private }
-SpToploTreeAdapterTest >> performTest [
-
-	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
-		application := testApplication.
-		super performTest ]
 ]
 
 { #category : #tests }

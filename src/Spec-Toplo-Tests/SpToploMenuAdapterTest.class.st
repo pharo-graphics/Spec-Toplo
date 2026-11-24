@@ -1,19 +1,8 @@
 Class {
 	#name : #SpToploMenuAdapterTest,
-	#superclass : #TestCase,
-	#instVars : [
-		'application'
-	],
+	#superclass : #SpToploAbstractAdapterTest,
 	#category : #'Spec-Toplo-Tests-Adapters'
 }
-
-{ #category : #private }
-SpToploMenuAdapterTest >> performTest [
-
-	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
-		application := testApplication.
-		super performTest ]
-]
 
 { #category : #tests }
 SpToploMenuAdapterTest >> testDisabledMenuItemDoesNotExecuteAction [

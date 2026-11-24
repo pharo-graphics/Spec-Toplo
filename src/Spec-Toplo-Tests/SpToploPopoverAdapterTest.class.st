@@ -1,8 +1,7 @@
 Class {
 	#name : #SpToploPopoverAdapterTest,
-	#superclass : #TestCase,
+	#superclass : #SpToploAbstractAdapterTest,
 	#instVars : [
-		'application',
 		'anchorPresenter',
 		'popover'
 	],
@@ -48,14 +47,6 @@ SpToploPopoverAdapterTest >> newFakeWindowMeasuredWidth: aWidth height: aHeight 
 		  measuredWidth: aWidth
 		  measuredHeight: aHeight;
 		  yourself
-]
-
-{ #category : #private }
-SpToploPopoverAdapterTest >> performTest [
-
-	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
-		application := testApplication.
-		super performTest ]
 ]
 
 { #category : #running }
@@ -130,12 +121,4 @@ SpToploPopoverAdapterTest >> testPopupTransfersFocusToContentButton [
 	popover popup.
 	self waitUntilUIRedrawed.
 	self assert: contentButton adapter widget isFocused
-]
-
-{ #category : #running }
-SpToploPopoverAdapterTest >> waitUntilUIRedrawed [
-
-	| aSpace |
-	aSpace := (application windows detect: [ :w | w isWindowPresenter ]) adapter widget.
-	aSpace settleForDuration: 200 milliSeconds
 ]

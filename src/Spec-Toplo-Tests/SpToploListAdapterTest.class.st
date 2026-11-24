@@ -1,8 +1,7 @@
 Class {
 	#name : #SpToploListAdapterTest,
-	#superclass : #TestCase,
+	#superclass : #SpToploAbstractAdapterTest,
 	#instVars : [
-		'application',
 		'listPresenter'
 	],
 	#category : #'Spec-Toplo-Tests-Adapters'
@@ -16,14 +15,6 @@ SpToploListAdapterTest >> buildListPresenter [
 	listPresenter open.
 	self waitUntilUIRedrawed.
 	^ listPresenter
-]
-
-{ #category : #private }
-SpToploListAdapterTest >> performTest [
-
-	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
-		application := testApplication.
-		super performTest ]
 ]
 
 { #category : #tests }
@@ -40,12 +31,4 @@ SpToploListAdapterTest >> testProgrammaticSelectionNotifiesOnce [
 		assert: listPresenter adapter widget selecter selectedIndexes
 		equals: #( 2 ).
 	self assert: changes equals: 1
-]
-
-{ #category : #running }
-SpToploListAdapterTest >> waitUntilUIRedrawed [
-
-	| aSpace |
-	aSpace := application windows anyOne adapter widget.
-	aSpace settleForDuration: 200 milliSeconds
 ]

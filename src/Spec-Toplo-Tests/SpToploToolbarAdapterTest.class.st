@@ -1,19 +1,8 @@
 Class {
 	#name : #SpToploToolbarAdapterTest,
-	#superclass : #TestCase,
-	#instVars : [
-		'application'
-	],
+	#superclass : #SpToploAbstractAdapterTest,
 	#category : #'Spec-Toplo-Tests-Adapters'
 }
-
-{ #category : #private }
-SpToploToolbarAdapterTest >> performTest [
-
-	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
-		application := testApplication.
-		super performTest ]
-]
 
 { #category : #tests }
 SpToploToolbarAdapterTest >> testBuildWithToImageIconKeepsSourceIconDetached [
