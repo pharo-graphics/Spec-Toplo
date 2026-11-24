@@ -5,7 +5,8 @@ Class {
 	#name : #SpToploAbstractAdapterTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'application'
+		'application',
+		'backend'
 	],
 	#category : #'Spec-Toplo-Tests-Adapters'
 }
@@ -20,7 +21,14 @@ SpToploAbstractAdapterTest class >> isAbstract [
 SpToploAbstractAdapterTest >> runCase [
 
 	SpPresenter disableExtentRememberingDuring: [
-		SpToploBackendForTest new runTestWithApplication: [ :testApplication |
+		backend := SpToploBackendForTest new.
+		backend runTestWithApplication: [ :testApplication |
 			application := testApplication.
 			super runCase ] ]
+]
+
+{ #category : #helpers }
+SpToploAbstractAdapterTest >> waitUntilUIRedrawed [
+
+	backend waitUntilUIRedrawed
 ]

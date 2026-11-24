@@ -132,11 +132,3 @@ SpToploEmbeddedListItemAdapterTest >> testTreeTablePresenterRowsKeepEmbeddedPane
 	self waitUntilUIRedrawed.
 	self assertEmbeddedPanesTransparentInFirstNodeOf: presenter adapter widget list
 ]
-
-{ #category : #running }
-SpToploEmbeddedListItemAdapterTest >> waitUntilUIRedrawed [
-
-	| aSpace |
-	aSpace := application windows anyOne adapter widget.
-	aSpace settleForDuration: 500 milliSeconds
-]

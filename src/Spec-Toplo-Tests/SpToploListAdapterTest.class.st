@@ -32,11 +32,3 @@ SpToploListAdapterTest >> testProgrammaticSelectionNotifiesOnce [
 		equals: #( 2 ).
 	self assert: changes equals: 1
 ]
-
-{ #category : #running }
-SpToploListAdapterTest >> waitUntilUIRedrawed [
-
-	| aSpace |
-	aSpace := application windows anyOne adapter widget.
-	aSpace settleForDuration: 200 milliSeconds
-]

@@ -122,11 +122,3 @@ SpToploPopoverAdapterTest >> testPopupTransfersFocusToContentButton [
 	self waitUntilUIRedrawed.
 	self assert: contentButton adapter widget isFocused
 ]
-
-{ #category : #running }
-SpToploPopoverAdapterTest >> waitUntilUIRedrawed [
-
-	| aSpace |
-	aSpace := (application windows detect: [ :w | w isWindowPresenter ]) adapter widget.
-	aSpace settleForDuration: 200 milliSeconds
-]
