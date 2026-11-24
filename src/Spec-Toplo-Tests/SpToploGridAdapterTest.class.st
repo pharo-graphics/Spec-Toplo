@@ -1,31 +1,19 @@
 Class {
 	#name : #SpToploGridAdapterTest,
 	#superclass : #SpToploAbstractAdapterTest,
-	#instVars : [
-		'window'
-	],
 	#category : #'Spec-Toplo-Tests-Adapters'
 }
-
-{ #category : #running }
-SpToploGridAdapterTest >> tearDown [
-
-	window ifNotNil: [
-		window close.
-		window := nil ].
-	super tearDown
-]
 
 { #category : #tests }
 SpToploGridAdapterTest >> testBorderWidth [
 
-	| presenter gridLayout |
+	| presenter gridLayout window |
 	presenter := application instantiate: SpPresenter.
 	gridLayout :=
 		SpGridLayout new
 			borderWidth: 15;
-		   add: (presenter newLabel label: 'Test') atPoint: 1 @ 1;
-		   yourself.
+			add: (presenter newLabel label: 'Test') atPoint: 1 @ 1;
+			yourself.
 
 	presenter layout: gridLayout.
 	window := presenter asWindow.
@@ -38,7 +26,7 @@ SpToploGridAdapterTest >> testBorderWidth [
 { #category : #tests }
 SpToploGridAdapterTest >> testCellAlignment [
 
-	| presenter label gridLayout widget |
+	| presenter label gridLayout widget window |
 	presenter := application instantiate: SpPresenter.
 	label := presenter newLabel label: 'Aligned'.
 
@@ -64,7 +52,7 @@ SpToploGridAdapterTest >> testCellAlignment [
 { #category : #tests }
 SpToploGridAdapterTest >> testColumnAndRowSpacing [
 
-	| presenter label1 label2 label3 label4 gridLayout widget1 widget2 widget3 widget4 |
+	| presenter label1 label2 label3 label4 gridLayout widget1 widget2 widget3 widget4 window |
 	presenter := application instantiate: SpPresenter.
 	label1 := presenter newLabel label: '1'.
 	label2 := presenter newLabel label: '2'.
@@ -106,7 +94,7 @@ SpToploGridAdapterTest >> testColumnAndRowSpacing [
 { #category : #tests }
 SpToploGridAdapterTest >> testNonHomogeneousGridWithExpandableColumn [
 
-	| presenter label input gridLayout |
+	| presenter label input gridLayout window |
 	presenter := application instantiate: SpPresenter.
 	label := presenter newLabel label: 'Repository Name:'.
 	input := presenter newTextInput.
