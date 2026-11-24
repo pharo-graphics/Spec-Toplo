@@ -37,21 +37,9 @@ BaselineOfSpecToplo >> baseline: spec [
 { #category : #'external projects' }
 BaselineOfSpecToplo >> declareRoassalBlocPackageOn: spec [
 
-	| branch |
-	SystemVersion current major = 13
-		ifTrue: [ branch := 'Pharo13' ]
-		ifFalse: [
-			SystemVersion current major = 14
-				ifTrue: [ branch := 'Pharo14' ]
-				ifFalse: [
-					SystemVersion current major = 15
-						ifTrue: [ branch := 'Pharo15' ]
-						ifFalse: [ self notYetImplemented ]
-					] ].
-
 	spec
 		package: 'Roassal-Bloc'
-		with: [ spec repository: 'github://pharo-graphics/Roassal:', branch, '/src' ]
+		with: [ spec repository: 'github://pharo-graphics/Roassal:Pharo15' ]
 ]
 
 { #category : #'external projects' }
@@ -59,5 +47,5 @@ BaselineOfSpecToplo >> declareToploOn: spec [
 
 	spec
 		baseline: 'Toplo'
-		with: [ spec repository: 'github://pharo-graphics/Toplo:master/src' ]
+		with: [ spec repository: 'github://pharo-graphics/Toplo:v0.12.0' ]
 ]
