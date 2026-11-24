@@ -1,20 +1,11 @@
 Class {
 	#name : #SpToploGridAdapterTest,
-	#superclass : #TestCase,
+	#superclass : #SpToploAbstractAdapterTest,
 	#instVars : [
-		'application',
 		'window'
 	],
 	#category : #'Spec-Toplo-Tests-Adapters'
 }
-
-{ #category : #private }
-SpToploGridAdapterTest >> performTest [
-
-	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
-		application := testApplication.
-		super performTest ]
-]
 
 { #category : #running }
 SpToploGridAdapterTest >> tearDown [

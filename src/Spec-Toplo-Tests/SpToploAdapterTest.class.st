@@ -1,19 +1,8 @@
 Class {
 	#name : #SpToploAdapterTest,
-	#superclass : #TestCase,
-	#instVars : [
-		'application'
-	],
+	#superclass : #SpToploAbstractAdapterTest,
 	#category : #'Spec-Toplo-Tests-Adapters'
 }
-
-{ #category : #private }
-SpToploAdapterTest >> performTest [
-
-	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
-		application := testApplication.
-		super performTest ]
-]
 
 { #category : #tests }
 SpToploAdapterTest >> testAdapterInstallsShortcutsFromActions [

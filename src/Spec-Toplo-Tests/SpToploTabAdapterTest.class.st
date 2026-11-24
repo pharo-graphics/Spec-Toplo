@@ -1,9 +1,6 @@
 Class {
 	#name : #SpToploTabAdapterTest,
-	#superclass : #TestCase,
-	#instVars : [
-		'application'
-	],
+	#superclass : #SpToploAbstractAdapterTest,
 	#category : #'Spec-Toplo-Tests-Adapters'
 }
 
@@ -29,14 +26,6 @@ SpToploTabAdapterTest >> newTabPresenterWithInitialPageIndex: anInteger [
 			 initialPageIndex: anInteger;
 			 yourself).
 	^ presenter
-]
-
-{ #category : #private }
-SpToploTabAdapterTest >> performTest [
-
-	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
-		application := testApplication.
-		super performTest ]
 ]
 
 { #category : #tests }

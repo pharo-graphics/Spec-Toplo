@@ -1,8 +1,7 @@
 Class {
 	#name : #SpToploTextAdapterTest,
-	#superclass : #TestCase,
+	#superclass : #SpToploAbstractAdapterTest,
 	#instVars : [
-		'application',
 		'textPresenter'
 	],
 	#category : #'Spec-Toplo-Tests-Adapters'
@@ -15,14 +14,6 @@ SpToploTextAdapterTest >> buildTextPresenter [
 	textPresenter application: application.
 	textPresenter text: 'abc' , String cr , 'de'.
 	textPresenter build
-]
-
-{ #category : #private }
-SpToploTextAdapterTest >> performTest [
-
-	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
-		application := testApplication.
-		super performTest ]
 ]
 
 { #category : #tests }

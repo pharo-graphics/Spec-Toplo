@@ -1,8 +1,7 @@
 Class {
 	#name : #SpToploListAdapterTest,
-	#superclass : #TestCase,
+	#superclass : #SpToploAbstractAdapterTest,
 	#instVars : [
-		'application',
 		'listPresenter'
 	],
 	#category : #'Spec-Toplo-Tests-Adapters'
@@ -16,14 +15,6 @@ SpToploListAdapterTest >> buildListPresenter [
 	listPresenter open.
 	self waitUntilUIRedrawed.
 	^ listPresenter
-]
-
-{ #category : #private }
-SpToploListAdapterTest >> performTest [
-
-	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
-		application := testApplication.
-		super performTest ]
 ]
 
 { #category : #tests }

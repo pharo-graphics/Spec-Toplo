@@ -1,8 +1,7 @@
 Class {
 	#name : #SpToploPopoverAdapterTest,
-	#superclass : #TestCase,
+	#superclass : #SpToploAbstractAdapterTest,
 	#instVars : [
-		'application',
 		'anchorPresenter',
 		'popover'
 	],
@@ -48,14 +47,6 @@ SpToploPopoverAdapterTest >> newFakeWindowMeasuredWidth: aWidth height: aHeight 
 		  measuredWidth: aWidth
 		  measuredHeight: aHeight;
 		  yourself
-]
-
-{ #category : #private }
-SpToploPopoverAdapterTest >> performTest [
-
-	SpToploBackendForTest new runTestWithApplication: [ :testApplication |
-		application := testApplication.
-		super performTest ]
 ]
 
 { #category : #running }
